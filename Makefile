@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++17 -O2 -I include
 
 # Directories
 SRC_DIR = src
-TEST_DIR = bin
+TEST_DIR = test
 DFA_DIR = data
 EXAMPLES_DIR = examples
 INCLUDE_DIR = include
@@ -22,7 +22,7 @@ build:
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
 
 run: build
-	$(PASLEX) $(EXAMPLES_DIR)/program_simple.pas
+	$(PASLEX) $(TEST_DIR)/milestone-1/input/comment_and_whitespace.pas > $(TEST_DIR)/milestone-1/output/comment_and_whitespace.txt
 
 clean:
 	rm -f $(PASLEX)
