@@ -22,7 +22,7 @@ build:
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
 
 run: build
-	$(PASLEX) $(TEST_DIR)/milestone-1/input/comment_and_whitespace.pas > $(TEST_DIR)/milestone-1/output/comment_and_whitespace.txt
+	$(PASLEX) $(TEST_DIR)/milestone-1/input/string_and_logical.pas
 
 clean:
 	rm -f $(PASLEX)
