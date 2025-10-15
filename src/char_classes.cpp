@@ -10,6 +10,10 @@ const std::unordered_set<std::string> LOGICAL_WORDS = {
     "and", "or", "not"
 };
 
+const std::unordered_set<std::string> ARITH_WORDS = {
+    "div", "mod"
+};
+
 std::unordered_set<std::string> classify_char(char ch) {
     std::unordered_set<std::string> classes;
 
@@ -24,7 +28,7 @@ std::unordered_set<std::string> classify_char(char ch) {
     if (ch == '_')
         classes.insert("underscore");
 
-    const std::string syms = "+-*/=<>()[];,:' ."; 
+    const std::string syms = "+-*/=<>()[];,:'.";
     // note space before '.' to keep it inside the string literal
     if (syms.find(ch) != std::string::npos)
         classes.insert("symbol");

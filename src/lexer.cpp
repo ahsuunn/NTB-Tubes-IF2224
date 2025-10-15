@@ -127,6 +127,7 @@ std::vector<Token> Lexer::tokenize() {
             for (char& c : lw) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
             if (KEYWORDS.count(lw)) tok_type = "KEYWORD";
             else if (LOGICAL_WORDS.count(lw)) tok_type = "LOGICAL_OPERATOR";
+            else if (ARITH_WORDS.count(lw)) tok_type = "ARITHMETIC_OPERATOR";
         }
 
         tokens.push_back(Token{tok_type, lexeme, start_line, start_col});
@@ -135,20 +136,36 @@ std::vector<Token> Lexer::tokenize() {
 }
 
 std::string Lexer::map_state_to_type(const std::string& state, const std::string& lex) const {
-    if (state == "ID") return "IDENTIFIER";
+    // numbers
     if (state == "NUM_INT" || state == "NUM_REAL") return "NUMBER";
-    if (state == "ASSIGN" && lex == ":=") return "ASSIGN";
-    if (state == "RANGE" && lex == "..") return "RANGE_OPERATOR";
-    if (state == "STR") return "STRING";
-    if (state == "CHR") return "CHAR";
-    static const std::unordered_map<std::string, std::string> mapping = {
-        {"+","OPERATOR"}, {"-","OPERATOR"}, {"*","OPERATOR"}, {"/","OPERATOR"},
-        {"=","OPERATOR"}, {"<","OPERATOR"}, {">","OPERATOR"},
-        {"<=","OPERATOR"}, {">=","OPERATOR"}, {"<>","OPERATOR"},
-        {"(","SYMBOL"}, {")","SYMBOL"}, {"[","SYMBOL"}, {"]","SYMBOL"},
-        {";","SYMBOL"}, {",","SYMBOL"}, {":","SYMBOL"}, {".","SYMBOL"}
-    };
-    auto it = mapping.find(lex);
-    if (it != mapping.end()) return it->second;
-    return state; // fallback to state name
+
+    // range & assign
+    if (lex == ":=") return "ASSIGN_OPERATOR";
+    if (lex == "..") return "RANGE_OPERATOR";
+
+    // string/char
+    if (state == "STR") return "STRING_LITERAL";
+    if (state == "CHR") return "CHAR_LITERAL";
+
+    // punctuation (spesifik nama)
+    if (lex == ";") return "SEMICOLON";
+    if (lex == ",") return "COMMA";
+    if (lex == ":") return "COLON";
+    if (lex == ".") return "DOT";
+    if (lex == "(") return "LPARENTHESIS";
+    if (lex == ")") return "RPARENTHESIS";
+    if (lex == "[") return "LBRACKET";
+    if (lex == "]") return "RBRACKET";
+
+    // operators
+    if (lex == "+" || lex == "-" || lex == "*" || lex == "/")
+        return "ARITHMETIC_OPERATOR";
+    if (lex == "=" || lex == "<>" || lex == "<" || lex == "<=" || lex == ">" || lex == ">=")
+        return "RELATIONAL_OPERATOR";
+
+    // identifier / keyword / logical word handled di atas (post-processing)
+    if (state == "ID") return "IDENTIFIER";
+
+    // fallback ke nama state (aman)
+    return state;
 }
