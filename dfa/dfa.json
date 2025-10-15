@@ -1,0 +1,38 @@
+{
+    "start_state": "S0",
+    "final_states": ["ID","NUM_INT","NUM_REAL","ASSIGN","DOT","RANGE","STR","CHR",
+      "PLUS","MINUS","MUL","DIV","EQ","LT","GT","LE","GE","NEQ",
+      "LPAREN","RPAREN","LBRACK","RBRACK","SEMI","COMMA","COLON"],
+    "transitions": {
+      "S0": {
+        "letter": "ID",
+        "digit": "NUM_INT",
+        "'": "STR_S",
+        "+": "PLUS",
+        "-": "MINUS",
+        "*": "MUL",
+        "/": "DIV",
+        "=": "EQ",
+        "<": "LT",
+        ">": "GT",
+        "(": "LPAREN",
+        ")": "RPAREN",
+        "[": "LBRACK",
+        "]": "RBRACK",
+        ";": "SEMI",
+        ",": "COMMA",
+        ":": "COLON",
+        ".": "DOT"
+      },
+      "ID": { "letter_or_digit_or_underscore": "ID" },
+      "NUM_INT": { "digit": "NUM_INT", ".": "NUM_DOT" },
+      "NUM_DOT": { "digit": "NUM_REAL" },
+      "NUM_REAL": { "digit": "NUM_REAL" },
+      "STR_S": { "'": "STR", "any": "STR_S" },
+      "COLON": { "=": "ASSIGN" },
+      "LT": { "=": "LE", ">": "NEQ" },
+      "GT": { "=": "GE" },
+      "DOT": { ".": "RANGE" }
+    }
+  }
+  
