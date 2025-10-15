@@ -92,6 +92,11 @@ std::vector<Token> Lexer::tokenize() {
                 auto nxt = dfa.next_state(curr_state, "any");
                 if (!nxt.empty()) return nxt;
             }
+            // any_non_quote untuk di dalam string/char
+            if (c != '\'') {
+                auto nxt2 = dfa.next_state(curr_state, "any_non_quote");
+                if (!nxt2.empty()) return nxt2;
+            }
             return std::string();
         };
 
