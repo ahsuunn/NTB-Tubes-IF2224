@@ -18,7 +18,7 @@ digraph PascalLexerDFA {
     
     // Intermediate states
     node [shape=circle, style=""];
-    COLON_STATE; DOT_STATE; NUM_DOT;
+    NUM_DOT;
     
     // ========== IDENTIFIERS ==========
     // letter → ID, then (letter|digit|_)* → ID
@@ -37,14 +37,12 @@ digraph PascalLexerDFA {
     
     // ========== ASSIGNMENT & RANGE ==========
     // : → COLON or := → ASSIGN
-    S0 -> COLON_STATE [label=":"];
-    COLON_STATE -> SYM_COLON [label="(end of token)"];
-    COLON_STATE -> ASSIGN [label="="];
+    S0 -> SYM_COLON [label=":"];
+    SYM_COLON -> ASSIGN [label="="];
     
     // . → DOT or .. → RANGE
-    S0 -> DOT_STATE [label="."];
-    DOT_STATE -> SYM_DOT [label="(end of token)"];
-    DOT_STATE -> RANGE [label="."];
+    S0 -> SYM_DOT [label="."];
+    SYM_DOT -> RANGE [label="."];
     
     // ========== STRING & CHAR LITERALS ==========
     // 'any*' → STR (string literal)
