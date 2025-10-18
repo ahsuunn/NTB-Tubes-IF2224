@@ -1,0 +1,122 @@
+digraph PascalLexerDFA {
+    rankdir=LR;
+    node [shape=circle, fontsize=10];
+    
+    // Final/accepting states (double circle)
+    node [shape=doublecircle];
+    ID; NUM_INT; NUM_REAL; 
+    ASSIGN; RANGE;
+    STR; CHR;
+    OP_PLUS; OP_MINUS; OP_MULT; OP_DIV;
+    OP_EQ; OP_LT; OP_GT; OP_LTE; OP_GTE; OP_NEQ;
+    SYM_LPAREN; SYM_RPAREN; SYM_LBRACK; SYM_RBRACK;
+    SYM_SEMI; SYM_COMMA; SYM_COLON; SYM_DOT;
+    
+    // Start state
+    node [shape=circle, style=filled, fillcolor=lightblue];
+    S0;
+    
+    // Intermediate states
+    node [shape=circle, style=""];
+    COLON_STATE; DOT_STATE; NUM_DOT;
+    
+    // ========== IDENTIFIERS ==========
+    // letter → ID, then (letter|digit|_)* → ID
+    S0 -> ID [label="letter"];
+    ID -> ID [label="letter_or_digit_or_underscore"];
+    
+    // ========== NUMBERS ==========
+    // digit+ → NUM_INT
+    S0 -> NUM_INT [label="digit"];
+    NUM_INT -> NUM_INT [label="digit"];
+    
+    // digit+ . digit+ → NUM_REAL
+    NUM_INT -> NUM_DOT [label="."];
+    NUM_DOT -> NUM_REAL [label="digit"];
+    NUM_REAL -> NUM_REAL [label="digit"];
+    
+    // ========== ASSIGNMENT & RANGE ==========
+    // : → COLON or := → ASSIGN
+    S0 -> COLON_STATE [label=":"];
+    COLON_STATE -> SYM_COLON [label="(end of token)"];
+    COLON_STATE -> ASSIGN [label="="];
+    
+    // . → DOT or .. → RANGE
+    S0 -> DOT_STATE [label="."];
+    DOT_STATE -> SYM_DOT [label="(end of token)"];
+    DOT_STATE -> RANGE [label="."];
+    
+    // ========== STRING & CHAR LITERALS ==========
+    // 'any*' → STR (string literal)
+    S0 -> STR_S0 [label="'"]
+    STR_S0 -> "STR" [label="'"];
+    STR_S0 -> "STR_BODY1" [label="any_non_quote"];
+    STR_BODY1 -> "CHR" [label="'"];
+    STR_BODY1 -> "STR_BODY2PLUS" [label="any_non_quote"];
+    STR_BODY2PLUS -> "STR_BODY2PLUS" [label="any_non_quote"];
+    STR_BODY2PLUS -> "STR" [label="'"];
+    
+    // Note: CHR (char literal) is determined in post-processing
+    // by checking if STR lexeme length == 3 (e.g., 'x')
+    
+    // ========== ARITHMETIC OPERATORS ==========
+    S0 -> OP_PLUS [label="+"];
+    S0 -> OP_MINUS [label="-"];
+    S0 -> OP_MULT [label="*"];
+    S0 -> OP_DIV [label="/"];
+    
+    // ========== RELATIONAL OPERATORS ==========
+    S0 -> OP_EQ [label="="];
+    
+    S0 -> OP_LT [label="<"];
+    OP_LT -> OP_LTE [label="="];
+    OP_LT -> OP_NEQ [label=">"];
+    
+    S0 -> OP_GT [label=">"];
+    OP_GT -> OP_GTE [label="="];
+    
+    // ========== DELIMITERS/PUNCTUATION ==========
+    S0 -> SYM_LPAREN [label="("];
+    S0 -> SYM_RPAREN [label=")"];
+    S0 -> SYM_LBRACK [label="["];
+    S0 -> SYM_RBRACK [label="]"];
+    S0 -> SYM_SEMI [label=";"];
+    S0 -> SYM_COMMA [label=","];
+    S0 -> legend [style=invis];
+
+
+    // ========== LEGEND ==========
+    { rank=sink;
+      legend [shape=box, style="rounded,filled", fillcolor=lightyellow, fontsize=9,
+              label=<
+<table border="0" cellborder="0" cellspacing="0">
+<tr><td align="left"><b>Legend:</b></td></tr>
+<tr><td align="left">• Double circle = accepting/final state</td></tr>
+<tr><td align="left">• Blue fill = S0 state</td></tr>
+<tr><td align="left"><br/></td></tr>
+<tr><td align="left"><b>Transition Labels:</b></td></tr>
+<tr><td align="left"><font color="blue">letter</font> = [a-zA-Z]</td></tr>
+<tr><td align="left"><font color="green">digit</font> = [0-9]</td></tr>
+<tr><td align="left"><font color="blue">letter_or_digit_or_underscore</font> = [a-zA-Z0-9_]</td></tr>
+<tr><td align="left"><font color="purple">any_non_quote</font> = any char except '</td></tr>
+<tr><td align="left">'x' = exact character match</td></tr>
+<tr><td align="left"><br/></td></tr>
+<tr><td align="left"><b>Post-Processing:</b></td></tr>
+<tr><td align="left">• ID → KEYWORD if in {program, var, begin, ...}</td></tr>
+<tr><td align="left">• ID → LOGICAL_OPERATOR if in {and, or, not}</td></tr>
+<tr><td align="left">• ID → ARITHMETIC_OPERATOR if in {div, mod}</td></tr>
+<tr><td align="left">• STR → CHR if length == 3</td></tr>
+<tr><td align="left"><br/></td></tr>
+<tr><td align="left"><b>Not Shown:</b></td></tr>
+<tr><td align="left">• Whitespace/comments skipped before tokenizing</td></tr>
+<tr><td align="left">• Comments: {'{'}...{'}'} and (*...*)</td></tr>
+</table>
+              >];
+    }
+    
+    // ========== GROUPING FOR LAYOUT ==========
+    { rank=same; ID; NUM_INT; OP_PLUS; OP_MINUS; }
+    { rank=same; NUM_REAL; ASSIGN; RANGE; }
+    { rank=same; STR; OP_EQ; OP_LT; OP_GT; }
+    { rank=same; SYM_LPAREN; SYM_RPAREN; SYM_LBRACK; SYM_RBRACK; }
+}
