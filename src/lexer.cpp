@@ -21,7 +21,7 @@ char Lexer::advance() {
     return ch;
 }
 
-void Lexer::skip_ws_comment() {
+void Lexer::skip_ws_comment(std::vector<std::string>& errors) {
     while (true) {
         char ch = peek();
         if (!ch) return;
@@ -33,31 +33,42 @@ void Lexer::skip_ws_comment() {
         }
         // { ... } comment
         if (ch == '{') {
+            int start_line = line, start_col = col;
             advance();
+            bool terminated = false;
             while (true) {
                 char n = advance();
                 if (!n) { 
-                    int start_line = line, start_col = col;
                     std::ostringstream oss;
-                    oss << "Unterminated { ... } comment " << " at line " << start_line << ", col " << start_col; 
-                    throw LexerError(oss.str());
+                    oss << "Unterminated { ... } comment at line " << start_line << ", col " << start_col; 
+                    errors.push_back(oss.str());
+                    break;  // Exit loop and continue lexing
                 } 
-                if (n == '}') break;
+                if (n == '}') {
+                    terminated = true;
+                    break;
+                }
             }
             continue;
         }
         // (* ... *) comment
         if (ch == '(' && peek(1) == '*') {
+            int start_line = line, start_col = col;
             advance(); advance(); // consume (*
+            bool terminated = false;
             while (true) {
                 char n = advance();
                 if (!n) {
-                    int start_line = line, start_col = col;
                     std::ostringstream oss;
-                    oss << "Unterminated (* ... *) comment " << " at line " << start_line << ", col " << start_col; 
-                    throw LexerError(oss.str());
+                    oss << "Unterminated (* ... *) comment at line " << start_line << ", col " << start_col; 
+                    errors.push_back(oss.str());
+                    break;  // Exit loop and continue lexing
                 }
-                if (n == '*' && peek() == ')') { advance(); break; }
+                if (n == '*' && peek() == ')') { 
+                    advance(); 
+                    terminated = true;
+                    break; 
+                }
             }
             continue;
         }
@@ -67,8 +78,10 @@ void Lexer::skip_ws_comment() {
 
 std::vector<Token> Lexer::tokenize() {
     std::vector<Token> tokens;
+    std::vector<std::string> errors;
+
     while (true) {
-        skip_ws_comment();
+        skip_ws_comment(errors);
         char ch = peek();
         if (!ch) break;
 
@@ -125,11 +138,14 @@ std::vector<Token> Lexer::tokenize() {
         }
 
         if (last_final_state.empty()) {
-            char bad = advance();
+            char bad = peek();
             std::ostringstream oss;
             oss << "Unexpected character '" << (bad ? bad : '?')
                 << "' at line " << start_line << ", col " << start_col;
-            throw LexerError(oss.str());
+            errors.push_back(oss.str());
+            // Skip the bad character and continue
+            if(peek()) advance();
+            continue;
         }
 
         // rollback then re-consume exact final lexeme
@@ -147,6 +163,17 @@ std::vector<Token> Lexer::tokenize() {
 
         tokens.push_back(Token{tok_type, lexeme, start_line, start_col});
     }
+    
+    // Display all collected errors at the end
+    if (!errors.empty()) {
+        std::ostringstream agg;
+        agg << "Lexical errors found (" << errors.size() << "):\n";
+        for (size_t idx = 0; idx < errors.size(); ++idx) {
+            agg << "  [" << (idx + 1) << "] " << errors[idx] << "\n";
+        }
+        throw LexerError(agg.str());
+    }
+    
     return tokens;
 }
 

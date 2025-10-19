@@ -28,6 +28,6 @@ private:
 
     char peek(int k = 0) const;
     char advance();
-    void skip_ws_comment();
+    void skip_ws_comment(std::vector<std::string>& errors);
     std::string map_state_to_type(const std::string &state, const std::string &lex) const;
 };
