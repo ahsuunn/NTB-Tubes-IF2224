@@ -22,7 +22,7 @@ build:
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
 
 run: build
-	$(PASLEX) $(TEST_DIR)/milestone-1/input/string_and_logical.pas
+	$(PASLEX) $(TEST_DIR)/milestone-1/input/all_token.pas
 
 clean:
 	rm -f $(PASLEX)

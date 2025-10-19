@@ -36,7 +36,12 @@ void Lexer::skip_ws_comment() {
             advance();
             while (true) {
                 char n = advance();
-                if (!n) throw LexerError("Unterminated { ... } comment");
+                if (!n) { 
+                    int start_line = line, start_col = col;
+                    std::ostringstream oss;
+                    oss << "Unterminated { ... } comment " << " at line " << start_line << ", col " << start_col; 
+                    throw LexerError(oss.str());
+                } 
                 if (n == '}') break;
             }
             continue;
@@ -46,7 +51,12 @@ void Lexer::skip_ws_comment() {
             advance(); advance(); // consume (*
             while (true) {
                 char n = advance();
-                if (!n) throw LexerError("Unterminated (* ... *) comment");
+                if (!n) {
+                    int start_line = line, start_col = col;
+                    std::ostringstream oss;
+                    oss << "Unterminated (* ... *) comment " << " at line " << start_line << ", col " << start_col; 
+                    throw LexerError(oss.str());
+                }
                 if (n == '*' && peek() == ')') { advance(); break; }
             }
             continue;
