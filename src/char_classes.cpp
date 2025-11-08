@@ -2,9 +2,12 @@
 #include <cctype>
 
 const std::unordered_set<std::string> KEYWORDS = {
-    "program", "variabel", "mulai", "selesai", "jika", "maka", "selain-itu", "selama", "lakukan", "untuk", "ke", "turun-ke",
-    "integer", "real", "boolean", "char", "larik", "dari", "prosedur", "fungsi", "konstanta", "tipe",
-    "rekaman", "ulangi", "sampai", "kasus"
+    "program", "konstanta", "tipe", "variabel", "prosedur", "fungsi",
+    "mulai", "selesai", "jika", "maka", "selain-itu", "selama", "lakukan",
+    "untuk", "ke", "turun-ke", "ulangi", "sampai", "kasus", "dari",
+    "larik", "rekaman",
+    "integer", "real", "boolean", "char", "string",
+    "true", "false", "writeln", "write", "readln", "read"
 };
 
 const std::unordered_set<std::string> LOGICAL_WORDS = {
