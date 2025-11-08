@@ -1,5 +1,7 @@
 program test;
-var
+
+variabel
     x, y: integer;
-begin
-end.
+    
+mulai
+selesai.

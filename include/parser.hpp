@@ -7,6 +7,13 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <stdexcept>
+
+// Syntax Error Exception
+class SyntaxError : public std::runtime_error {
+public:
+    explicit SyntaxError(const std::string& message) : std::runtime_error(message) {}
+};
 
 // Parser Class
 class Parser {
