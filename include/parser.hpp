@@ -1,0 +1,48 @@
+#ifndef PARSER_HPP
+#define PARSER_HPP
+
+#include "token.hpp"
+#include "ast_nodes.hpp"
+#include "lexer.hpp"
+#include <vector>
+#include <memory>
+#include <string>
+
+// Parser Class
+class Parser {
+private:
+    std::vector<Token> tokens;
+    size_t current_pos;
+    Token current_token;
+    
+    void advance();
+    bool match(const std::string& type);
+    bool check(const std::string& type);
+    void expect(const std::string& type, const std::string& message);
+    Token peek(int offset = 1);
+    
+public:
+    Parser(const std::vector<Token>& tokens);
+    
+    // Main parsing function
+    std::unique_ptr<ProgramNode> pars_program();
+    
+    // Grammar rules
+    std::unique_ptr<ASTNode> pars_program_header();
+    std::unique_ptr<DeclarationPartNode> pars_declaration_part();
+    std::unique_ptr<VariableDeclarationNode> pars_variable_declaration_part();
+    std::unique_ptr<IdentifierListNode> pars_identifier_list();
+    std::unique_ptr<TypeNode> pars_type();
+    std::unique_ptr<CompoundStatementNode> pars_compound_statement();
+    std::unique_ptr<StatementListNode> pars_statement_list();
+    std::unique_ptr<ASTNode> pars_statement();
+    
+    // Placeholder functions (to be implemented by teammates)
+    std::unique_ptr<ASTNode> pars_assignment_statement();
+    std::unique_ptr<ASTNode> pars_procedure_call();
+    std::unique_ptr<ASTNode> pars_if_statement();
+    std::unique_ptr<ASTNode> pars_while_statement();
+    std::unique_ptr<ASTNode> pars_for_statement();
+};
+
+#endif // PARSER_HPP

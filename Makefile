@@ -14,6 +14,7 @@ PASLEX = ./paslex
 
 # Find all .cpp files recursively in src/
 SRCS := $(shell find $(SRC_DIR) -name '*.cpp')
+HEADERS := $(shell find $(INCLUDE_DIR) -name '*.hpp')
 
 # make run rebuilds if source files changed
 .PHONY: build run clean
@@ -22,7 +23,7 @@ build:
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
 
 run: build
-	$(PASLEX) $(TEST_DIR)/milestone-1/input/all_token.pas
+	$(PASLEX) $(TEST_DIR)/milestone-2/input/test.pas
 
 clean:
 	rm -f $(PASLEX)
