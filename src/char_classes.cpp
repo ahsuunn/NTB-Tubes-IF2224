@@ -2,16 +2,17 @@
 #include <cctype>
 
 const std::unordered_set<std::string> KEYWORDS = {
-    "program", "var", "begin", "end", "if", "then", "else", "while", "do", "for", "to", "downto",
-    "integer", "real", "boolean", "char", "array", "of", "procedure", "function", "const", "type"
+    "program", "variabel", "mulai", "selesai", "jika", "maka", "selain-itu", "selama", "lakukan", "untuk", "ke", "turun-ke",
+    "integer", "real", "boolean", "char", "larik", "dari", "prosedur", "fungsi", "konstanta", "tipe",
+    "rekaman", "ulangi", "sampai", "kasus"
 };
 
 const std::unordered_set<std::string> LOGICAL_WORDS = {
-    "and", "or", "not"
+    "dan", "atau", "tidak"
 };
 
 const std::unordered_set<std::string> ARITH_WORDS = {
-    "div", "mod"
+    "bagi", "mod"
 };
 
 std::unordered_set<std::string> classify_char(char ch) {
@@ -29,7 +30,7 @@ std::unordered_set<std::string> classify_char(char ch) {
         classes.insert("underscore");
 
     const std::string syms = "+-*/=<>()[];,:'.";
-    // note space before '.' to keep it inside the string literal
+    
     if (syms.find(ch) != std::string::npos)
         classes.insert("symbol");
 
