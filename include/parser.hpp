@@ -27,6 +27,7 @@ private:
     bool check(const std::string& type);
     void expect(const std::string& type, const std::string& message);
     Token peek(int offset = 1);
+    Token previous();
     
 public:
     Parser(const std::vector<Token>& tokens);
@@ -44,12 +45,17 @@ public:
     std::unique_ptr<StatementListNode> pars_statement_list();
     std::unique_ptr<ASTNode> pars_statement();
     
-    // Placeholder functions (to be implemented by teammates)
     std::unique_ptr<ASTNode> pars_assignment_statement();
     std::unique_ptr<ASTNode> pars_procedure_call();
     std::unique_ptr<ASTNode> pars_if_statement();
     std::unique_ptr<ASTNode> pars_while_statement();
     std::unique_ptr<ASTNode> pars_for_statement();
+    
+    std::unique_ptr<ASTNode> pars_expression();
+    std::unique_ptr<ASTNode> pars_simple_expression();
+    std::unique_ptr<ASTNode> pars_term();
+    std::unique_ptr<ASTNode> pars_factor();
+    std::unique_ptr<ASTNode> pars_parameter_list();
 };
 
 #endif // PARSER_HPP

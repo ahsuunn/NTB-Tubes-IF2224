@@ -31,6 +31,8 @@ std::unordered_set<std::string> classify_char(char ch) {
         classes.insert("digit");
     if (ch == '_')
         classes.insert("underscore");
+    if (ch == '-')
+        classes.insert("dash");
 
     const std::string syms = "+-*/=<>()[];,:'.";
     

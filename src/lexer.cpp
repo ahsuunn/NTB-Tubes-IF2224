@@ -206,7 +206,7 @@ std::string Lexer::map_state_to_type(const std::string& state, const std::string
         return "RELATIONAL_OPERATOR";
 
     // identifier / keyword / logical word handled di atas (post-processing)
-    if (state == "ID") return "IDENTIFIER";
+    if (state == "ID" || state == "ID_DASH") return "IDENTIFIER";
 
     // fallback ke nama state (aman)
     return state;

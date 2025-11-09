@@ -105,6 +105,170 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         return;
     }
     
+    if (auto* assign = dynamic_cast<const AssignmentStatementNode*>(node)) {
+        print_token(assign->identifier.type, assign->identifier.value, new_prefix, false);
+        print_token(assign->assign_operator.type, assign->assign_operator.value, new_prefix, false);
+        if (assign->pars_expression) {
+            print_parse_tree(assign->pars_expression.get(), new_prefix, true, false);
+        }
+        return;
+    }
+    
+    if (auto* if_stmt = dynamic_cast<const IfStatementNode*>(node)) {
+        print_token(if_stmt->if_keyword.type, if_stmt->if_keyword.value, new_prefix, false);
+        if (if_stmt->pars_condition) {
+            print_parse_tree(if_stmt->pars_condition.get(), new_prefix, false, false);
+        }
+        print_token(if_stmt->then_keyword.type, if_stmt->then_keyword.value, new_prefix, false);
+        if (if_stmt->pars_then_statement) {
+            bool has_else = if_stmt->pars_else_statement != nullptr;
+            print_parse_tree(if_stmt->pars_then_statement.get(), new_prefix, !has_else, false);
+        }
+        if (if_stmt->pars_else_statement) {
+            print_token(if_stmt->else_keyword.type, if_stmt->else_keyword.value, new_prefix, false);
+            print_parse_tree(if_stmt->pars_else_statement.get(), new_prefix, true, false);
+        }
+        return;
+    }
+    
+    if (auto* while_stmt = dynamic_cast<const WhileStatementNode*>(node)) {
+        print_token(while_stmt->while_keyword.type, while_stmt->while_keyword.value, new_prefix, false);
+        if (while_stmt->pars_condition) {
+            print_parse_tree(while_stmt->pars_condition.get(), new_prefix, false, false);
+        }
+        print_token(while_stmt->do_keyword.type, while_stmt->do_keyword.value, new_prefix, false);
+        if (while_stmt->pars_body) {
+            print_parse_tree(while_stmt->pars_body.get(), new_prefix, true, false);
+        }
+        return;
+    }
+    
+    if (auto* for_node = dynamic_cast<const ForStatementNode*>(node)) {
+        print_token(for_node->for_keyword.type, for_node->for_keyword.value, new_prefix, false);
+        print_token(for_node->control_variable.type, for_node->control_variable.value, new_prefix, false);
+        print_token(for_node->assign_operator.type, for_node->assign_operator.value, new_prefix, false);
+        if (for_node->pars_initial_value) {
+            print_parse_tree(for_node->pars_initial_value.get(), new_prefix, false, false);
+        }
+        print_token(for_node->direction_keyword.type, for_node->direction_keyword.value, new_prefix, false);
+        if (for_node->pars_final_value) {
+            print_parse_tree(for_node->pars_final_value.get(), new_prefix, false, false);
+        }
+        print_token(for_node->do_keyword.type, for_node->do_keyword.value, new_prefix, false);
+        if (for_node->pars_body) {
+            print_parse_tree(for_node->pars_body.get(), new_prefix, true, false);
+        }
+        return;
+    }
+    
+    if (auto* proc_call = dynamic_cast<const ProcedureCallNode*>(node)) {
+        print_token(proc_call->procedure_name.type, proc_call->procedure_name.value, new_prefix, false);
+        if (!proc_call->lparen.value.empty()) {
+            print_token(proc_call->lparen.type, proc_call->lparen.value, new_prefix, false);
+        }
+        if (proc_call->pars_parameter_list) {
+            print_parse_tree(proc_call->pars_parameter_list.get(), new_prefix, false, false);
+        }
+        if (!proc_call->rparen.value.empty()) {
+            print_token(proc_call->rparen.type, proc_call->rparen.value, new_prefix, true);
+        }
+        return;
+    }
+    
+    if (auto* param_list = dynamic_cast<const ParameterListNode*>(node)) {
+        for (size_t i = 0; i < param_list->pars_parameters.size(); i++) {
+            bool is_last_param = (i == param_list->pars_parameters.size() - 1);
+            print_parse_tree(param_list->pars_parameters[i].get(), new_prefix, is_last_param, false);
+            if (i < param_list->comma_tokens.size()) {
+                print_token(param_list->comma_tokens[i].type, 
+                           param_list->comma_tokens[i].value, new_prefix, false);
+            }
+        }
+        return;
+    }
+    
+    if (auto* expr = dynamic_cast<const ExpressionNode*>(node)) {
+        if (expr->pars_left) {
+            bool has_right = expr->pars_right != nullptr;
+            print_parse_tree(expr->pars_left.get(), new_prefix, !has_right, false);
+        }
+        if (!expr->relational_op.value.empty()) {
+            print_token(expr->relational_op.type, expr->relational_op.value, new_prefix, false);
+        }
+        if (expr->pars_right) {
+            print_parse_tree(expr->pars_right.get(), new_prefix, true, false);
+        }
+        return;
+    }
+    
+    if (auto* simple_expr = dynamic_cast<const SimpleExpressionNode*>(node)) {
+        if (!simple_expr->sign.value.empty()) {
+            print_token(simple_expr->sign.type, simple_expr->sign.value, new_prefix, false);
+        }
+        for (size_t i = 0; i < simple_expr->pars_terms.size(); i++) {
+            bool is_last_term = (i == simple_expr->pars_terms.size() - 1);
+            print_parse_tree(simple_expr->pars_terms[i].get(), new_prefix, is_last_term, false);
+            if (i < simple_expr->operators.size()) {
+                print_token(simple_expr->operators[i].type, 
+                           simple_expr->operators[i].value, new_prefix, false);
+            }
+        }
+        return;
+    }
+    
+    if (auto* term = dynamic_cast<const TermNode*>(node)) {
+        for (size_t i = 0; i < term->pars_factors.size(); i++) {
+            bool is_last_factor = (i == term->pars_factors.size() - 1);
+            print_parse_tree(term->pars_factors[i].get(), new_prefix, is_last_factor, false);
+            if (i < term->operators.size()) {
+                print_token(term->operators[i].type, 
+                           term->operators[i].value, new_prefix, false);
+            }
+        }
+        return;
+    }
+    
+    if (auto* factor = dynamic_cast<const FactorNode*>(node)) {
+        if (!factor->not_operator.value.empty()) {
+            print_token(factor->not_operator.type, factor->not_operator.value, new_prefix, false);
+            if (factor->pars_expression) {
+                print_parse_tree(factor->pars_expression.get(), new_prefix, true, false);
+            }
+            return;
+        }
+        
+        if (factor->pars_function_call) {
+            print_parse_tree(factor->pars_function_call.get(), new_prefix, true, false);
+            return;
+        }
+        
+        if (factor->pars_expression) {
+            print_parse_tree(factor->pars_expression.get(), new_prefix, true, false);
+            return;
+        }
+        
+        if (!factor->token.value.empty()) {
+            print_token(factor->token.type, factor->token.value, new_prefix, true);
+            return;
+        }
+        return;
+    }
+    
+    if (auto* func_call = dynamic_cast<const FunctionCallNode*>(node)) {
+        print_token(func_call->function_name.type, func_call->function_name.value, new_prefix, false);
+        print_token(func_call->lparen.type, func_call->lparen.value, new_prefix, false);
+        if (func_call->pars_parameter_list) {
+            print_parse_tree(func_call->pars_parameter_list.get(), new_prefix, false, false);
+        }
+        print_token(func_call->rparen.type, func_call->rparen.value, new_prefix, true);
+        return;
+    }
+    
+    if (auto* token_node = dynamic_cast<const TokenNode*>(node)) {
+        print_token(token_node->token.type, token_node->token.value, new_prefix, is_last);
+        return;
+    }
+    
     auto children = node->getChildren();
     
     bool has_dot_token = false;

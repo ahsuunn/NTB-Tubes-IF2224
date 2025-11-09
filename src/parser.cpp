@@ -47,6 +47,13 @@ Token Parser::peek(int offset) {
     return current_token;
 }
 
+Token Parser::previous() {
+    if (current_pos > 0) {
+        return tokens[current_pos - 1];
+    }
+    return current_token;
+}
+
 // Grammar: program → PROGRAM identifier ; declaration_part compound_statement .
 std::unique_ptr<ProgramNode> Parser::pars_program() {
     auto prog_node = std::make_unique<ProgramNode>();
@@ -242,6 +249,9 @@ std::unique_ptr<StatementListNode> Parser::pars_statement_list() {
     
     // Parse additional statements separated by semicolons
     while (match("SEMICOLON")) {
+        Token semicolon_token = previous();
+        stmt_list_node->pars_statements.push_back(std::make_unique<TokenNode>(semicolon_token));
+        
         // Check for selesai keyword
         if (check("KEYWORD") && current_token.value == "selesai") {
             break; // End of statement list
@@ -314,26 +324,300 @@ std::unique_ptr<ASTNode> Parser::pars_statement() {
 
 // Placeholder functions - ini seharusnya diimplementasi oleh teman Anda yang handle bagian statement
 std::unique_ptr<ASTNode> Parser::pars_assignment_statement() {
-    // TODO: Implementasi oleh tim
-    throw SyntaxError("pars_assignment_statement not implemented yet");
+    auto assign_node = std::make_unique<AssignmentStatementNode>();
+    
+    if (!check("IDENTIFIER")) {
+        throw SyntaxError("Expected identifier in assignment statement");
+    }
+    assign_node->identifier = current_token;
+    advance();
+    
+    if (!check("ASSIGN_OPERATOR")) {
+        throw SyntaxError("Expected ':=' in assignment statement");
+    }
+    assign_node->assign_operator = current_token;
+    advance();
+    
+    assign_node->pars_expression = pars_expression();
+    
+    return assign_node;
 }
 
 std::unique_ptr<ASTNode> Parser::pars_procedure_call() {
-    // TODO: Implementasi oleh tim
-    throw SyntaxError("pars_procedure_call not implemented yet");
+    auto proc_call_node = std::make_unique<ProcedureCallNode>();
+    
+    if (check("IDENTIFIER") || check("KEYWORD")) {
+        proc_call_node->procedure_name = current_token;
+        advance();
+    } else {
+        throw SyntaxError("Expected procedure name");
+    }
+    
+    if (check("LPARENTHESIS")) {
+        proc_call_node->lparen = current_token;
+        advance();
+        
+        if (!check("RPARENTHESIS")) {
+            proc_call_node->pars_parameter_list = pars_parameter_list();
+        }
+        
+        if (!check("RPARENTHESIS")) {
+            throw SyntaxError("Expected ')' after parameter list");
+        }
+        proc_call_node->rparen = current_token;
+        advance();
+    }
+    
+    return proc_call_node;
 }
 
 std::unique_ptr<ASTNode> Parser::pars_if_statement() {
-    // TODO: Implementasi oleh tim
-    throw SyntaxError("pars_if_statement not implemented yet");
+    auto if_node = std::make_unique<IfStatementNode>();
+    
+    if (!check("KEYWORD") || current_token.value != "jika") {
+        throw SyntaxError("Expected keyword 'jika'");
+    }
+    if_node->if_keyword = current_token;
+    advance();
+    
+    if_node->pars_condition = pars_expression();
+    
+    if (!check("KEYWORD") || current_token.value != "maka") {
+        throw SyntaxError("Expected keyword 'maka' after condition");
+    }
+    if_node->then_keyword = current_token;
+    advance();
+    
+    if_node->pars_then_statement = pars_statement();
+    
+    if (check("SEMICOLON")) {
+        Token next = peek(1);
+        if (next.type == "KEYWORD" && next.value == "selain-itu") {
+            advance();
+        }
+    }
+    
+    if (check("KEYWORD") && current_token.value == "selain-itu") {
+        if_node->else_keyword = current_token;
+        advance();
+        if_node->pars_else_statement = pars_statement();
+    }
+    
+    return if_node;
 }
 
 std::unique_ptr<ASTNode> Parser::pars_while_statement() {
-    // TODO: Implementasi oleh tim
-    throw SyntaxError("pars_while_statement not implemented yet");
+    auto while_node = std::make_unique<WhileStatementNode>();
+    
+    if (!check("KEYWORD") || current_token.value != "selama") {
+        throw SyntaxError("Expected keyword 'selama'");
+    }
+    while_node->while_keyword = current_token;
+    advance();
+    
+    while_node->pars_condition = pars_expression();
+    
+    if (!check("KEYWORD") || current_token.value != "lakukan") {
+        throw SyntaxError("Expected keyword 'lakukan' after condition");
+    }
+    while_node->do_keyword = current_token;
+    advance();
+    
+    while_node->pars_body = pars_statement();
+    
+    return while_node;
 }
 
 std::unique_ptr<ASTNode> Parser::pars_for_statement() {
-    // TODO: Implementasi oleh tim
-    throw SyntaxError("pars_for_statement not implemented yet");
+    auto for_node = std::make_unique<ForStatementNode>();
+    
+    if (!check("KEYWORD") || current_token.value != "untuk") {
+        throw SyntaxError("Expected keyword 'untuk'");
+    }
+    for_node->for_keyword = current_token;
+    advance();
+    
+    if (!check("IDENTIFIER")) {
+        throw SyntaxError("Expected identifier after 'untuk'");
+    }
+    for_node->control_variable = current_token;
+    advance();
+    
+    if (!check("ASSIGN_OPERATOR")) {
+        throw SyntaxError("Expected ':=' in for statement");
+    }
+    for_node->assign_operator = current_token;
+    advance();
+    
+    for_node->pars_initial_value = pars_expression();
+    
+    if (!check("KEYWORD") || (current_token.value != "ke" && current_token.value != "turun-ke")) {
+        throw SyntaxError("Expected keyword 'ke' or 'turun-ke'");
+    }
+    for_node->direction_keyword = current_token;
+    advance();
+    
+    for_node->pars_final_value = pars_expression();
+    
+    if (!check("KEYWORD") || current_token.value != "lakukan") {
+        throw SyntaxError("Expected keyword 'lakukan' after final value");
+    }
+    for_node->do_keyword = current_token;
+    advance();
+    
+    for_node->pars_body = pars_statement();
+    
+    return for_node;
+}
+
+std::unique_ptr<ASTNode> Parser::pars_expression() {
+    auto expr_node = std::make_unique<ExpressionNode>();
+    
+    expr_node->pars_left = pars_simple_expression();
+    
+    if (check("RELATIONAL_OPERATOR") || check("LOGICAL_OPERATOR")) {
+        std::string op_val = current_token.value;
+        if (op_val == "=" || op_val == "<>" || op_val == "<" || 
+            op_val == "<=" || op_val == ">" || op_val == ">=") {
+            expr_node->relational_op = current_token;
+            advance();
+            expr_node->pars_right = pars_simple_expression();
+        }
+    }
+    
+    return expr_node;
+}
+
+std::unique_ptr<ASTNode> Parser::pars_simple_expression() {
+    auto simple_expr_node = std::make_unique<SimpleExpressionNode>();
+    
+    if (check("ARITHMETIC_OPERATOR") && (current_token.value == "+" || current_token.value == "-")) {
+        simple_expr_node->sign = current_token;
+        advance();
+    }
+    
+    simple_expr_node->pars_terms.push_back(pars_term());
+    
+    while (check("ARITHMETIC_OPERATOR") || check("LOGICAL_OPERATOR")) {
+        std::string op_val = current_token.value;
+        if (op_val == "+" || op_val == "-" || op_val == "atau") {
+            simple_expr_node->operators.push_back(current_token);
+            advance();
+            simple_expr_node->pars_terms.push_back(pars_term());
+        } else {
+            break;
+        }
+    }
+    
+    return simple_expr_node;
+}
+
+std::unique_ptr<ASTNode> Parser::pars_term() {
+    auto term_node = std::make_unique<TermNode>();
+    
+    term_node->pars_factors.push_back(pars_factor());
+    
+    while (check("ARITHMETIC_OPERATOR") || check("LOGICAL_OPERATOR") || check("KEYWORD")) {
+        std::string op_val = current_token.value;
+        if (op_val == "*" || op_val == "/" || op_val == "bagi" || 
+            op_val == "mod" || op_val == "dan") {
+            term_node->operators.push_back(current_token);
+            advance();
+            term_node->pars_factors.push_back(pars_factor());
+        } else {
+            break;
+        }
+    }
+    
+    return term_node;
+}
+
+std::unique_ptr<ASTNode> Parser::pars_factor() {
+    auto factor_node = std::make_unique<FactorNode>();
+    
+    if (check("LOGICAL_OPERATOR") && current_token.value == "tidak") {
+        factor_node->not_operator = current_token;
+        advance();
+        factor_node->pars_expression = pars_factor();
+        return factor_node;
+    }
+    
+    if (check("LPARENTHESIS")) {
+        Token lparen = current_token;
+        advance();
+        factor_node->pars_expression = pars_expression();
+        if (!check("RPARENTHESIS")) {
+            throw SyntaxError("Expected ')' after expression");
+        }
+        advance();
+        return factor_node;
+    }
+    
+    if (check("NUMBER") || check("CHAR_LITERAL") || check("STRING_LITERAL")) {
+        factor_node->token = current_token;
+        advance();
+        return factor_node;
+    }
+    
+    if (check("IDENTIFIER")) {
+        Token id_token = current_token;
+        advance();
+        
+        if (check("LPARENTHESIS")) {
+            current_pos--;
+            current_token = id_token;
+            
+            auto func_call_node = std::make_unique<FunctionCallNode>();
+            func_call_node->function_name = current_token;
+            advance();
+            
+            func_call_node->lparen = current_token;
+            advance();
+            
+            if (!check("RPARENTHESIS")) {
+                func_call_node->pars_parameter_list = pars_parameter_list();
+            }
+            
+            if (!check("RPARENTHESIS")) {
+                throw SyntaxError("Expected ')' after parameter list");
+            }
+            func_call_node->rparen = current_token;
+            advance();
+            
+            factor_node->pars_function_call = std::move(func_call_node);
+            return factor_node;
+        } else {
+            factor_node->token = id_token;
+            return factor_node;
+        }
+    }
+    
+    if (check("KEYWORD")) {
+        std::string kw = current_token.value;
+        if (kw == "benar" || kw == "salah" || kw == "true" || kw == "false") {
+            factor_node->token = current_token;
+            advance();
+            return factor_node;
+        }
+    }
+    
+    std::stringstream ss;
+    ss << "Syntax error at line " << current_token.line 
+       << ", column " << current_token.column 
+       << ": unexpected token in expression " << current_token.type << "(" << current_token.value << ")";
+    throw SyntaxError(ss.str());
+}
+
+std::unique_ptr<ASTNode> Parser::pars_parameter_list() {
+    auto param_list_node = std::make_unique<ParameterListNode>();
+    
+    param_list_node->pars_parameters.push_back(pars_expression());
+    
+    while (check("COMMA")) {
+        param_list_node->comma_tokens.push_back(current_token);
+        advance();
+        param_list_node->pars_parameters.push_back(pars_expression());
+    }
+    
+    return param_list_node;
 }

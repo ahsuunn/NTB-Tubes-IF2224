@@ -114,4 +114,124 @@ public:
     std::vector<ASTNode*> getChildren() const override { return {}; }
 };
 
+class AssignmentStatementNode : public ASTNode {
+public:
+    Token identifier;
+    Token assign_operator;
+    std::unique_ptr<ASTNode> pars_expression;
+    
+    std::string toString() const override { return "<assignment-statement>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class IfStatementNode : public ASTNode {
+public:
+    Token if_keyword;
+    std::unique_ptr<ASTNode> pars_condition;
+    Token then_keyword;
+    std::unique_ptr<ASTNode> pars_then_statement;
+    Token else_keyword;
+    std::unique_ptr<ASTNode> pars_else_statement;
+    
+    std::string toString() const override { return "<if-statement>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class WhileStatementNode : public ASTNode {
+public:
+    Token while_keyword;
+    std::unique_ptr<ASTNode> pars_condition;
+    Token do_keyword;
+    std::unique_ptr<ASTNode> pars_body;
+    
+    std::string toString() const override { return "<while-statement>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class ForStatementNode : public ASTNode {
+public:
+    Token for_keyword;
+    Token control_variable;
+    Token assign_operator;
+    std::unique_ptr<ASTNode> pars_initial_value;
+    Token direction_keyword;
+    std::unique_ptr<ASTNode> pars_final_value;
+    Token do_keyword;
+    std::unique_ptr<ASTNode> pars_body;
+    
+    std::string toString() const override { return "<for-statement>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class ProcedureCallNode : public ASTNode {
+public:
+    Token procedure_name;
+    Token lparen;
+    std::unique_ptr<ASTNode> pars_parameter_list;
+    Token rparen;
+    
+    std::string toString() const override { return "<procedure-call>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class ParameterListNode : public ASTNode {
+public:
+    std::vector<std::unique_ptr<ASTNode>> pars_parameters;
+    std::vector<Token> comma_tokens;
+    
+    std::string toString() const override { return "<parameter-list>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class ExpressionNode : public ASTNode {
+public:
+    std::unique_ptr<ASTNode> pars_left;
+    Token relational_op;
+    std::unique_ptr<ASTNode> pars_right;
+    
+    std::string toString() const override { return "<expression>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class SimpleExpressionNode : public ASTNode {
+public:
+    Token sign;
+    std::vector<std::unique_ptr<ASTNode>> pars_terms;
+    std::vector<Token> operators;
+    
+    std::string toString() const override { return "<simple-expression>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class TermNode : public ASTNode {
+public:
+    std::vector<std::unique_ptr<ASTNode>> pars_factors;
+    std::vector<Token> operators;
+    
+    std::string toString() const override { return "<term>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class FactorNode : public ASTNode {
+public:
+    Token token;
+    Token not_operator;
+    std::unique_ptr<ASTNode> pars_expression;
+    std::unique_ptr<ASTNode> pars_function_call;
+    
+    std::string toString() const override { return "<factor>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
+class FunctionCallNode : public ASTNode {
+public:
+    Token function_name;
+    Token lparen;
+    std::unique_ptr<ASTNode> pars_parameter_list;
+    Token rparen;
+    
+    std::string toString() const override { return "<function-call>"; }
+    std::vector<ASTNode*> getChildren() const override;
+};
+
 #endif // AST_NODES_HPP
