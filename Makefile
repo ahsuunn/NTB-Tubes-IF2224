@@ -25,8 +25,6 @@ build:
 run:
 	$(PASLEX) $(TEST_DIR)/milestone-2/input/program.pas
 
-all:clean
-	build
-	run
+all:clean build run
 clean:
 	rm -f $(PASLEX)

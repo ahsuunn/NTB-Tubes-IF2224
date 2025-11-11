@@ -91,14 +91,24 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         print_token(compound->mulai_keyword.type, compound->mulai_keyword.value, new_prefix, false);
         
         if (!compound->pars_statement_list.empty()) {
-            std::cout << new_prefix << "├── <statement-list>\n";
-            std::string stmt_prefix = new_prefix + "│   ";
+            std::cout << new_prefix << "├── " << "<statement-list>" << "\n";
+            std::string stmt_list_prefix = new_prefix + "│   ";
+            
             for (size_t i = 0; i < compound->pars_statement_list.size(); i++) {
-                print_parse_tree(compound->pars_statement_list[i].get(), stmt_prefix, 
-                               i == compound->pars_statement_list.size() - 1, false);
+                auto* stmt = compound->pars_statement_list[i].get();
+                
+                // Skip TokenNode with SEMICOLON - they're just separators
+                if (auto* token_node = dynamic_cast<const TokenNode*>(stmt)) {
+                    if (token_node->token.type == "SEMICOLON") {
+                        std::cout << stmt_list_prefix << (i == compound->pars_statement_list.size() - 1 ? "└── " : "├── ");
+                        std::cout << "SEMICOLON(;)" << "\n";
+                        continue; // Skip recursive print_parse_tree call
+                    }
+                }
+                
+                bool is_last = (i == compound->pars_statement_list.size() - 1);
+                print_parse_tree(stmt, stmt_list_prefix, is_last, false);
             }
-        } else {
-            std::cout << new_prefix << "├── <statement-list>\n";
         }
         
         print_token(compound->selesai_keyword.type, compound->selesai_keyword.value, new_prefix, true);
