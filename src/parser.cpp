@@ -344,7 +344,7 @@ std::unique_ptr<ASTNode> Parser::pars_assignment_statement() {
 }
 
 std::unique_ptr<ASTNode> Parser::pars_procedure_call() {
-    auto proc_call_node = std::make_unique<ProcedureCallNode>();
+    auto proc_call_node = std::make_unique<ProcedureFunctionCallNode>();
     
     if (check("IDENTIFIER") || check("KEYWORD")) {
         proc_call_node->procedure_name = current_token;
@@ -479,7 +479,9 @@ std::unique_ptr<ASTNode> Parser::pars_expression() {
         std::string op_val = current_token.value;
         if (op_val == "=" || op_val == "<>" || op_val == "<" || 
             op_val == "<=" || op_val == ">" || op_val == ">=") {
-            expr_node->relational_op = current_token;
+            auto rel_op_node = std::make_unique<RelationalOperatorNode>();
+            rel_op_node->op_token = current_token;
+            expr_node->pars_relational_op = std::move(rel_op_node);
             advance();
             expr_node->pars_right = pars_simple_expression();
         }
@@ -501,7 +503,9 @@ std::unique_ptr<ASTNode> Parser::pars_simple_expression() {
     while (check("ARITHMETIC_OPERATOR") || check("LOGICAL_OPERATOR")) {
         std::string op_val = current_token.value;
         if (op_val == "+" || op_val == "-" || op_val == "atau") {
-            simple_expr_node->operators.push_back(current_token);
+            auto add_op_node = std::make_unique<AdditiveOperatorNode>();
+            add_op_node->op_token = current_token;
+            simple_expr_node->pars_operators.push_back(std::move(add_op_node));
             advance();
             simple_expr_node->pars_terms.push_back(pars_term());
         } else {
@@ -521,7 +525,9 @@ std::unique_ptr<ASTNode> Parser::pars_term() {
         std::string op_val = current_token.value;
         if (op_val == "*" || op_val == "/" || op_val == "bagi" || 
             op_val == "mod" || op_val == "dan") {
-            term_node->operators.push_back(current_token);
+            auto mult_op_node = std::make_unique<MultiplicativeOperatorNode>();
+            mult_op_node->op_token = current_token;
+            term_node->pars_operators.push_back(std::move(mult_op_node));
             advance();
             term_node->pars_factors.push_back(pars_factor());
         } else {
@@ -567,24 +573,24 @@ std::unique_ptr<ASTNode> Parser::pars_factor() {
             current_pos--;
             current_token = id_token;
             
-            auto func_call_node = std::make_unique<FunctionCallNode>();
-            func_call_node->function_name = current_token;
+            auto proc_func_call_node = std::make_unique<ProcedureFunctionCallNode>();
+            proc_func_call_node->procedure_name = current_token;
             advance();
             
-            func_call_node->lparen = current_token;
+            proc_func_call_node->lparen = current_token;
             advance();
             
             if (!check("RPARENTHESIS")) {
-                func_call_node->pars_parameter_list = pars_parameter_list();
+                proc_func_call_node->pars_parameter_list = pars_parameter_list();
             }
             
             if (!check("RPARENTHESIS")) {
                 throw SyntaxError("Expected ')' after parameter list");
             }
-            func_call_node->rparen = current_token;
+            proc_func_call_node->rparen = current_token;
             advance();
             
-            factor_node->pars_function_call = std::move(func_call_node);
+            factor_node->pars_procedure_function_call = std::move(proc_func_call_node);
             return factor_node;
         } else {
             factor_node->token = id_token;

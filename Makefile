@@ -22,8 +22,11 @@ HEADERS := $(shell find $(INCLUDE_DIR) -name '*.hpp')
 build: 
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
 
-run: build
-	$(PASLEX) $(TEST_DIR)/milestone-2/input/test.pas
+run:
+	$(PASLEX) $(TEST_DIR)/milestone-2/input/program.pas
 
+all:clean
+	build
+	run
 clean:
 	rm -f $(PASLEX)

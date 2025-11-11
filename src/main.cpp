@@ -161,7 +161,7 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         return;
     }
     
-    if (auto* proc_call = dynamic_cast<const ProcedureCallNode*>(node)) {
+    if (auto* proc_call = dynamic_cast<const ProcedureFunctionCallNode*>(node)) {
         print_token(proc_call->procedure_name.type, proc_call->procedure_name.value, new_prefix, false);
         if (!proc_call->lparen.value.empty()) {
             print_token(proc_call->lparen.type, proc_call->lparen.value, new_prefix, false);
@@ -192,8 +192,8 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
             bool has_right = expr->pars_right != nullptr;
             print_parse_tree(expr->pars_left.get(), new_prefix, !has_right, false);
         }
-        if (!expr->relational_op.value.empty()) {
-            print_token(expr->relational_op.type, expr->relational_op.value, new_prefix, false);
+        if (expr->pars_relational_op) {
+            print_parse_tree(expr->pars_relational_op.get(), new_prefix, false, false);
         }
         if (expr->pars_right) {
             print_parse_tree(expr->pars_right.get(), new_prefix, true, false);
@@ -206,11 +206,11 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
             print_token(simple_expr->sign.type, simple_expr->sign.value, new_prefix, false);
         }
         for (size_t i = 0; i < simple_expr->pars_terms.size(); i++) {
-            bool is_last_term = (i == simple_expr->pars_terms.size() - 1);
+            bool is_last_term = (i == simple_expr->pars_terms.size() - 1 && i >= simple_expr->pars_operators.size());
             print_parse_tree(simple_expr->pars_terms[i].get(), new_prefix, is_last_term, false);
-            if (i < simple_expr->operators.size()) {
-                print_token(simple_expr->operators[i].type, 
-                           simple_expr->operators[i].value, new_prefix, false);
+            if (i < simple_expr->pars_operators.size()) {
+                print_parse_tree(simple_expr->pars_operators[i].get(), new_prefix, 
+                               i == simple_expr->pars_operators.size() - 1, false);
             }
         }
         return;
@@ -218,11 +218,11 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
     
     if (auto* term = dynamic_cast<const TermNode*>(node)) {
         for (size_t i = 0; i < term->pars_factors.size(); i++) {
-            bool is_last_factor = (i == term->pars_factors.size() - 1);
+            bool is_last_factor = (i == term->pars_factors.size() - 1 && i >= term->pars_operators.size());
             print_parse_tree(term->pars_factors[i].get(), new_prefix, is_last_factor, false);
-            if (i < term->operators.size()) {
-                print_token(term->operators[i].type, 
-                           term->operators[i].value, new_prefix, false);
+            if (i < term->pars_operators.size()) {
+                print_parse_tree(term->pars_operators[i].get(), new_prefix, 
+                               i == term->pars_operators.size() - 1, false);
             }
         }
         return;
@@ -237,8 +237,8 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
             return;
         }
         
-        if (factor->pars_function_call) {
-            print_parse_tree(factor->pars_function_call.get(), new_prefix, true, false);
+        if (factor->pars_procedure_function_call) {
+            print_parse_tree(factor->pars_procedure_function_call.get(), new_prefix, true, false);
             return;
         }
         
@@ -251,16 +251,6 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
             print_token(factor->token.type, factor->token.value, new_prefix, true);
             return;
         }
-        return;
-    }
-    
-    if (auto* func_call = dynamic_cast<const FunctionCallNode*>(node)) {
-        print_token(func_call->function_name.type, func_call->function_name.value, new_prefix, false);
-        print_token(func_call->lparen.type, func_call->lparen.value, new_prefix, false);
-        if (func_call->pars_parameter_list) {
-            print_parse_tree(func_call->pars_parameter_list.get(), new_prefix, false, false);
-        }
-        print_token(func_call->rparen.type, func_call->rparen.value, new_prefix, true);
         return;
     }
     
