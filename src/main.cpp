@@ -76,14 +76,46 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         
         // print type
         if (var_decl->pars_type) {
-            std::cout << new_prefix << "├── <type>\n";
-            std::string type_prefix = new_prefix + "│   ";
-            print_token(var_decl->pars_type->type_keyword.type, 
-                       var_decl->pars_type->type_keyword.value, 
-                       type_prefix, true);
+            // FIX: Panggil print_parse_tree secara rekursif.
+            // Handler untuk TypeNode, ArrayTypeNode, dan RangeNode ada di bawah.
+            print_parse_tree(var_decl->pars_type.get(), new_prefix, false, false);
         }
         
         print_token(var_decl->semicolon.type, var_decl->semicolon.value, new_prefix, true);
+        return;
+    }
+
+    // FIX: Menambahkan handler untuk TypeNode (tipe sederhana)
+    if (auto* type_node = dynamic_cast<const TypeNode*>(node)) {
+        // TypeNode tidak memiliki children, jadi kita print token-nya di sini
+        print_token(type_node->type_keyword.type, type_node->type_keyword.value, new_prefix, true);
+        return;
+    }
+
+    // FIX: Menambahkan handler untuk ArrayTypeNode
+    if (auto* array_node = dynamic_cast<const ArrayTypeNode*>(node)) {
+        print_token(array_node->array_keyword.type, array_node->array_keyword.value, new_prefix, false);
+        print_token(array_node->lbracket.type, array_node->lbracket.value, new_prefix, false);
+        if (array_node->pars_range) {
+            print_parse_tree(array_node->pars_range.get(), new_prefix, false, false);
+        }
+        print_token(array_node->rbracket.type, array_node->rbracket.value, new_prefix, false);
+        print_token(array_node->of_keyword.type, array_node->of_keyword.value, new_prefix, false);
+        if (array_node->pars_type) {
+            print_parse_tree(array_node->pars_type.get(), new_prefix, true, false);
+        }
+        return;
+    }
+    
+    // FIX: Menambahkan handler untuk RangeNode
+    if (auto* range_node = dynamic_cast<const RangeNode*>(node)) {
+        if (range_node->pars_start_expression) {
+            print_parse_tree(range_node->pars_start_expression.get(), new_prefix, false, false);
+        }
+        print_token(range_node->range_operator.type, range_node->range_operator.value, new_prefix, false);
+        if (range_node->pars_end_expression) {
+            print_parse_tree(range_node->pars_end_expression.get(), new_prefix, true, false);
+        }
         return;
     }
     

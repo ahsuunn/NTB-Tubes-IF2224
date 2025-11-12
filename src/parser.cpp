@@ -142,29 +142,54 @@ std::unique_ptr<ASTNode> Parser::pars_program_header() {
     return header_node;
 }
 
-// Grammar: declaration_part → const_declaration* type_declaration* variable_declaration* subprogram_declaration*
+// Grammar: declaration_part → (const_block)? (type_block)? (var_block)? (subprogram_declarations)*
 std::unique_ptr<DeclarationPartNode> Parser::pars_declaration_part() {
     auto decl_part_node = std::make_unique<DeclarationPartNode>();
     
-    // Parse constant declarations
-    while (check("KEYWORD") && current_token.value == "konstanta") {
-        auto const_decl = pars_const_declaration();
-        decl_part_node->pars_const_declaration_list.push_back(std::move(const_decl));
+    // FIX #3: Implementasi block parsing yang benar
+    // (konstanta, tipe, variabel)
+    
+    // Parse constant declarations block
+    if (check("KEYWORD") && current_token.value == "konstanta") {
+        Token const_keyword = current_token;
+        advance(); // consume 'konstanta'
+        
+        // Loop selama token berikutnya adalah IDENTIFIER (memulai definisi baru)
+        while (check("IDENTIFIER")) {
+            auto const_decl = pars_const_declaration();
+            // Menyimpan keyword 'konstanta' di setiap node (meskipun parsingnya block)
+            // Ini agar node-nya konsisten dengan implementasi lama
+            const_decl->const_keyword = const_keyword; 
+            decl_part_node->pars_const_declaration_list.push_back(std::move(const_decl));
+        }
     }
     
-    // Parse type declarations
-    while (check("KEYWORD") && current_token.value == "tipe") {
-        auto type_decl = pars_type_declaration();
-        decl_part_node->pars_type_declaration_list.push_back(std::move(type_decl));
+    // Parse type declarations block
+    if (check("KEYWORD") && current_token.value == "tipe") {
+        Token type_keyword = current_token;
+        advance(); // consume 'tipe'
+        
+        while (check("IDENTIFIER")) {
+            auto type_decl = pars_type_declaration();
+            type_decl->type_keyword = type_keyword;
+            decl_part_node->pars_type_declaration_list.push_back(std::move(type_decl));
+        }
     }
     
-    // Parse variable declarations
-    while (check("KEYWORD") && current_token.value == "variabel") {
-        auto var_decl = pars_variable_declaration_part();
-        decl_part_node->pars_variable_declaration_list.push_back(std::move(var_decl));
+    // Parse variable declarations block
+    if (check("KEYWORD") && current_token.value == "variabel") {
+        Token var_keyword = current_token;
+        advance(); // consume 'variabel'
+        
+        while (check("IDENTIFIER")) {
+            auto var_decl = pars_variable_declaration_part();
+            var_decl->var_keyword = var_keyword;
+            decl_part_node->pars_variable_declaration_list.push_back(std::move(var_decl));
+        }
     }
     
     // Parse subprogram declarations (procedures and functions)
+    // Ini sudah benar, karena prosedur/fungsi selalu diawali keyword-nya sendiri
     while (check("KEYWORD") && (current_token.value == "prosedur" || current_token.value == "fungsi")) {
         auto subprog_decl = pars_subprogram_declaration();
         decl_part_node->pars_subprogram_declaration_list.push_back(std::move(subprog_decl));
@@ -174,19 +199,11 @@ std::unique_ptr<DeclarationPartNode> Parser::pars_declaration_part() {
 }
 
 // Grammar: variable_declaration_part → identifier_list : type ;
+// FIX #3: Modifikasi: Tidak lagi memeriksa keyword 'variabel' di sini
 std::unique_ptr<VariableDeclarationNode> Parser::pars_variable_declaration_part() {
     auto var_decl_node = std::make_unique<VariableDeclarationNode>();
     
-    // Save and consume variabel keyword
-    if (!check("KEYWORD") || current_token.value != "variabel") {
-        std::stringstream ss;
-        ss << "Error at line " << current_token.line << ", column " << current_token.column 
-           << ": Expected keyword 'variabel' for variable declaration\n"
-           << "  Got: " << current_token.type << "(" << current_token.value << ")";
-        throw SyntaxError(ss.str());
-    }
-    var_decl_node->var_keyword = current_token;
-    advance();
+    // 'variabel' keyword sudah di-consume di pars_declaration_part()
     
     // Parse identifier list
     var_decl_node->pars_identifier_list = pars_identifier_list();
@@ -214,7 +231,7 @@ std::unique_ptr<VariableDeclarationNode> Parser::pars_variable_declaration_part(
         std::stringstream ss;
         ss << "Error at line " << current_token.line << ", column " << current_token.column 
            << ": Expected ';' after variable type declaration\n"
-           << "  Type: " << var_decl_node->pars_type->pars_type_name << "\n"
+        //   << "  Type: " << var_decl_node->pars_type->pars_type_name << "\n" // Tidak bisa akses ini lagi
            << "  Got: " << current_token.type << "(" << current_token.value << ")";
         throw SyntaxError(ss.str());
     }
@@ -224,16 +241,12 @@ std::unique_ptr<VariableDeclarationNode> Parser::pars_variable_declaration_part(
     return var_decl_node;
 }
 
-// Grammar: const_declaration → KONSTANTA identifier = value ;
+// Grammar: const_declaration → identifier = value ;
+// FIX #3: Modifikasi: Tidak lagi memeriksa keyword 'konstanta' di sini
 std::unique_ptr<ConstDeclarationNode> Parser::pars_const_declaration() {
     auto const_decl_node = std::make_unique<ConstDeclarationNode>();
     
-    // Expect konstanta keyword
-    if (!check("KEYWORD") || current_token.value != "konstanta") {
-        throw SyntaxError("Expected keyword 'konstanta' for constant declaration");
-    }
-    const_decl_node->const_keyword = current_token;
-    advance();
+    // 'konstanta' keyword sudah di-consume di pars_declaration_part()
     
     // Expect identifier
     if (!check("IDENTIFIER")) {
@@ -251,7 +264,7 @@ std::unique_ptr<ConstDeclarationNode> Parser::pars_const_declaration() {
     
     // Expect value (number, string, char, or boolean)
     if (check("NUMBER") || check("STRING_LITERAL") || check("CHAR_LITERAL") ||
-        (check("KEYWORD") && (current_token.value == "benar" || current_token.value == "salah"))) {
+        (check("KEYWORD") && (current_token.value == "benar" || current_token.value == "salah" || current_token.value == "true" || current_token.value == "false"))) {
         const_decl_node->value = current_token;
         advance();
     } else {
@@ -268,16 +281,12 @@ std::unique_ptr<ConstDeclarationNode> Parser::pars_const_declaration() {
     return const_decl_node;
 }
 
-// Grammar: type_declaration → TIPE identifier = type_definition ;
+// Grammar: type_declaration → identifier = type_definition ;
+// FIX #3: Modifikasi: Tidak lagi memeriksa keyword 'tipe' di sini
 std::unique_ptr<TypeDeclarationNode> Parser::pars_type_declaration() {
     auto type_decl_node = std::make_unique<TypeDeclarationNode>();
     
-    // Expect tipe keyword
-    if (!check("KEYWORD") || current_token.value != "tipe") {
-        throw SyntaxError("Expected keyword 'tipe' for type declaration");
-    }
-    type_decl_node->type_keyword = current_token;
-    advance();
+    // 'tipe' keyword sudah di-consume di pars_declaration_part()
     
     // Expect identifier
     if (!check("IDENTIFIER")) {
@@ -293,11 +302,21 @@ std::unique_ptr<TypeDeclarationNode> Parser::pars_type_declaration() {
     type_decl_node->equal = current_token;
     advance();
     
-    // Parse type definition (array type or simple type)
+    // Parse type definition (array type, simple type, or range)
+    // FIX #1: Perbaikan untuk subrange
     if (check("KEYWORD") && current_token.value == "larik") {
         type_decl_node->pars_type_definition = pars_array_type();
-    } else {
+    } 
+    // Cek jika ini tipe sederhana
+    else if (check("KEYWORD") && (current_token.value == "integer" || current_token.value == "real" || current_token.value == "boolean" || current_token.value == "char")) {
         type_decl_node->pars_type_definition = pars_type();
+    }
+    // Cek jika ini subrange (dimulai dgn NUMBER, CHAR, atau IDENTIFIER konstanta - kita permudah)
+    else if (check("NUMBER") || check("CHAR_LITERAL") || check("IDENTIFIER")) {
+         type_decl_node->pars_type_definition = pars_range();
+    }
+    else {
+        throw SyntaxError("Expected type definition (array, simple type, or range)");
     }
     
     // Expect semicolon
@@ -355,7 +374,7 @@ std::unique_ptr<ASTNode> Parser::pars_array_type() {
 std::unique_ptr<RangeNode> Parser::pars_range() {
     auto range_node = std::make_unique<RangeNode>();
     
-    // Parse start expression
+    // Parse start expression (hanya simple expression untuk range)
     range_node->pars_start_expression = pars_simple_expression();
     
     // Expect range operator (..)
@@ -365,7 +384,7 @@ std::unique_ptr<RangeNode> Parser::pars_range() {
     range_node->range_operator = current_token;
     advance();
     
-    // Parse end expression
+    // Parse end expression (hanya simple expression untuk range)
     range_node->pars_end_expression = pars_simple_expression();
     
     return range_node;
@@ -584,27 +603,42 @@ std::unique_ptr<IdentifierListNode> Parser::pars_identifier_list() {
     return id_list_node;
 }
 
-// Grammar: type → INTEGER | REAL | BOOLEAN
-std::unique_ptr<TypeNode> Parser::pars_type() {
-    auto type_node = std::make_unique<TypeNode>();
+// Grammar: type → INTEGER | REAL | BOOLEAN | CHAR | array_type | IDENTIFIER
+// FIX #2: Diperbarui untuk mengembalikan ASTNode* dan menangani array anonim
+std::unique_ptr<ASTNode> Parser::pars_type() {
     
+    // Cek untuk tipe array anonim
+    if (check("KEYWORD") && current_token.value == "larik") {
+        return pars_array_type();
+    }
+    
+    // Cek untuk tipe sederhana
     if (check("KEYWORD")) {
         std::string type_value = current_token.value;
         if (type_value == "integer" || 
             type_value == "real" || 
             type_value == "boolean" ||
             type_value == "char") {
+            
+            auto type_node = std::make_unique<TypeNode>();
             type_node->pars_type_name = type_value;
             type_node->type_keyword = current_token;  // Save token
             advance();
-        } else {
-            throw SyntaxError("Expected type (integer, real, boolean, or char)");
+            return type_node;
         }
-    } else {
-        throw SyntaxError("Expected type keyword");
+    }
+
+    // Cek untuk tipe kustom (misal: 'IntRange' dari test case)
+    if (check("IDENTIFIER")) {
+        auto type_node = std::make_unique<TypeNode>();
+        type_node->pars_type_name = current_token.value;
+        // Kita simpan sebagai 'type_keyword' agar konsisten, meskipun ini IDENTIFIER
+        type_node->type_keyword = current_token; 
+        advance();
+        return type_node;
     }
     
-    return type_node;
+    throw SyntaxError("Expected type (integer, real, boolean, char, array, or custom type identifier)");
 }
 
 // Grammar: compound_statement → BEGIN statement_list END

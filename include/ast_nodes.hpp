@@ -83,7 +83,8 @@ public:
     Token var_keyword;  // KEYWORD(variabel)
     std::unique_ptr<class IdentifierListNode> pars_identifier_list;
     Token colon;        // COLON(:)
-    std::unique_ptr<class TypeNode> pars_type;
+    // FIX: Mengganti TypeNode ke ASTNode untuk mendukung tipe array anonim
+    std::unique_ptr<ASTNode> pars_type; 
     Token semicolon;    // SEMICOLON(;)
     
     std::string toString() const override { return "<var-declaration>"; }
@@ -120,7 +121,8 @@ public:
     std::unique_ptr<class RangeNode> pars_range;
     Token rbracket;       // RBRACKET(])
     Token of_keyword;     // KEYWORD(dari)
-    std::unique_ptr<class TypeNode> pars_type;
+    // FIX: Mengganti TypeNode ke ASTNode untuk mendukung tipe array anonim
+    std::unique_ptr<ASTNode> pars_type;
     
     std::string toString() const override { return "<array-type>"; }
     std::vector<ASTNode*> getChildren() const override;
@@ -167,7 +169,8 @@ public:
     Token identifier;         // IDENTIFIER
     std::unique_ptr<class FormalParameterListNode> pars_formal_parameter_list;
     Token colon;              // COLON(:)
-    std::unique_ptr<class TypeNode> pars_return_type;
+    // FIX: Mengganti TypeNode ke ASTNode untuk mendukung tipe array anonim
+    std::unique_ptr<ASTNode> pars_return_type;
     Token semicolon1;         // SEMICOLON(;)
     std::unique_ptr<ASTNode> pars_block;  // block
     Token semicolon2;         // SEMICOLON(;)
@@ -193,7 +196,8 @@ class ParameterGroupNode : public ASTNode {
 public:
     std::unique_ptr<class IdentifierListNode> pars_identifier_list;
     Token colon;  // COLON(:)
-    std::unique_ptr<class TypeNode> pars_type;
+    // FIX: Mengganti TypeNode ke ASTNode untuk mendukung tipe array anonim
+    std::unique_ptr<ASTNode> pars_type;
     
     std::string toString() const override { return "<parameter-group>"; }
     std::vector<ASTNode*> getChildren() const override;

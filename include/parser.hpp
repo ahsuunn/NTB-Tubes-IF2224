@@ -50,7 +50,7 @@ public:
     std::unique_ptr<ParameterGroupNode> pars_parameter_group();
     std::unique_ptr<ASTNode> pars_procedure_block();
     std::unique_ptr<IdentifierListNode> pars_identifier_list();
-    std::unique_ptr<TypeNode> pars_type();
+    std::unique_ptr<ASTNode> pars_type();
     std::unique_ptr<CompoundStatementNode> pars_compound_statement();
     std::unique_ptr<StatementListNode> pars_statement_list();
     std::unique_ptr<ASTNode> pars_statement();
