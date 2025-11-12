@@ -38,7 +38,17 @@ public:
     // Grammar rules
     std::unique_ptr<ASTNode> pars_program_header();
     std::unique_ptr<DeclarationPartNode> pars_declaration_part();
+    std::unique_ptr<ConstDeclarationNode> pars_const_declaration();
+    std::unique_ptr<TypeDeclarationNode> pars_type_declaration();
     std::unique_ptr<VariableDeclarationNode> pars_variable_declaration_part();
+    std::unique_ptr<SubprogramDeclarationNode> pars_subprogram_declaration();
+    std::unique_ptr<ASTNode> pars_array_type();
+    std::unique_ptr<RangeNode> pars_range();
+    std::unique_ptr<ASTNode> pars_procedure_declaration();
+    std::unique_ptr<ASTNode> pars_function_declaration();
+    std::unique_ptr<FormalParameterListNode> pars_formal_parameter_list();
+    std::unique_ptr<ParameterGroupNode> pars_parameter_group();
+    std::unique_ptr<ASTNode> pars_procedure_block();
     std::unique_ptr<IdentifierListNode> pars_identifier_list();
     std::unique_ptr<TypeNode> pars_type();
     std::unique_ptr<CompoundStatementNode> pars_compound_statement();

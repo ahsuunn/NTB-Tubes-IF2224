@@ -6,6 +6,11 @@ Parser::Parser(const std::vector<Token>& tokens)
     : tokens(tokens), current_pos(0) {
     if (!tokens.empty()) {
         current_token = tokens[0];
+        // Skip initial comments
+        while (current_token.type == "COMMENT" && current_pos < tokens.size() - 1) {
+            current_pos++;
+            current_token = tokens[current_pos];
+        }
     }
 }
 
@@ -13,6 +18,11 @@ void Parser::advance() {
     if (current_pos < tokens.size() - 1) {
         current_pos++;
         current_token = tokens[current_pos];
+        // Skip comments
+        while (current_token.type == "COMMENT" && current_pos < tokens.size() - 1) {
+            current_pos++;
+            current_token = tokens[current_pos];
+        }
     }
 }
 
@@ -33,8 +43,20 @@ void Parser::expect(const std::string& type, const std::string& message) {
         std::stringstream ss;
         ss << "Syntax error at line " << current_token.line 
            << ", column " << current_token.column 
-           << ": " << message 
-           << " (got " << current_token.type << "(" << current_token.value << "))";
+           << ": " << message << "\n"
+           << "  Expected: " << type << "\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        
+        // Show context
+        if (current_pos > 0 && current_pos < tokens.size()) {
+            ss << "\n  Context: ";
+            if (current_pos >= 2) ss << tokens[current_pos-2].value << " ";
+            if (current_pos >= 1) ss << tokens[current_pos-1].value << " ";
+            ss << ">>> " << current_token.value << " <<<";
+            if (current_pos + 1 < tokens.size()) ss << " " << tokens[current_pos+1].value;
+            if (current_pos + 2 < tokens.size()) ss << " " << tokens[current_pos+2].value;
+        }
+        
         throw SyntaxError(ss.str());
     }
 }
@@ -86,7 +108,11 @@ std::unique_ptr<ASTNode> Parser::pars_program_header() {
     auto header_node = std::make_unique<ProgramHeaderNode>();
     
     if (!check("KEYWORD") || current_token.value != "program") {
-        throw SyntaxError("Expected keyword 'program'");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected keyword 'program' at the beginning of the program\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     header_node->program_keyword = current_token;  // Save token
     advance();
@@ -95,11 +121,20 @@ std::unique_ptr<ASTNode> Parser::pars_program_header() {
         header_node->program_name = current_token;  // Save token
         advance();
     } else {
-        throw SyntaxError("Expected program name (identifier)");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected program name (identifier) after 'program' keyword\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     
     if (!check("SEMICOLON")) {
-        throw SyntaxError("Expected ';' after program name");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected ';' after program name\n"
+           << "  Program name: " << header_node->program_name.value << "\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     header_node->semicolon = current_token;  // Save token
     advance();
@@ -107,15 +142,32 @@ std::unique_ptr<ASTNode> Parser::pars_program_header() {
     return header_node;
 }
 
-// Grammar: declaration_part → variable_declaration_part
+// Grammar: declaration_part → const_declaration* type_declaration* variable_declaration* subprogram_declaration*
 std::unique_ptr<DeclarationPartNode> Parser::pars_declaration_part() {
     auto decl_part_node = std::make_unique<DeclarationPartNode>();
     
-    // Check for variabel keyword (Bahasa Indonesia untuk 'var')
+    // Parse constant declarations
+    while (check("KEYWORD") && current_token.value == "konstanta") {
+        auto const_decl = pars_const_declaration();
+        decl_part_node->pars_const_declaration_list.push_back(std::move(const_decl));
+    }
+    
+    // Parse type declarations
+    while (check("KEYWORD") && current_token.value == "tipe") {
+        auto type_decl = pars_type_declaration();
+        decl_part_node->pars_type_declaration_list.push_back(std::move(type_decl));
+    }
+    
+    // Parse variable declarations
     while (check("KEYWORD") && current_token.value == "variabel") {
-        // Don't advance here, let pars_variable_declaration_part handle it
         auto var_decl = pars_variable_declaration_part();
         decl_part_node->pars_variable_declaration_list.push_back(std::move(var_decl));
+    }
+    
+    // Parse subprogram declarations (procedures and functions)
+    while (check("KEYWORD") && (current_token.value == "prosedur" || current_token.value == "fungsi")) {
+        auto subprog_decl = pars_subprogram_declaration();
+        decl_part_node->pars_subprogram_declaration_list.push_back(std::move(subprog_decl));
     }
     
     return decl_part_node;
@@ -127,7 +179,11 @@ std::unique_ptr<VariableDeclarationNode> Parser::pars_variable_declaration_part(
     
     // Save and consume variabel keyword
     if (!check("KEYWORD") || current_token.value != "variabel") {
-        throw SyntaxError("Expected keyword 'variabel'");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected keyword 'variabel' for variable declaration\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     var_decl_node->var_keyword = current_token;
     advance();
@@ -137,7 +193,15 @@ std::unique_ptr<VariableDeclarationNode> Parser::pars_variable_declaration_part(
     
     // Expect colon
     if (!check("COLON")) {
-        throw SyntaxError("Expected ':' after identifier list");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected ':' after variable identifier list\n"
+           << "  Variables: ";
+        for (const auto& id : var_decl_node->pars_identifier_list->pars_identifier_list) {
+            ss << id << " ";
+        }
+        ss << "\n  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     var_decl_node->colon = current_token;
     advance();
@@ -147,12 +211,348 @@ std::unique_ptr<VariableDeclarationNode> Parser::pars_variable_declaration_part(
     
     // Expect semicolon
     if (!check("SEMICOLON")) {
-        throw SyntaxError("Expected ';' after variable declaration");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected ';' after variable type declaration\n"
+           << "  Type: " << var_decl_node->pars_type->pars_type_name << "\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     var_decl_node->semicolon = current_token;
     advance();
     
     return var_decl_node;
+}
+
+// Grammar: const_declaration → KONSTANTA identifier = value ;
+std::unique_ptr<ConstDeclarationNode> Parser::pars_const_declaration() {
+    auto const_decl_node = std::make_unique<ConstDeclarationNode>();
+    
+    // Expect konstanta keyword
+    if (!check("KEYWORD") || current_token.value != "konstanta") {
+        throw SyntaxError("Expected keyword 'konstanta' for constant declaration");
+    }
+    const_decl_node->const_keyword = current_token;
+    advance();
+    
+    // Expect identifier
+    if (!check("IDENTIFIER")) {
+        throw SyntaxError("Expected identifier after 'konstanta'");
+    }
+    const_decl_node->identifier = current_token;
+    advance();
+    
+    // Expect equal sign
+    if (!check("RELATIONAL_OPERATOR") || current_token.value != "=") {
+        throw SyntaxError("Expected '=' after constant identifier");
+    }
+    const_decl_node->equal = current_token;
+    advance();
+    
+    // Expect value (number, string, char, or boolean)
+    if (check("NUMBER") || check("STRING_LITERAL") || check("CHAR_LITERAL") ||
+        (check("KEYWORD") && (current_token.value == "benar" || current_token.value == "salah"))) {
+        const_decl_node->value = current_token;
+        advance();
+    } else {
+        throw SyntaxError("Expected constant value (number, string, char, or boolean)");
+    }
+    
+    // Expect semicolon
+    if (!check("SEMICOLON")) {
+        throw SyntaxError("Expected ';' after constant declaration");
+    }
+    const_decl_node->semicolon = current_token;
+    advance();
+    
+    return const_decl_node;
+}
+
+// Grammar: type_declaration → TIPE identifier = type_definition ;
+std::unique_ptr<TypeDeclarationNode> Parser::pars_type_declaration() {
+    auto type_decl_node = std::make_unique<TypeDeclarationNode>();
+    
+    // Expect tipe keyword
+    if (!check("KEYWORD") || current_token.value != "tipe") {
+        throw SyntaxError("Expected keyword 'tipe' for type declaration");
+    }
+    type_decl_node->type_keyword = current_token;
+    advance();
+    
+    // Expect identifier
+    if (!check("IDENTIFIER")) {
+        throw SyntaxError("Expected identifier after 'tipe'");
+    }
+    type_decl_node->identifier = current_token;
+    advance();
+    
+    // Expect equal sign
+    if (!check("RELATIONAL_OPERATOR") || current_token.value != "=") {
+        throw SyntaxError("Expected '=' after type identifier");
+    }
+    type_decl_node->equal = current_token;
+    advance();
+    
+    // Parse type definition (array type or simple type)
+    if (check("KEYWORD") && current_token.value == "larik") {
+        type_decl_node->pars_type_definition = pars_array_type();
+    } else {
+        type_decl_node->pars_type_definition = pars_type();
+    }
+    
+    // Expect semicolon
+    if (!check("SEMICOLON")) {
+        throw SyntaxError("Expected ';' after type declaration");
+    }
+    type_decl_node->semicolon = current_token;
+    advance();
+    
+    return type_decl_node;
+}
+
+// Grammar: array_type → LARIK [ range ] DARI type
+std::unique_ptr<ASTNode> Parser::pars_array_type() {
+    auto array_node = std::make_unique<ArrayTypeNode>();
+    
+    // Expect larik keyword
+    if (!check("KEYWORD") || current_token.value != "larik") {
+        throw SyntaxError("Expected keyword 'larik' for array type");
+    }
+    array_node->array_keyword = current_token;
+    advance();
+    
+    // Expect left bracket
+    if (!check("LBRACKET")) {
+        throw SyntaxError("Expected '[' after 'larik'");
+    }
+    array_node->lbracket = current_token;
+    advance();
+    
+    // Parse range
+    array_node->pars_range = pars_range();
+    
+    // Expect right bracket
+    if (!check("RBRACKET")) {
+        throw SyntaxError("Expected ']' after array range");
+    }
+    array_node->rbracket = current_token;
+    advance();
+    
+    // Expect 'dari' keyword
+    if (!check("KEYWORD") || current_token.value != "dari") {
+        throw SyntaxError("Expected keyword 'dari' after array range");
+    }
+    array_node->of_keyword = current_token;
+    advance();
+    
+    // Parse element type
+    array_node->pars_type = pars_type();
+    
+    return array_node;
+}
+
+// Grammar: range → expression .. expression
+std::unique_ptr<RangeNode> Parser::pars_range() {
+    auto range_node = std::make_unique<RangeNode>();
+    
+    // Parse start expression
+    range_node->pars_start_expression = pars_simple_expression();
+    
+    // Expect range operator (..)
+    if (!check("RANGE_OPERATOR")) {
+        throw SyntaxError("Expected '..' in range");
+    }
+    range_node->range_operator = current_token;
+    advance();
+    
+    // Parse end expression
+    range_node->pars_end_expression = pars_simple_expression();
+    
+    return range_node;
+}
+
+// Grammar: subprogram_declaration → procedure_declaration | function_declaration
+std::unique_ptr<SubprogramDeclarationNode> Parser::pars_subprogram_declaration() {
+    auto subprog_node = std::make_unique<SubprogramDeclarationNode>();
+    
+    if (check("KEYWORD") && current_token.value == "prosedur") {
+        subprog_node->pars_declaration = pars_procedure_declaration();
+    } else if (check("KEYWORD") && current_token.value == "fungsi") {
+        subprog_node->pars_declaration = pars_function_declaration();
+    } else {
+        throw SyntaxError("Expected 'prosedur' or 'fungsi' keyword");
+    }
+    
+    return subprog_node;
+}
+
+// Grammar: procedure_declaration → PROSEDUR identifier [ formal_parameter_list ] ; block ;
+std::unique_ptr<ASTNode> Parser::pars_procedure_declaration() {
+    auto proc_node = std::make_unique<ProcedureDeclarationNode>();
+    
+    // Expect prosedur keyword
+    if (!check("KEYWORD") || current_token.value != "prosedur") {
+        throw SyntaxError("Expected keyword 'prosedur'");
+    }
+    proc_node->procedure_keyword = current_token;
+    advance();
+    
+    // Expect identifier
+    if (!check("IDENTIFIER")) {
+        throw SyntaxError("Expected identifier after 'prosedur'");
+    }
+    proc_node->identifier = current_token;
+    advance();
+    
+    // Optional formal parameter list
+    if (check("LPARENTHESIS")) {
+        proc_node->pars_formal_parameter_list = pars_formal_parameter_list();
+    }
+    
+    // Expect semicolon
+    if (!check("SEMICOLON")) {
+        throw SyntaxError("Expected ';' after procedure header");
+    }
+    proc_node->semicolon1 = current_token;
+    advance();
+    
+    // Parse block (declarations + compound statement)
+    proc_node->pars_block = pars_procedure_block();
+    
+    // Expect semicolon
+    if (!check("SEMICOLON")) {
+        throw SyntaxError("Expected ';' after procedure block");
+    }
+    proc_node->semicolon2 = current_token;
+    advance();
+    
+    return proc_node;
+}
+
+// Grammar: function_declaration → FUNGSI identifier [ formal_parameter_list ] : type ; block ;
+std::unique_ptr<ASTNode> Parser::pars_function_declaration() {
+    auto func_node = std::make_unique<FunctionDeclarationNode>();
+    
+    // Expect fungsi keyword
+    if (!check("KEYWORD") || current_token.value != "fungsi") {
+        throw SyntaxError("Expected keyword 'fungsi'");
+    }
+    func_node->function_keyword = current_token;
+    advance();
+    
+    // Expect identifier
+    if (!check("IDENTIFIER")) {
+        throw SyntaxError("Expected identifier after 'fungsi'");
+    }
+    func_node->identifier = current_token;
+    advance();
+    
+    // Optional formal parameter list
+    if (check("LPARENTHESIS")) {
+        func_node->pars_formal_parameter_list = pars_formal_parameter_list();
+    }
+    
+    // Expect colon
+    if (!check("COLON")) {
+        throw SyntaxError("Expected ':' after function header");
+    }
+    func_node->colon = current_token;
+    advance();
+    
+    // Parse return type
+    func_node->pars_return_type = pars_type();
+    
+    // Expect semicolon
+    if (!check("SEMICOLON")) {
+        throw SyntaxError("Expected ';' after function header");
+    }
+    func_node->semicolon1 = current_token;
+    advance();
+    
+    // Parse block (declarations + compound statement)
+    func_node->pars_block = pars_procedure_block();
+    
+    // Expect semicolon
+    if (!check("SEMICOLON")) {
+        throw SyntaxError("Expected ';' after function block");
+    }
+    func_node->semicolon2 = current_token;
+    advance();
+    
+    return func_node;
+}
+
+// Grammar: formal_parameter_list → ( parameter_group { ; parameter_group } )
+std::unique_ptr<FormalParameterListNode> Parser::pars_formal_parameter_list() {
+    auto param_list_node = std::make_unique<FormalParameterListNode>();
+    
+    // Expect left parenthesis
+    if (!check("LPARENTHESIS")) {
+        throw SyntaxError("Expected '(' for parameter list");
+    }
+    param_list_node->lparen = current_token;
+    advance();
+    
+    // Empty parameter list
+    if (check("RPARENTHESIS")) {
+        param_list_node->rparen = current_token;
+        advance();
+        return param_list_node;
+    }
+    
+    // Parse first parameter group
+    param_list_node->pars_parameter_groups.push_back(pars_parameter_group());
+    
+    // Parse additional parameter groups separated by semicolons
+    while (check("SEMICOLON")) {
+        param_list_node->semicolon_tokens.push_back(current_token);
+        advance();
+        param_list_node->pars_parameter_groups.push_back(pars_parameter_group());
+    }
+    
+    // Expect right parenthesis
+    if (!check("RPARENTHESIS")) {
+        throw SyntaxError("Expected ')' after parameter list");
+    }
+    param_list_node->rparen = current_token;
+    advance();
+    
+    return param_list_node;
+}
+
+// Grammar: parameter_group → identifier_list : type
+std::unique_ptr<ParameterGroupNode> Parser::pars_parameter_group() {
+    auto param_group_node = std::make_unique<ParameterGroupNode>();
+    
+    // Parse identifier list
+    param_group_node->pars_identifier_list = pars_identifier_list();
+    
+    // Expect colon
+    if (!check("COLON")) {
+        throw SyntaxError("Expected ':' after parameter identifiers");
+    }
+    param_group_node->colon = current_token;
+    advance();
+    
+    // Parse type
+    param_group_node->pars_type = pars_type();
+    
+    return param_group_node;
+}
+
+// Parse block (used in procedures and functions)
+std::unique_ptr<ASTNode> Parser::pars_procedure_block() {
+    // A block is: declaration_part + compound_statement
+    // For simplicity, we create a ProgramNode-like structure
+    auto block_node = std::make_unique<ProgramNode>();
+    
+    // Parse declarations if any
+    block_node->pars_declaration_part = pars_declaration_part();
+    
+    // Parse compound statement
+    block_node->pars_compound_statement = pars_compound_statement();
+    
+    return block_node;
 }
 
 // Grammar: identifier_list → IDENTIFIER | IDENTIFIER , identifier_list
@@ -216,7 +616,12 @@ std::unique_ptr<CompoundStatementNode> Parser::pars_compound_statement() {
         compound_node->mulai_keyword = current_token;  // Save token
         advance();
     } else {
-        throw SyntaxError("Expected keyword 'mulai'");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected keyword 'mulai' to begin compound statement\n"
+           << "  Note: All executable code must be inside 'mulai...selesai' block\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     
     // Parse statement list
@@ -228,7 +633,12 @@ std::unique_ptr<CompoundStatementNode> Parser::pars_compound_statement() {
         compound_node->selesai_keyword = current_token;  // Save token
         advance();
     } else {
-        throw SyntaxError("Expected keyword 'selesai'");
+        std::stringstream ss;
+        ss << "Error at line " << current_token.line << ", column " << current_token.column 
+           << ": Expected keyword 'selesai' to end compound statement\n"
+           << "  Note: Every 'mulai' must have a matching 'selesai'\n"
+           << "  Got: " << current_token.type << "(" << current_token.value << ")";
+        throw SyntaxError(ss.str());
     }
     
     return compound_node;
@@ -318,7 +728,10 @@ std::unique_ptr<ASTNode> Parser::pars_statement() {
     std::stringstream ss;
     ss << "Syntax error at line " << current_token.line 
        << ", column " << current_token.column 
-       << ": unexpected token " << current_token.type << "(" << current_token.value << ")";
+       << ": Unexpected token in statement\n"
+       << "  Got: " << current_token.type << "(" << current_token.value << ")\n"
+       << "  Expected one of: assignment, procedure call, if, while, for, or compound statement\n"
+       << "  Valid statement starters: identifier, jika, selama, untuk, mulai, writeln, write";
     throw SyntaxError(ss.str());
 }
 

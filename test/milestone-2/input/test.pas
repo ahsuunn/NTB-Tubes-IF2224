@@ -1,7 +1,7 @@
 program test;
 
 variabel
-    x, y: integer;
-    
+  x, y: integer;
+
 mulai
 selesai.
