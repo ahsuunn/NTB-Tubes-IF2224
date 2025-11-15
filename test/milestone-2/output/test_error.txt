@@ -1,0 +1,5 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 19
+
+PARSER ERROR: Error at line 6, column 1: Expected ';' after variable type declaration
+  Got: KEYWORD(mulai)

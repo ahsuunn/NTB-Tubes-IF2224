@@ -1,0 +1,27 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 13
+
+=== PARSING SUCCESSFUL ===
+Program name: test
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(test)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(x)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(y)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   └── KEYWORD(selesai)
+└── DOT(.)

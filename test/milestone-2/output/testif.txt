@@ -1,0 +1,62 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 28
+
+=== PARSING SUCCESSFUL ===
+Program name: TestIf
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(TestIf)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(x)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <if-statement>
+│   │   │   ├── KEYWORD(jika)
+│   │   │   ├── <expression>
+│   │   │   │   ├── <simple-expression>
+│   │   │   │   │   └── <term>
+│   │   │   │   │       └── <factor>
+│   │   │   │   │           └── IDENTIFIER(x)
+│   │   │   │   ├── <relational-operator>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(5)
+│   │   │   ├── KEYWORD(maka)
+│   │   │   ├── <assignment-statement>
+│   │   │   │   ├── IDENTIFIER(x)
+│   │   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── NUMBER(10)
+│   │   │   ├── KEYWORD(selain-itu)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(x)
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           └── <term>
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── NUMBER(0)
+│   │   │       │   └── SEMICOLON(;)
+│   │   │       └── KEYWORD(selesai)
+│   │   └── SEMICOLON(;)
+│   └── KEYWORD(selesai)
+└── DOT(.)
