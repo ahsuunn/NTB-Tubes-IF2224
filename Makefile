@@ -23,7 +23,7 @@ build:
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
 
 run:
-	$(PASLEX) $(TEST_DIR)/milestone-2/input/program.pas
+	$(PASLEX) $(TEST_DIR)/milestone-2/input/testwhile.pas
 
 all:clean build run
 clean:

@@ -2,7 +2,6 @@ program TestControlStructures;
 
 variabel
   i, n, hasil: integer;
-variabel
   kondisi: boolean;
 
 mulai

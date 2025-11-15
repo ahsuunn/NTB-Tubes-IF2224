@@ -2,7 +2,6 @@ program TestProceduresAndFunctions;
 
 variabel
   x, y, hasil: integer;
-variabel
   nama: char;
 
 prosedur PrintHello(msg: char);

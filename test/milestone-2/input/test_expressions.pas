@@ -2,9 +2,7 @@ program TestExpressions;
 
 variabel
   a, b, c: integer;
-variabel
   hasil: integer;
-variabel
   benar: boolean;
 
 mulai

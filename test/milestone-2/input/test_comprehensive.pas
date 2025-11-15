@@ -2,19 +2,15 @@ program TestComprehensive;
 
 konstanta
   MAX_SIZE = 100;
-konstanta
   VERSION = 2;
 
 tipe
   IndexRange = 1..10;
-tipe
   DataArray = larik[1..10] dari integer;
 
 variabel
   arr: DataArray;
-variabel
   i, sum, avg: integer;
-variabel 
   found: boolean;
 
 fungsi FindMax(data: DataArray; size: integer): integer;
