@@ -83,7 +83,6 @@ public:
     Token var_keyword;  // KEYWORD(variabel)
     std::unique_ptr<class IdentifierListNode> pars_identifier_list;
     Token colon;        // COLON(:)
-    // FIX: Mengganti TypeNode ke ASTNode untuk mendukung tipe array anonim
     std::unique_ptr<ASTNode> pars_type; 
     Token semicolon;    // SEMICOLON(;)
     

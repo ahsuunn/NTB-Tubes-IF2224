@@ -17,7 +17,7 @@ static std::string resolve_from_here(const std::string& p) {
     if (fs::exists(alt)) 
         return fs::weakly_canonical(alt).string();
 
-    return p; // let open() fail later with clear error
+    return p; 
 }
 
 // helper print terminal token
@@ -76,8 +76,6 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         
         // print type
         if (var_decl->pars_type) {
-            // FIX: Panggil print_parse_tree secara rekursif.
-            // Handler untuk TypeNode, ArrayTypeNode, dan RangeNode ada di bawah.
             print_parse_tree(var_decl->pars_type.get(), new_prefix, false, false);
         }
         
@@ -85,14 +83,11 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         return;
     }
 
-    // FIX: Menambahkan handler untuk TypeNode (tipe sederhana)
     if (auto* type_node = dynamic_cast<const TypeNode*>(node)) {
-        // TypeNode tidak memiliki children, jadi kita print token-nya di sini
         print_token(type_node->type_keyword.type, type_node->type_keyword.value, new_prefix, true);
         return;
     }
 
-    // FIX: Menambahkan handler untuk ArrayTypeNode
     if (auto* array_node = dynamic_cast<const ArrayTypeNode*>(node)) {
         print_token(array_node->array_keyword.type, array_node->array_keyword.value, new_prefix, false);
         print_token(array_node->lbracket.type, array_node->lbracket.value, new_prefix, false);
@@ -107,7 +102,6 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
         return;
     }
     
-    // FIX: Menambahkan handler untuk RangeNode
     if (auto* range_node = dynamic_cast<const RangeNode*>(node)) {
         if (range_node->pars_start_expression) {
             print_parse_tree(range_node->pars_start_expression.get(), new_prefix, false, false);
@@ -128,13 +122,11 @@ void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool 
             
             for (size_t i = 0; i < compound->pars_statement_list.size(); i++) {
                 auto* stmt = compound->pars_statement_list[i].get();
-                
-                // Skip TokenNode with SEMICOLON - they're just separators
                 if (auto* token_node = dynamic_cast<const TokenNode*>(stmt)) {
                     if (token_node->token.type == "SEMICOLON") {
                         std::cout << stmt_list_prefix << (i == compound->pars_statement_list.size() - 1 ? "└── " : "├── ");
                         std::cout << "SEMICOLON(;)" << "\n";
-                        continue; // Skip recursive print_parse_tree call
+                        continue; 
                     }
                 }
                 
@@ -379,7 +371,6 @@ int main(int argc, char** argv) {
         tokens = lex.tokenize();
         
         if (tokens_only) {
-            // Only print tokens
             std::cout << "=== TOKENS ===\n";
             for (const auto& t : tokens) {
                 std::cout << t.toString() << "\n";
@@ -396,7 +387,6 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    // Syntax Analysis (Parsing)
     try {
         Parser parser(tokens);
         auto ast = parser.pars_program();
