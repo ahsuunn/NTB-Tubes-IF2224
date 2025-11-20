@@ -7,7 +7,7 @@ const std::unordered_set<std::string> KEYWORDS = {
     "untuk", "ke", "turun-ke", "ulangi", "sampai", "kasus", "dari",
     "larik", "rekaman",
     "integer", "real", "boolean", "char", "string",
-    "true", "false", "writeln", "write", "readln", "read"
+    "true", "false"
 };
 
 const std::unordered_set<std::string> LOGICAL_WORDS = {
