@@ -1,8 +1,8 @@
-#include "ast_nodes.hpp"
+#include "parse_tree_nodes.hpp"
 
 // ProgramNode getChildren implementation
-std::vector<ASTNode*> ProgramNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ProgramNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     
     if (pars_program_header) {
         children.push_back(pars_program_header.get());
@@ -18,8 +18,8 @@ std::vector<ASTNode*> ProgramNode::getChildren() const {
 }
 
 // DeclarationPartNode getChildren implementation
-std::vector<ASTNode*> DeclarationPartNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> DeclarationPartNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     
     for (const auto& const_decl : pars_const_declaration_list) {
         if (const_decl) {
@@ -49,8 +49,8 @@ std::vector<ASTNode*> DeclarationPartNode::getChildren() const {
 }
 
 // VariableDeclarationNode getChildren implementation
-std::vector<ASTNode*> VariableDeclarationNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> VariableDeclarationNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     
     if (pars_identifier_list) {
         children.push_back(pars_identifier_list.get());
@@ -63,20 +63,20 @@ std::vector<ASTNode*> VariableDeclarationNode::getChildren() const {
 }
 
 // IdentifierListNode getChildren implementation
-std::vector<ASTNode*> IdentifierListNode::getChildren() const {
+std::vector<ParseTreeNode*> IdentifierListNode::getChildren() const {
     // Return empty - identifiers will be shown in toString()
     return {};
 }
 
 // TypeNode getChildren implementation
-std::vector<ASTNode*> TypeNode::getChildren() const {
+std::vector<ParseTreeNode*> TypeNode::getChildren() const {
     // Return empty - type name will be shown in toString()
     return {};
 }
 
 // CompoundStatementNode getChildren implementation
-std::vector<ASTNode*> CompoundStatementNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> CompoundStatementNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     
     for (const auto& stmt : pars_statement_list) {
         if (stmt) {
@@ -88,8 +88,8 @@ std::vector<ASTNode*> CompoundStatementNode::getChildren() const {
 }
 
 // StatementListNode getChildren implementation
-std::vector<ASTNode*> StatementListNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> StatementListNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     
     for (const auto& stmt : pars_statements) {
         if (stmt) {
@@ -100,16 +100,16 @@ std::vector<ASTNode*> StatementListNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> AssignmentStatementNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> AssignmentStatementNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_expression) {
         children.push_back(pars_expression.get());
     }
     return children;
 }
 
-std::vector<ASTNode*> IfStatementNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> IfStatementNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_condition) {
         children.push_back(pars_condition.get());
     }
@@ -122,8 +122,8 @@ std::vector<ASTNode*> IfStatementNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> WhileStatementNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> WhileStatementNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_condition) {
         children.push_back(pars_condition.get());
     }
@@ -133,8 +133,8 @@ std::vector<ASTNode*> WhileStatementNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> ForStatementNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ForStatementNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_initial_value) {
         children.push_back(pars_initial_value.get());
     }
@@ -147,16 +147,16 @@ std::vector<ASTNode*> ForStatementNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> ProcedureFunctionCallNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ProcedureFunctionCallNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_parameter_list) {
         children.push_back(pars_parameter_list.get());
     }
     return children;
 }
 
-std::vector<ASTNode*> ParameterListNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ParameterListNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     for (const auto& param : pars_parameters) {
         if (param) {
             children.push_back(param.get());
@@ -165,8 +165,8 @@ std::vector<ASTNode*> ParameterListNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> ExpressionNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ExpressionNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_left) {
         children.push_back(pars_left.get());
     }
@@ -179,8 +179,8 @@ std::vector<ASTNode*> ExpressionNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> SimpleExpressionNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> SimpleExpressionNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     for (size_t i = 0; i < pars_terms.size(); i++) {
         if (pars_terms[i]) {
             children.push_back(pars_terms[i].get());
@@ -192,8 +192,8 @@ std::vector<ASTNode*> SimpleExpressionNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> TermNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> TermNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     for (size_t i = 0; i < pars_factors.size(); i++) {
         if (pars_factors[i]) {
             children.push_back(pars_factors[i].get());
@@ -205,8 +205,8 @@ std::vector<ASTNode*> TermNode::getChildren() const {
     return children;
 }
 
-std::vector<ASTNode*> FactorNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> FactorNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_expression) {
         children.push_back(pars_expression.get());
     }
@@ -217,8 +217,8 @@ std::vector<ASTNode*> FactorNode::getChildren() const {
 }
 
 // TypeDeclarationNode getChildren implementation
-std::vector<ASTNode*> TypeDeclarationNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> TypeDeclarationNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_type_definition) {
         children.push_back(pars_type_definition.get());
     }
@@ -226,8 +226,8 @@ std::vector<ASTNode*> TypeDeclarationNode::getChildren() const {
 }
 
 // ArrayTypeNode getChildren implementation
-std::vector<ASTNode*> ArrayTypeNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ArrayTypeNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_range) {
         children.push_back(pars_range.get());
     }
@@ -238,8 +238,8 @@ std::vector<ASTNode*> ArrayTypeNode::getChildren() const {
 }
 
 // RangeNode getChildren implementation
-std::vector<ASTNode*> RangeNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> RangeNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_start_expression) {
         children.push_back(pars_start_expression.get());
     }
@@ -250,8 +250,8 @@ std::vector<ASTNode*> RangeNode::getChildren() const {
 }
 
 // SubprogramDeclarationNode getChildren implementation
-std::vector<ASTNode*> SubprogramDeclarationNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> SubprogramDeclarationNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_declaration) {
         children.push_back(pars_declaration.get());
     }
@@ -259,8 +259,8 @@ std::vector<ASTNode*> SubprogramDeclarationNode::getChildren() const {
 }
 
 // ProcedureDeclarationNode getChildren implementation
-std::vector<ASTNode*> ProcedureDeclarationNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ProcedureDeclarationNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_formal_parameter_list) {
         children.push_back(pars_formal_parameter_list.get());
     }
@@ -271,8 +271,8 @@ std::vector<ASTNode*> ProcedureDeclarationNode::getChildren() const {
 }
 
 // FunctionDeclarationNode getChildren implementation
-std::vector<ASTNode*> FunctionDeclarationNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> FunctionDeclarationNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_formal_parameter_list) {
         children.push_back(pars_formal_parameter_list.get());
     }
@@ -286,8 +286,8 @@ std::vector<ASTNode*> FunctionDeclarationNode::getChildren() const {
 }
 
 // FormalParameterListNode getChildren implementation
-std::vector<ASTNode*> FormalParameterListNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> FormalParameterListNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     for (const auto& param_group : pars_parameter_groups) {
         if (param_group) {
             children.push_back(param_group.get());
@@ -297,8 +297,8 @@ std::vector<ASTNode*> FormalParameterListNode::getChildren() const {
 }
 
 // ParameterGroupNode getChildren implementation
-std::vector<ASTNode*> ParameterGroupNode::getChildren() const {
-    std::vector<ASTNode*> children;
+std::vector<ParseTreeNode*> ParameterGroupNode::getChildren() const {
+    std::vector<ParseTreeNode*> children;
     if (pars_identifier_list) {
         children.push_back(pars_identifier_list.get());
     }

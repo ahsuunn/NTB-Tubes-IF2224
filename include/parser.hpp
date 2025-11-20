@@ -2,7 +2,7 @@
 #define PARSER_HPP
 
 #include "token.hpp"
-#include "ast_nodes.hpp"
+#include "parse_tree_nodes.hpp"
 #include "lexer.hpp"
 #include <vector>
 #include <memory>
@@ -36,36 +36,36 @@ public:
     std::unique_ptr<ProgramNode> pars_program();
     
     // Grammar rules
-    std::unique_ptr<ASTNode> pars_program_header();
+    std::unique_ptr<ParseTreeNode> pars_program_header();
     std::unique_ptr<DeclarationPartNode> pars_declaration_part();
     std::unique_ptr<ConstDeclarationNode> pars_const_declaration();
     std::unique_ptr<TypeDeclarationNode> pars_type_declaration();
     std::unique_ptr<VariableDeclarationNode> pars_variable_declaration_part();
     std::unique_ptr<SubprogramDeclarationNode> pars_subprogram_declaration();
-    std::unique_ptr<ASTNode> pars_array_type();
+    std::unique_ptr<ParseTreeNode> pars_array_type();
     std::unique_ptr<RangeNode> pars_range();
-    std::unique_ptr<ASTNode> pars_procedure_declaration();
-    std::unique_ptr<ASTNode> pars_function_declaration();
+    std::unique_ptr<ParseTreeNode> pars_procedure_declaration();
+    std::unique_ptr<ParseTreeNode> pars_function_declaration();
     std::unique_ptr<FormalParameterListNode> pars_formal_parameter_list();
     std::unique_ptr<ParameterGroupNode> pars_parameter_group();
-    std::unique_ptr<ASTNode> pars_procedure_block();
+    std::unique_ptr<ParseTreeNode> pars_procedure_block();
     std::unique_ptr<IdentifierListNode> pars_identifier_list();
-    std::unique_ptr<ASTNode> pars_type();
+    std::unique_ptr<ParseTreeNode> pars_type();
     std::unique_ptr<CompoundStatementNode> pars_compound_statement();
     std::unique_ptr<StatementListNode> pars_statement_list();
-    std::unique_ptr<ASTNode> pars_statement();
+    std::unique_ptr<ParseTreeNode> pars_statement();
     
-    std::unique_ptr<ASTNode> pars_assignment_statement();
-    std::unique_ptr<ASTNode> pars_procedure_call();
-    std::unique_ptr<ASTNode> pars_if_statement();
-    std::unique_ptr<ASTNode> pars_while_statement();
-    std::unique_ptr<ASTNode> pars_for_statement();
+    std::unique_ptr<ParseTreeNode> pars_assignment_statement();
+    std::unique_ptr<ParseTreeNode> pars_procedure_call();
+    std::unique_ptr<ParseTreeNode> pars_if_statement();
+    std::unique_ptr<ParseTreeNode> pars_while_statement();
+    std::unique_ptr<ParseTreeNode> pars_for_statement();
     
-    std::unique_ptr<ASTNode> pars_expression();
-    std::unique_ptr<ASTNode> pars_simple_expression();
-    std::unique_ptr<ASTNode> pars_term();
-    std::unique_ptr<ASTNode> pars_factor();
-    std::unique_ptr<ASTNode> pars_parameter_list();
+    std::unique_ptr<ParseTreeNode> pars_expression();
+    std::unique_ptr<ParseTreeNode> pars_simple_expression();
+    std::unique_ptr<ParseTreeNode> pars_term();
+    std::unique_ptr<ParseTreeNode> pars_factor();
+    std::unique_ptr<ParseTreeNode> pars_parameter_list();
 };
 
 #endif // PARSER_HPP

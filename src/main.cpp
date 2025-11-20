@@ -28,7 +28,7 @@ void print_token(const std::string& type, const std::string& value, const std::s
 }
 
 // helper print parse tree
-void print_parse_tree(const ASTNode* node, const std::string& prefix = "", bool is_last = true, bool is_root = true) {
+void print_parse_tree(const ParseTreeNode* node, const std::string& prefix = "", bool is_last = true, bool is_root = true) {
     if (!node) return;
     
     if (is_root) {
@@ -389,13 +389,13 @@ int main(int argc, char** argv) {
 
     try {
         Parser parser(tokens);
-        auto ast = parser.pars_program();
+        auto parsetree = parser.pars_program();
         
         std::cout << "=== PARSING SUCCESSFUL ===\n";
-        std::cout << "Program name: " << ast->pars_program_name << "\n\n";
+        std::cout << "Program name: " << parsetree->pars_program_name << "\n\n";
         
         std::cout << "=== PARSE TREE ===\n";
-        print_parse_tree(ast.get());
+        print_parse_tree(parsetree.get());
         
     } catch (const std::exception& e) {
         std::cerr << "PARSER ERROR: " << e.what() << "\n";

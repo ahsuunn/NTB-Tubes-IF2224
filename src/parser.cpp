@@ -95,7 +95,7 @@ std::unique_ptr<ProgramNode> Parser::pars_program() {
     return prog_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_program_header() {
+std::unique_ptr<ParseTreeNode> Parser::pars_program_header() {
     auto header_node = std::make_unique<ProgramHeaderNode>();
     
     if (!check("KEYWORD") || current_token.value != "program") {
@@ -280,7 +280,7 @@ std::unique_ptr<TypeDeclarationNode> Parser::pars_type_declaration() {
     return type_decl_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_array_type() {
+std::unique_ptr<ParseTreeNode> Parser::pars_array_type() {
     auto array_node = std::make_unique<ArrayTypeNode>();
     
     if (!check("KEYWORD") || current_token.value != "larik") {
@@ -344,7 +344,7 @@ std::unique_ptr<SubprogramDeclarationNode> Parser::pars_subprogram_declaration()
     return subprog_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_procedure_declaration() {
+std::unique_ptr<ParseTreeNode> Parser::pars_procedure_declaration() {
     auto proc_node = std::make_unique<ProcedureDeclarationNode>();
     
     if (!check("KEYWORD") || current_token.value != "prosedur") {
@@ -380,7 +380,7 @@ std::unique_ptr<ASTNode> Parser::pars_procedure_declaration() {
     return proc_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_function_declaration() {
+std::unique_ptr<ParseTreeNode> Parser::pars_function_declaration() {
     auto func_node = std::make_unique<FunctionDeclarationNode>();
     
     if (!check("KEYWORD") || current_token.value != "fungsi") {
@@ -472,7 +472,7 @@ std::unique_ptr<ParameterGroupNode> Parser::pars_parameter_group() {
     return param_group_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_procedure_block() {
+std::unique_ptr<ParseTreeNode> Parser::pars_procedure_block() {
     auto block_node = std::make_unique<ProgramNode>();
     
     block_node->pars_declaration_part = pars_declaration_part();
@@ -509,7 +509,7 @@ std::unique_ptr<IdentifierListNode> Parser::pars_identifier_list() {
     return id_list_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_type() {
+std::unique_ptr<ParseTreeNode> Parser::pars_type() {
     
     if (check("KEYWORD") && current_token.value == "larik") {
         return pars_array_type();
@@ -598,10 +598,10 @@ std::unique_ptr<StatementListNode> Parser::pars_statement_list() {
     return stmt_list_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_statement() {
+std::unique_ptr<ParseTreeNode> Parser::pars_statement() {
     if (check("SEMICOLON") || 
         (check("KEYWORD") && current_token.value == "selesai")) {
-        return std::make_unique<ASTNode>();
+        return std::make_unique<ParseTreeNode>();
     }
     
     if (check("KEYWORD") && current_token.value == "mulai") {
@@ -649,7 +649,7 @@ std::unique_ptr<ASTNode> Parser::pars_statement() {
     throw SyntaxError(ss.str());
 }
 
-std::unique_ptr<ASTNode> Parser::pars_assignment_statement() {
+std::unique_ptr<ParseTreeNode> Parser::pars_assignment_statement() {
     auto assign_node = std::make_unique<AssignmentStatementNode>();
     
     if (!check("IDENTIFIER")) {
@@ -669,7 +669,7 @@ std::unique_ptr<ASTNode> Parser::pars_assignment_statement() {
     return assign_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_procedure_call() {
+std::unique_ptr<ParseTreeNode> Parser::pars_procedure_call() {
     auto proc_call_node = std::make_unique<ProcedureFunctionCallNode>();
     
     if (check("IDENTIFIER") || check("KEYWORD")) {
@@ -697,7 +697,7 @@ std::unique_ptr<ASTNode> Parser::pars_procedure_call() {
     return proc_call_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_if_statement() {
+std::unique_ptr<ParseTreeNode> Parser::pars_if_statement() {
     auto if_node = std::make_unique<IfStatementNode>();
     
     if (!check("KEYWORD") || current_token.value != "jika") {
@@ -732,7 +732,7 @@ std::unique_ptr<ASTNode> Parser::pars_if_statement() {
     return if_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_while_statement() {
+std::unique_ptr<ParseTreeNode> Parser::pars_while_statement() {
     auto while_node = std::make_unique<WhileStatementNode>();
     
     if (!check("KEYWORD") || current_token.value != "selama") {
@@ -754,7 +754,7 @@ std::unique_ptr<ASTNode> Parser::pars_while_statement() {
     return while_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_for_statement() {
+std::unique_ptr<ParseTreeNode> Parser::pars_for_statement() {
     auto for_node = std::make_unique<ForStatementNode>();
     
     if (!check("KEYWORD") || current_token.value != "untuk") {
@@ -796,7 +796,7 @@ std::unique_ptr<ASTNode> Parser::pars_for_statement() {
     return for_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_expression() {
+std::unique_ptr<ParseTreeNode> Parser::pars_expression() {
     auto expr_node = std::make_unique<ExpressionNode>();
     
     expr_node->pars_left = pars_simple_expression();
@@ -816,7 +816,7 @@ std::unique_ptr<ASTNode> Parser::pars_expression() {
     return expr_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_simple_expression() {
+std::unique_ptr<ParseTreeNode> Parser::pars_simple_expression() {
     auto simple_expr_node = std::make_unique<SimpleExpressionNode>();
     
     if (check("ARITHMETIC_OPERATOR") && (current_token.value == "+" || current_token.value == "-")) {
@@ -842,7 +842,7 @@ std::unique_ptr<ASTNode> Parser::pars_simple_expression() {
     return simple_expr_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_term() {
+std::unique_ptr<ParseTreeNode> Parser::pars_term() {
     auto term_node = std::make_unique<TermNode>();
     
     term_node->pars_factors.push_back(pars_factor());
@@ -864,7 +864,7 @@ std::unique_ptr<ASTNode> Parser::pars_term() {
     return term_node;
 }
 
-std::unique_ptr<ASTNode> Parser::pars_factor() {
+std::unique_ptr<ParseTreeNode> Parser::pars_factor() {
     auto factor_node = std::make_unique<FactorNode>();
     
     if (check("LOGICAL_OPERATOR") && current_token.value == "tidak") {
@@ -940,7 +940,7 @@ std::unique_ptr<ASTNode> Parser::pars_factor() {
     throw SyntaxError(ss.str());
 }
 
-std::unique_ptr<ASTNode> Parser::pars_parameter_list() {
+std::unique_ptr<ParseTreeNode> Parser::pars_parameter_list() {
     auto param_list_node = std::make_unique<ParameterListNode>();
     
     param_list_node->pars_parameters.push_back(pars_expression());
