@@ -13,7 +13,7 @@ INCLUDE_DIR = include
 PASLEX = ./paslex
 
 # Find all .cpp files recursively in src/
-SRCS := $(shell find $(SRC_DIR) -name '*.cpp')
+SRCS := $(shell find $(SRC_DIR) -name '*.cpp' ! -name 'test_*.cpp')
 HEADERS := $(shell find $(INCLUDE_DIR) -name '*.hpp')
 
 # make run rebuilds if source files changed

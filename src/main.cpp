@@ -1,6 +1,8 @@
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "dfa_loader.hpp"
+#include "ast_builder.hpp"
+#include "ast_printer.hpp"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -316,16 +318,18 @@ void print_parse_tree(const ParseTreeNode* node, const std::string& prefix = "",
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <source.pas> [--dfa path/to/dfa.json|dfa.txt] [--tokens-only]\n";
+        std::cerr << "Usage: " << argv[0] << " <source.pas> [--dfa path/to/dfa.json|dfa.txt] [--tokens-only] [--ast]\n";
         std::cerr << "\nOptions:\n";
         std::cerr << "  --dfa <path>      Specify DFA file (default: dfa/dfa.json)\n";
         std::cerr << "  --tokens-only     Only output tokens, skip parsing\n";
+        std::cerr << "  --ast             Build and print Abstract Syntax Tree\n";
         return 1;
     }
 
     std::string source = argv[1];
     std::string dfa_path = "dfa/dfa.json";
     bool tokens_only = false;
+    bool build_ast = false; 
 
     for (int i = 2; i < argc; i++) {
         std::string a = argv[i];
@@ -333,6 +337,8 @@ int main(int argc, char** argv) {
             dfa_path = argv[++i];
         } else if (a == "--tokens-only") {
             tokens_only = true;
+        } else if (a == "--ast") {
+            build_ast = true; 
         }
     }
 
@@ -396,6 +402,25 @@ int main(int argc, char** argv) {
         
         std::cout << "=== PARSE TREE ===\n";
         print_parse_tree(parsetree.get());
+        
+        // build AST dari parse tree
+        if (build_ast) {
+            std::cout << "\n=== BUILDING AST ===\n";
+            try {
+                ASTBuilder builder;
+                auto ast = builder.buildAST(parsetree.get());
+                
+                std::cout << "=== AST BUILT SUCCESSFULLY ===\n\n";
+                std::cout << "=== ABSTRACT SYNTAX TREE ===\n";
+                
+                ASTPrinter printer;
+                ast->accept(&printer);
+                
+            } catch (const std::exception& e) {
+                std::cerr << "AST BUILD ERROR: " << e.what() << "\n";
+                return 1;
+            }
+        }
         
     } catch (const std::exception& e) {
         std::cerr << "PARSER ERROR: " << e.what() << "\n";

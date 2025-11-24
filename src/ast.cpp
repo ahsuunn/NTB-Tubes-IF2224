@@ -1,8 +1,6 @@
 #include "ast.hpp"
 #include "ast_visitor.hpp"
 
-// implementasi accept() untuk setiap node - dispatch ke visitor yang sesuai
-
 void ASTProgramNode::accept(ASTVisitor* visitor) {
     visitor->visitProgram(this);
 }

@@ -6,7 +6,6 @@
 #include <memory>
 #include "token.hpp"
 
-// base class untuk semua node AST
 class ASTNode {
 public:
     virtual ~ASTNode() = default;
@@ -14,7 +13,6 @@ public:
     virtual void accept(class ASTVisitor* visitor) = 0;
 };
 
-// program node - root dari AST
 class ASTProgramNode : public ASTNode {
 public:
     std::string program_name;
@@ -25,7 +23,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// declaration list - kumpulan deklarasi
 class ASTDeclarationListNode : public ASTNode {
 public:
     std::vector<std::unique_ptr<ASTNode>> declarations;
@@ -34,7 +31,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// variable declaration - deklarasi variabel
 class ASTVarDeclNode : public ASTNode {
 public:
     std::vector<std::string> identifiers;
@@ -44,13 +40,11 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// base class untuk semua statement
 class ASTStatementNode : public ASTNode {
 public:
     virtual ~ASTStatementNode() = default;
 };
 
-// compound statement - blok mulai...selesai
 class ASTCompoundStmtNode : public ASTStatementNode {
 public:
     std::vector<std::unique_ptr<ASTStatementNode>> statements;
@@ -59,7 +53,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// assignment statement - x := expr
 class ASTAssignmentNode : public ASTStatementNode {
 public:
     std::string variable_name;
@@ -69,7 +62,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// if statement - jika...maka...(selain-itu)?
 class ASTIfNode : public ASTStatementNode {
 public:
     std::unique_ptr<class ASTExpressionNode> condition;
@@ -80,7 +72,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// while statement - selama...lakukan
 class ASTWhileNode : public ASTStatementNode {
 public:
     std::unique_ptr<class ASTExpressionNode> condition;
@@ -90,7 +81,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// for statement - untuk...ke/turun-ke...lakukan
 class ASTForNode : public ASTStatementNode {
 public:
     std::string control_var;
@@ -103,7 +93,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// procedure call - writeln(x)
 class ASTProcedureCallNode : public ASTStatementNode {
 public:
     std::string procedure_name;
@@ -113,13 +102,11 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// base class untuk semua expression
 class ASTExpressionNode : public ASTNode {
 public:
     virtual ~ASTExpressionNode() = default;
 };
 
-// binary operation - left op right
 class ASTBinaryOpNode : public ASTExpressionNode {
 public:
     std::string op;
@@ -130,7 +117,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// unary operation - op expr
 class ASTUnaryOpNode : public ASTExpressionNode {
 public:
     std::string op;
@@ -140,7 +126,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// literal value - number, string, boolean
 class ASTLiteralNode : public ASTExpressionNode {
 public:
     std::string value;
@@ -150,7 +135,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// identifier reference - variable name
 class ASTIdentifierNode : public ASTExpressionNode {
 public:
     std::string name;
@@ -159,7 +143,6 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-// function call - sqrt(16)
 class ASTFunctionCallNode : public ASTExpressionNode {
 public:
     std::string function_name;
@@ -169,4 +152,4 @@ public:
     void accept(ASTVisitor* visitor) override;
 };
 
-#endif // AST_HPP
+#endif 
