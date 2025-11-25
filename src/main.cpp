@@ -3,6 +3,8 @@
 #include "dfa_loader.hpp"
 #include "ast_builder.hpp"
 #include "ast_printer.hpp"
+#include "ast_printer_decorated.hpp"
+#include "scope_type_checker.hpp"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -329,7 +331,8 @@ int main(int argc, char** argv) {
     std::string source = argv[1];
     std::string dfa_path = "dfa/dfa.json";
     bool tokens_only = false;
-    bool build_ast = false; 
+    bool build_ast = false;
+    bool decorated = false; 
 
     for (int i = 2; i < argc; i++) {
         std::string a = argv[i];
@@ -339,6 +342,9 @@ int main(int argc, char** argv) {
             tokens_only = true;
         } else if (a == "--ast") {
             build_ast = true; 
+        } else if (a == "--decorated") {
+            decorated = true;
+            build_ast = true;
         }
     }
 
@@ -411,10 +417,32 @@ int main(int argc, char** argv) {
                 auto ast = builder.buildAST(parsetree.get());
                 
                 std::cout << "=== AST BUILT SUCCESSFULLY ===\n\n";
-                std::cout << "=== ABSTRACT SYNTAX TREE ===\n";
                 
-                ASTPrinter printer;
-                ast->accept(&printer);
+                if (decorated) {
+                    // Build symbol table
+                    std::cout << "=== BUILDING SYMBOL TABLE ===\n";
+                    SymbolTable symTab;
+                    ScopeTypeChecker checker(&symTab);
+                    checker.visitProgram(parsetree.get());
+                    
+                    std::cout << "=== SYMBOL TABLE BUILT ===\n\n";
+                    
+                    // Print tables
+                    symTab.print_tab();
+                    symTab.print_btab();
+                    if (symTab.get_atab_size() > 0) {
+                        symTab.print_atab();
+                    }
+                    
+                    // Print decorated AST
+                    std::cout << "\n=== DECORATED AST ===\n";
+                    ASTDecoratedPrinter decoratedPrinter(&symTab);
+                    ast->accept(&decoratedPrinter);
+                } else {
+                    std::cout << "=== ABSTRACT SYNTAX TREE ===\n";
+                    ASTPrinter printer;
+                    ast->accept(&printer);
+                }
                 
             } catch (const std::exception& e) {
                 std::cerr << "AST BUILD ERROR: " << e.what() << "\n";

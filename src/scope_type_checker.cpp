@@ -187,6 +187,10 @@ void ScopeTypeChecker::visitTypeDecl(TypeDeclarationNode* node) {
         // Alias tipe
         typeCode = getBaseType(typeNode->pars_type_name);
         ref = 0;
+    } else if (auto* rangeNode = dynamic_cast<RangeNode*>(node->pars_type_definition.get())) {
+        // Range type (e.g., 1..100) is treated as integer type
+        typeCode = BaseType::INTS;
+        ref = 0;
     } else {
         throw SemanticError("Unknown type definition for '" + node->identifier.value + "'");
     }

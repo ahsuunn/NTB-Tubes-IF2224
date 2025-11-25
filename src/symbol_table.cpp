@@ -5,10 +5,34 @@
 SymbolTable::SymbolTable() : level(0), t(0), b(0), a(0) {
     display.push_back(0);
     init_standard_types();
-    init_standard_procedures();
+    // Standard procedures like write, writeln, read, readln will be added when first used
+    // init_standard_procedures();
 }
 
 void SymbolTable::init_standard_types() {
+    // Reserve space for reserved words (0-28)
+    std::vector<std::string> reserved_words = {
+        "program", "variabel", "mulai", "selesai", "const", "tipe",
+        "prosedur", "fungsi", "jika", "maka", "selainitu", "untuk",
+        "ke", "turun", "lakukan", "selama", "ulangi", "sampai",
+        "larik", "dari", "integer", "real", "boolean", "char",
+        "and", "or", "not", "div", "mod"
+    };
+    
+    for (const auto& word : reserved_words) {
+        TabEntry entry;
+        entry.name = word;
+        entry.link = 0;
+        entry.obj = ObjectKind::CONSTANT;  // Reserved words as constants
+        entry.typ = BaseType::NOTYPE;
+        entry.ref = 0;
+        entry.normal = true;
+        entry.lev = 0;
+        entry.adr = 0;
+        tab.push_back(entry);
+    }
+    t = tab.size();
+    
     BTabEntry global_block;
     global_block.last = 0;
     global_block.lastpar = 0;
@@ -49,6 +73,16 @@ int SymbolTable::insert(const std::string& name, ObjectKind obj, BaseType typ, i
 }
 
 int SymbolTable::lookup(const std::string& name) {
+    // Auto-insert standard procedures if not found
+    std::vector<std::string> std_procs = {"write", "writeln", "read", "readln"};
+    bool is_std_proc = false;
+    for (const auto& proc : std_procs) {
+        if (name == proc) {
+            is_std_proc = true;
+            break;
+        }
+    }
+    
     for (int l = level; l >= 0; l--) {
         int i = btab[display[l]].last;
         while (i > 0) {
@@ -56,6 +90,15 @@ int SymbolTable::lookup(const std::string& name) {
                 return i;
             }
             i = tab[i].link;
+        }
+    }
+    
+    // If not found and it's a standard procedure, add it now
+    if (is_std_proc) {
+        try {
+            return insert(name, ObjectKind::PROCEDURE, BaseType::NOTYPE, 0, true, 0);
+        } catch (...) {
+            return -1;
         }
     }
     return -1;
