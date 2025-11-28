@@ -12,11 +12,11 @@ SymbolTable::SymbolTable() : level(0), t(0), b(0), a(0) {
 void SymbolTable::init_standard_types() {
     // Reserve space for reserved words (0-28)
     std::vector<std::string> reserved_words = {
-        "program", "variabel", "mulai", "selesai", "const", "tipe",
-        "prosedur", "fungsi", "jika", "maka", "selainitu", "untuk",
-        "ke", "turun", "lakukan", "selama", "ulangi", "sampai",
+        "program", "variabel", "mulai", "selesai", "konstanta", "tipe",
+        "prosedur", "fungsi", "jika", "maka", "selain-itu", "untuk",
+        "ke", "turun-ke", "lakukan", "selama", "ulangi", "sampai",
         "larik", "dari", "integer", "real", "boolean", "char",
-        "and", "or", "not", "div", "mod"
+        "dan", "atau", "tidak", "bagi", "mod"
     };
     
     for (const auto& word : reserved_words) {
