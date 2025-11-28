@@ -1,0 +1,133 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 26
+
+=== PARSING SUCCESSFUL ===
+Program name: TestWhile
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(TestWhile)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(i)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <while-statement>
+│   │   │   ├── KEYWORD(selama)
+│   │   │   ├── <expression>
+│   │   │   │   ├── <simple-expression>
+│   │   │   │   │   └── <term>
+│   │   │   │   │       └── <factor>
+│   │   │   │   │           └── IDENTIFIER(i)
+│   │   │   │   ├── <relational-operator>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(i)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               ├── <term>
+│   │   │               │   └── <factor>
+│   │   │               │       └── IDENTIFIER(i)
+│   │   │               └── <additive-operator>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(1)
+│   │   └── SEMICOLON(;)
+│   └── KEYWORD(selesai)
+└── DOT(.)
+
+=== BUILDING AST ===
+=== AST BUILT SUCCESSFULLY ===
+
+=== BUILDING SYMBOL TABLE ===
+[Semantic] Visiting Program: TestWhile
+[Semantic] Program 'TestWhile' registered
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: i (idx:30) : integer
+[Semantic] Program 'TestWhile' checked successfully
+=== SYMBOL TABLE BUILT ===
+
+
+=== TAB (Identifier Table) ===
+ idx           name  link         obj     typ   ref   nrm   lev   adr
+---------------------------------------------------------------------
+   0        program     0    constant       0     0     1     0     0
+   1       variabel     0    constant       0     0     1     0     0
+   2          mulai     0    constant       0     0     1     0     0
+   3        selesai     0    constant       0     0     1     0     0
+   4          const     0    constant       0     0     1     0     0
+   5           tipe     0    constant       0     0     1     0     0
+   6       prosedur     0    constant       0     0     1     0     0
+   7         fungsi     0    constant       0     0     1     0     0
+   8           jika     0    constant       0     0     1     0     0
+   9           maka     0    constant       0     0     1     0     0
+  10      selainitu     0    constant       0     0     1     0     0
+  11          untuk     0    constant       0     0     1     0     0
+  12             ke     0    constant       0     0     1     0     0
+  13          turun     0    constant       0     0     1     0     0
+  14        lakukan     0    constant       0     0     1     0     0
+  15         selama     0    constant       0     0     1     0     0
+  16         ulangi     0    constant       0     0     1     0     0
+  17         sampai     0    constant       0     0     1     0     0
+  18          larik     0    constant       0     0     1     0     0
+  19           dari     0    constant       0     0     1     0     0
+  20        integer     0    constant       0     0     1     0     0
+  21           real     0    constant       0     0     1     0     0
+  22        boolean     0    constant       0     0     1     0     0
+  23           char     0    constant       0     0     1     0     0
+  24            and     0    constant       0     0     1     0     0
+  25             or     0    constant       0     0     1     0     0
+  26            not     0    constant       0     0     1     0     0
+  27            div     0    constant       0     0     1     0     0
+  28            mod     0    constant       0     0     1     0     0
+  29      TestWhile     0   procedure       0     0     1     0     0
+  30              i    29    variable       1     0     1     0     0
+
+=== BTAB (Block Table) ===
+ idx    last    lpar   psize   vsize
+------------------------------------
+   0      30       0       0       1
+
+=== DECORATED AST ===
+ProgramNode(name: 'TestWhile')
+|   ├─ Declarations
+|   |   └─ VarDecl('i') → tab_index:30, type:integer, lev:0
+|   └─ Block → block_index:0, lev:0
+|   |   ├─ Assign('i' := ...) → type:void
+|   |   |   ├─ target 'i' → tab_index:30, type:integer
+|   |   |   └─ value 0 → type:integer
+|   |   └─ While
+|   |   |   ├─ condition
+|   |   |   |   └─ BinOp '<' → type:integer
+|   |   |   |   |   ├─ 'i' → tab_index:30, type:integer
+|   |   |   |   |   └─ 10 → type:integer
+|   |   |   └─ body
+Assign('i' := ...) → type:void
+|   |   |   |   |   ├─ target 'i' → tab_index:30, type:integer
+|   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   ├─ 'i' → tab_index:30, type:integer
+|   |   |   |   |   |   └─ 1 → type:integer

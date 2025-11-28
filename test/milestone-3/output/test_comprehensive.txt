@@ -1,0 +1,685 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 258
+
+=== PARSING SUCCESSFUL ===
+Program name: TestComprehensive
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(TestComprehensive)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <const-declaration>
+│   ├── <const-declaration>
+│   ├── <type-declaration>
+│   │   └── <range>
+│   │       ├── <simple-expression>
+│   │       │   └── <term>
+│   │       │       └── <factor>
+│   │       │           └── NUMBER(1)
+│   │       ├── RANGE_OPERATOR(..)
+│   │       └── <simple-expression>
+│   │           └── <term>
+│   │               └── <factor>
+│   │                   └── NUMBER(10)
+│   ├── <type-declaration>
+│   │   └── <array-type>
+│   │       ├── KEYWORD(larik)
+│   │       ├── LBRACKET([)
+│   │       ├── <range>
+│   │       │   ├── <simple-expression>
+│   │       │   │   └── <term>
+│   │       │   │       └── <factor>
+│   │       │   │           └── NUMBER(1)
+│   │       │   ├── RANGE_OPERATOR(..)
+│   │       │   └── <simple-expression>
+│   │       │       └── <term>
+│   │       │           └── <factor>
+│   │       │               └── NUMBER(10)
+│   │       ├── RBRACKET(])
+│   │       ├── KEYWORD(dari)
+│   │       └── <type>
+│   │           └── KEYWORD(integer)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(arr)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── IDENTIFIER(DataArray)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── COMMA(,)
+│   │   │   ├── IDENTIFIER(sum)
+│   │   │   ├── COMMA(,)
+│   │   │   └── IDENTIFIER(avg)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(found)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(boolean)
+│   │   └── SEMICOLON(;)
+│   ├── <subprogram-declaration>
+│   │   └── <function-declaration>
+│   │       ├── <formal-parameter-list>
+│   │       │   ├── <parameter-group>
+│   │       │   │   ├── <identifier-list>
+│   │       │   │   └── <type>
+│   │       │   │       └── IDENTIFIER(DataArray)
+│   │       │   └── <parameter-group>
+│   │       │       ├── <identifier-list>
+│   │       │       └── <type>
+│   │       │           └── KEYWORD(integer)
+│   │       ├── <type>
+│   │       │   └── KEYWORD(integer)
+│   │       └── <program>
+│   │           ├── <declaration-part>
+│   │           │   └── <var-declaration>
+│   │           │       ├── KEYWORD(variabel)
+│   │           │       ├── <identifier-list>
+│   │           │       │   ├── IDENTIFIER(max)
+│   │           │       │   ├── COMMA(,)
+│   │           │       │   └── IDENTIFIER(idx)
+│   │           │       ├── COLON(:)
+│   │           │       ├── <type>
+│   │           │       │   └── KEYWORD(integer)
+│   │           │       └── SEMICOLON(;)
+│   │           └── <compound-statement>
+│   │               ├── KEYWORD(mulai)
+│   │               ├── <statement-list>
+│   │               │   ├── <assignment-statement>
+│   │               │   │   ├── IDENTIFIER(max)
+│   │               │   │   ├── ASSIGN_OPERATOR(:=)
+│   │               │   │   └── <expression>
+│   │               │   │       └── <simple-expression>
+│   │               │   │           └── <term>
+│   │               │   │               └── <factor>
+│   │               │   │                   └── IDENTIFIER(data)
+│   │               │   ├── SEMICOLON(;)
+│   │               │   ├── <for-statement>
+│   │               │   │   ├── KEYWORD(untuk)
+│   │               │   │   ├── IDENTIFIER(idx)
+│   │               │   │   ├── ASSIGN_OPERATOR(:=)
+│   │               │   │   ├── <expression>
+│   │               │   │   │   └── <simple-expression>
+│   │               │   │   │       └── <term>
+│   │               │   │   │           └── <factor>
+│   │               │   │   │               └── NUMBER(2)
+│   │               │   │   ├── KEYWORD(ke)
+│   │               │   │   ├── <expression>
+│   │               │   │   │   └── <simple-expression>
+│   │               │   │   │       └── <term>
+│   │               │   │   │           └── <factor>
+│   │               │   │   │               └── IDENTIFIER(size)
+│   │               │   │   ├── KEYWORD(lakukan)
+│   │               │   │   └── <if-statement>
+│   │               │   │       ├── KEYWORD(jika)
+│   │               │   │       ├── <expression>
+│   │               │   │       │   ├── <simple-expression>
+│   │               │   │       │   │   └── <term>
+│   │               │   │       │   │       └── <factor>
+│   │               │   │       │   │           └── IDENTIFIER(data)
+│   │               │   │       │   ├── <relational-operator>
+│   │               │   │       │   └── <simple-expression>
+│   │               │   │       │       └── <term>
+│   │               │   │       │           └── <factor>
+│   │               │   │       │               └── IDENTIFIER(max)
+│   │               │   │       ├── KEYWORD(maka)
+│   │               │   │       └── <assignment-statement>
+│   │               │   │           ├── IDENTIFIER(max)
+│   │               │   │           ├── ASSIGN_OPERATOR(:=)
+│   │               │   │           └── <expression>
+│   │               │   │               └── <simple-expression>
+│   │               │   │                   └── <term>
+│   │               │   │                       └── <factor>
+│   │               │   │                           └── IDENTIFIER(data)
+│   │               │   ├── SEMICOLON(;)
+│   │               │   └── <assignment-statement>
+│   │               │       ├── IDENTIFIER(FindMax)
+│   │               │       ├── ASSIGN_OPERATOR(:=)
+│   │               │       └── <expression>
+│   │               │           └── <simple-expression>
+│   │               │               └── <term>
+│   │               │                   └── <factor>
+│   │               │                       └── IDENTIFIER(max)
+│   │               └── KEYWORD(selesai)
+│   └── <subprogram-declaration>
+│       └── <procedure-declaration>
+│           ├── <formal-parameter-list>
+│           │   ├── <parameter-group>
+│           │   │   ├── <identifier-list>
+│           │   │   └── <type>
+│           │   │       └── IDENTIFIER(DataArray)
+│           │   └── <parameter-group>
+│           │       ├── <identifier-list>
+│           │       └── <type>
+│           │           └── KEYWORD(integer)
+│           └── <program>
+│               ├── <declaration-part>
+│               │   └── <var-declaration>
+│               │       ├── KEYWORD(variabel)
+│               │       ├── <identifier-list>
+│               │       │   └── IDENTIFIER(j)
+│               │       ├── COLON(:)
+│               │       ├── <type>
+│               │       │   └── KEYWORD(integer)
+│               │       └── SEMICOLON(;)
+│               └── <compound-statement>
+│                   ├── KEYWORD(mulai)
+│                   ├── <statement-list>
+│                   │   └── <for-statement>
+│                   │       ├── KEYWORD(untuk)
+│                   │       ├── IDENTIFIER(j)
+│                   │       ├── ASSIGN_OPERATOR(:=)
+│                   │       ├── <expression>
+│                   │       │   └── <simple-expression>
+│                   │       │       └── <term>
+│                   │       │           └── <factor>
+│                   │       │               └── NUMBER(1)
+│                   │       ├── KEYWORD(ke)
+│                   │       ├── <expression>
+│                   │       │   └── <simple-expression>
+│                   │       │       └── <term>
+│                   │       │           └── <factor>
+│                   │       │               └── IDENTIFIER(count)
+│                   │       ├── KEYWORD(lakukan)
+│                   │       └── <procedure/function-call>
+│                   │           ├── IDENTIFIER(write)
+│                   │           ├── LPARENTHESIS(()
+│                   │           ├── <parameter-list>
+│                   │           │   ├── <expression>
+│                   │           │   │   └── <simple-expression>
+│                   │           │   │       └── <term>
+│                   │           │   │           └── <factor>
+│                   │           │   │               └── IDENTIFIER(data)
+│                   │           │   ├── COMMA(,)
+│                   │           │   └── <expression>
+│                   │           │       └── <simple-expression>
+│                   │           │           └── <term>
+│                   │           │               └── <factor>
+│                   │           │                   └── CHAR_LITERAL(' ')
+│                   │           └── RPARENTHESIS())
+│                   └── KEYWORD(selesai)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(sum)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(arr)
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           └── <term>
+│   │   │       │   │               ├── <factor>
+│   │   │       │   │               │   └── IDENTIFIER(i)
+│   │   │       │   │               └── <multiplicative-operator>
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── NUMBER(5)
+│   │   │       │   ├── SEMICOLON(;)
+│   │   │       │   └── <assignment-statement>
+│   │   │       │       ├── IDENTIFIER(sum)
+│   │   │       │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       │       └── <expression>
+│   │   │       │           └── <simple-expression>
+│   │   │       │               ├── <term>
+│   │   │       │               │   └── <factor>
+│   │   │       │               │       └── IDENTIFIER(sum)
+│   │   │       │               └── <additive-operator>
+│   │   │       │               └── <term>
+│   │   │       │                   └── <factor>
+│   │   │       │                       └── IDENTIFIER(arr)
+│   │   │       └── KEYWORD(selesai)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(avg)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               ├── <factor>
+│   │   │               │   └── IDENTIFIER(sum)
+│   │   │               └── <multiplicative-operator>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── <procedure/function-call>
+│   │   │                       ├── IDENTIFIER(FindMax)
+│   │   │                       ├── LPARENTHESIS(()
+│   │   │                       ├── <parameter-list>
+│   │   │                       │   ├── <expression>
+│   │   │                       │   │   └── <simple-expression>
+│   │   │                       │   │       └── <term>
+│   │   │                       │   │           └── <factor>
+│   │   │                       │   │               └── IDENTIFIER(arr)
+│   │   │                       │   ├── COMMA(,)
+│   │   │                       │   └── <expression>
+│   │   │                       │       └── <simple-expression>
+│   │   │                       │           └── <term>
+│   │   │                       │               └── <factor>
+│   │   │                       │                   └── NUMBER(10)
+│   │   │                       └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(writeln)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── STRING_LITERAL('Array values:')
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(PrintArray)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   ├── <expression>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── IDENTIFIER(arr)
+│   │   │   │   ├── COMMA(,)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── NUMBER(10)
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(writeln)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(writeln)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   ├── <expression>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── STRING_LITERAL('Sum = ')
+│   │   │   │   ├── COMMA(,)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(sum)
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(writeln)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   ├── <expression>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── STRING_LITERAL('Average = ')
+│   │   │   │   ├── COMMA(,)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(avg)
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(writeln)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   ├── <expression>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── STRING_LITERAL('Maximum = ')
+│   │   │   │   ├── COMMA(,)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(i)
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(found)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── IDENTIFIER(salah)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(1)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <while-statement>
+│   │   │   ├── KEYWORD(selama)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           ├── <factor>
+│   │   │   │           │   └── <expression>
+│   │   │   │           │       ├── <simple-expression>
+│   │   │   │           │       │   └── <term>
+│   │   │   │           │       │       └── <factor>
+│   │   │   │           │       │           └── IDENTIFIER(i)
+│   │   │   │           │       ├── <relational-operator>
+│   │   │   │           │       └── <simple-expression>
+│   │   │   │           │           └── <term>
+│   │   │   │           │               └── <factor>
+│   │   │   │           │                   └── NUMBER(10)
+│   │   │   │           └── <multiplicative-operator>
+│   │   │   │           └── <factor>
+│   │   │   │               └── <expression>
+│   │   │   │                   └── <simple-expression>
+│   │   │   │                       └── <term>
+│   │   │   │                           └── <factor>
+│   │   │   │                               ├── LOGICAL_OPERATOR(tidak)
+│   │   │   │                               └── <factor>
+│   │   │   │                                   └── IDENTIFIER(found)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   └── <if-statement>
+│   │   │       │       ├── KEYWORD(jika)
+│   │   │       │       ├── <expression>
+│   │   │       │       │   ├── <simple-expression>
+│   │   │       │       │   │   └── <term>
+│   │   │       │       │   │       └── <factor>
+│   │   │       │       │   │           └── IDENTIFIER(arr)
+│   │   │       │       │   ├── <relational-operator>
+│   │   │       │       │   └── <simple-expression>
+│   │   │       │       │       └── <term>
+│   │   │       │       │           └── <factor>
+│   │   │       │       │               └── NUMBER(25)
+│   │   │       │       ├── KEYWORD(maka)
+│   │   │       │       ├── <assignment-statement>
+│   │   │       │       │   ├── IDENTIFIER(found)
+│   │   │       │       │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │       │   └── <expression>
+│   │   │       │       │       └── <simple-expression>
+│   │   │       │       │           └── <term>
+│   │   │       │       │               └── <factor>
+│   │   │       │       │                   └── IDENTIFIER(benar)
+│   │   │       │       ├── KEYWORD(selain-itu)
+│   │   │       │       └── <assignment-statement>
+│   │   │       │           ├── IDENTIFIER(i)
+│   │   │       │           ├── ASSIGN_OPERATOR(:=)
+│   │   │       │           └── <expression>
+│   │   │       │               └── <simple-expression>
+│   │   │       │                   ├── <term>
+│   │   │       │                   │   └── <factor>
+│   │   │       │                   │       └── IDENTIFIER(i)
+│   │   │       │                   └── <additive-operator>
+│   │   │       │                   └── <term>
+│   │   │       │                       └── <factor>
+│   │   │       │                           └── NUMBER(1)
+│   │   │       └── KEYWORD(selesai)
+│   │   ├── SEMICOLON(;)
+│   │   └── <if-statement>
+│   │       ├── KEYWORD(jika)
+│   │       ├── <expression>
+│   │       │   └── <simple-expression>
+│   │       │       └── <term>
+│   │       │           └── <factor>
+│   │       │               └── IDENTIFIER(found)
+│   │       ├── KEYWORD(maka)
+│   │       ├── <procedure/function-call>
+│   │       │   ├── IDENTIFIER(writeln)
+│   │       │   ├── LPARENTHESIS(()
+│   │       │   ├── <parameter-list>
+│   │       │   │   ├── <expression>
+│   │       │   │   │   └── <simple-expression>
+│   │       │   │   │       └── <term>
+│   │       │   │   │           └── <factor>
+│   │       │   │   │               └── STRING_LITERAL('Value 25 found at index ')
+│   │       │   │   ├── COMMA(,)
+│   │       │   │   └── <expression>
+│   │       │   │       └── <simple-expression>
+│   │       │   │           └── <term>
+│   │       │   │               └── <factor>
+│   │       │   │                   └── IDENTIFIER(i)
+│   │       │   └── RPARENTHESIS())
+│   │       ├── KEYWORD(selain-itu)
+│   │       └── <procedure/function-call>
+│   │           ├── IDENTIFIER(writeln)
+│   │           ├── LPARENTHESIS(()
+│   │           ├── <parameter-list>
+│   │           │   └── <expression>
+│   │           │       └── <simple-expression>
+│   │           │           └── <term>
+│   │           │               └── <factor>
+│   │           │                   └── STRING_LITERAL('Value 25 not found')
+│   │           └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)
+
+=== BUILDING AST ===
+=== AST BUILT SUCCESSFULLY ===
+
+=== BUILDING SYMBOL TABLE ===
+[Semantic] Visiting Program: TestComprehensive
+[Semantic] Program 'TestComprehensive' registered
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring constant MAX_SIZE = 100
+  - Constant 'MAX_SIZE' inserted at index 30
+[Semantic] Declaring constant VERSION = 2
+  - Constant 'VERSION' inserted at index 31
+[Semantic] Declaring type IndexRange
+  - Type 'IndexRange' inserted at index 32
+[Semantic] Declaring type DataArray
+  - Type 'DataArray' inserted at index 33
+[Semantic] Declaring variables: arr (idx:34) : DataArray
+[Semantic] Declaring variables: i,  (idx:35)sum,  (idx:36)avg (idx:37) : integer
+[Semantic] Declaring variables: found (idx:38) : boolean
+[Semantic] Declaring function FindMax
+  - Function 'FindMax' returning 1 inserted at index 39, block 1
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: max,  (idx:42)idx (idx:43) : integer
+[Semantic] Declaring procedure PrintArray
+  - Procedure 'PrintArray' inserted at index 44, block 3
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: j (idx:47) : integer
+[Semantic] Program 'TestComprehensive' checked successfully
+=== SYMBOL TABLE BUILT ===
+
+
+=== TAB (Identifier Table) ===
+ idx           name  link         obj     typ   ref   nrm   lev   adr
+---------------------------------------------------------------------
+   0        program     0    constant       0     0     1     0     0
+   1       variabel     0    constant       0     0     1     0     0
+   2          mulai     0    constant       0     0     1     0     0
+   3        selesai     0    constant       0     0     1     0     0
+   4          const     0    constant       0     0     1     0     0
+   5           tipe     0    constant       0     0     1     0     0
+   6       prosedur     0    constant       0     0     1     0     0
+   7         fungsi     0    constant       0     0     1     0     0
+   8           jika     0    constant       0     0     1     0     0
+   9           maka     0    constant       0     0     1     0     0
+  10      selainitu     0    constant       0     0     1     0     0
+  11          untuk     0    constant       0     0     1     0     0
+  12             ke     0    constant       0     0     1     0     0
+  13          turun     0    constant       0     0     1     0     0
+  14        lakukan     0    constant       0     0     1     0     0
+  15         selama     0    constant       0     0     1     0     0
+  16         ulangi     0    constant       0     0     1     0     0
+  17         sampai     0    constant       0     0     1     0     0
+  18          larik     0    constant       0     0     1     0     0
+  19           dari     0    constant       0     0     1     0     0
+  20        integer     0    constant       0     0     1     0     0
+  21           real     0    constant       0     0     1     0     0
+  22        boolean     0    constant       0     0     1     0     0
+  23           char     0    constant       0     0     1     0     0
+  24            and     0    constant       0     0     1     0     0
+  25             or     0    constant       0     0     1     0     0
+  26            not     0    constant       0     0     1     0     0
+  27            div     0    constant       0     0     1     0     0
+  28            mod     0    constant       0     0     1     0     0
+  29TestComprehensive     0   procedure       0     0     1     0     0
+  30       MAX_SIZE    29    constant       1     0     1     0   100
+  31        VERSION    30    constant       1     0     1     0     2
+  32     IndexRange    31        type       1     0     1     0     0
+  33      DataArray    32        type       5     0     1     0     0
+  34            arr    33    variable       5     0     1     0     0
+  35              i    34    variable       1     0     1     0     1
+  36            sum    35    variable       1     0     1     0     2
+  37            avg    36    variable       1     0     1     0     3
+  38          found    37    variable       3     0     1     0     4
+  39        FindMax    38    function       1     1     1     0     0
+  40           data     0    variable       5     0     1     1     0
+  41           size    40    variable       1     0     1     1     0
+  42            max    41    variable       1     0     1     1     0
+  43            idx    42    variable       1     0     1     1     1
+  44     PrintArray    39   procedure       0     3     1     0     0
+  45           data     0    variable       5     0     1     1     0
+  46          count    45    variable       1     0     1     1     0
+  47              j    46    variable       1     0     1     1     2
+
+=== BTAB (Block Table) ===
+ idx    last    lpar   psize   vsize
+------------------------------------
+   0      44       0       0       5
+   1       0       0       0       3
+   2      43       0       0       0
+   3       0       0       0       0
+   4      47       0       0       0
+
+=== ATAB (Array Table) ===
+ idx    xtyp    etyp    eref     low    high    elsz    size
+------------------------------------------------------------
+   0       1       1       0       0      10       1      11
+
+=== DECORATED AST ===
+ProgramNode(name: 'TestComprehensive')
+|   ├─ Declarations
+|   |   ├─ VarDecl('arr') → tab_index:34, type:array, lev:0
+|   |   ├─ VarDecl('i') → tab_index:35, type:integer, lev:0
+|   |   ├─ VarDecl('sum') → tab_index:36, type:integer, lev:0
+|   |   ├─ VarDecl('avg') → tab_index:37, type:integer, lev:0
+|   |   └─ VarDecl('found') → tab_index:38, type:boolean, lev:0
+|   └─ Block → block_index:0, lev:0
+|   |   ├─ Assign('sum' := ...) → type:void
+|   |   |   ├─ target 'sum' → tab_index:36, type:integer
+|   |   |   └─ value 0 → type:integer
+|   |   ├─ For('i')
+|   |   |   ├─ start
+|   |   |   |   └─ 1 → type:integer
+|   |   |   ├─ end
+|   |   |   |   └─ 10 → type:integer
+|   |   |   └─ body
+|   |   |   |   ├─ Assign('arr' := ...) → type:void
+|   |   |   |   |   ├─ target 'arr' → tab_index:34, type:array
+|   |   |   |   |   └─ value BinOp '*' → type:integer
+|   |   |   |   |   |   ├─ 'i' → tab_index:35, type:integer
+|   |   |   |   |   |   └─ 5 → type:integer
+|   |   |   |   └─ Assign('sum' := ...) → type:void
+|   |   |   |   |   ├─ target 'sum' → tab_index:36, type:integer
+|   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   ├─ 'sum' → tab_index:36, type:integer
+|   |   |   |   |   |   └─ 'arr' → tab_index:34, type:array
+|   |   ├─ Assign('avg' := ...) → type:void
+|   |   |   ├─ target 'avg' → tab_index:37, type:integer
+|   |   |   └─ value BinOp 'bagi' → type:integer
+|   |   |   |   ├─ 'sum' → tab_index:36, type:integer
+|   |   |   |   └─ 10 → type:integer
+|   |   ├─ Assign('i' := ...) → type:void
+|   |   |   ├─ target 'i' → tab_index:35, type:integer
+|   |   |   └─ value FindMax(...) → tab_index:39, type:integer
+|   |   ├─ writeln(...) → predefined, tab_index:48
+|   |   ├─ PrintArray(...) → predefined, tab_index:44
+|   |   ├─ writeln(...) → predefined, tab_index:48
+|   |   ├─ writeln(...) → predefined, tab_index:48
+|   |   ├─ writeln(...) → predefined, tab_index:48
+|   |   ├─ writeln(...) → predefined, tab_index:48
+|   |   ├─ Assign('found' := ...) → type:void
+|   |   |   ├─ target 'found' → tab_index:38, type:boolean
+|   |   |   └─ value 'salah'
+|   |   ├─ Assign('i' := ...) → type:void
+|   |   |   ├─ target 'i' → tab_index:35, type:integer
+|   |   |   └─ value 1 → type:integer
+|   |   ├─ While
+|   |   |   ├─ condition
+|   |   |   |   └─ BinOp 'dan' → type:integer
+|   |   |   |   |   ├─ BinOp '<=' → type:integer
+|   |   |   |   |   |   ├─ 'i' → tab_index:35, type:integer
+|   |   |   |   |   |   └─ 10 → type:integer
+|   |   |   |   |   └─ UnaryOp 'tidak' → type:integer
+|   |   |   |   |   |   └─ |   |   |   └─ body
+|   |   |   |   └─ If
+|   |   |   |   |   ├─ condition
+|   |   |   |   |   |   └─ BinOp '=' → type:integer
+|   |   |   |   |   |   |   ├─ 'arr' → tab_index:34, type:array
+|   |   |   |   |   |   |   └─ 25 → type:integer
+|   |   |   |   |   ├─ then
+Assign('found' := ...) → type:void
+|   |   |   |   |   |   |   ├─ target 'found' → tab_index:38, type:boolean
+|   |   |   |   |   |   |   └─ value 'benar'
+|   |   |   |   |   └─ else
+Assign('i' := ...) → type:void
+|   |   |   |   |   |   |   ├─ target 'i' → tab_index:35, type:integer
+|   |   |   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   |   |   ├─ 'i' → tab_index:35, type:integer
+|   |   |   |   |   |   |   |   └─ 1 → type:integer
+|   |   └─ If
+|   |   |   ├─ condition
+|   |   |   |   └─ 'found' → tab_index:38, type:boolean
+|   |   |   ├─ then
+writeln(...) → predefined, tab_index:48
+|   |   |   └─ else
+writeln(...) → predefined, tab_index:48

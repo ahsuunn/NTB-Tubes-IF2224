@@ -1,0 +1,5 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 13
+
+PARSER ERROR: Error at line 1, column 1: Expected keyword 'program' at the beginning of the program
+  Got: IDENTIFIER(TestNoProgram)

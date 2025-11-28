@@ -1,0 +1,468 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 181
+
+=== PARSING SUCCESSFUL ===
+Program name: TestProceduresAndFunctions
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(TestProceduresAndFunctions)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── COMMA(,)
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── COMMA(,)
+│   │   │   └── IDENTIFIER(hasil)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(nama)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(char)
+│   │   └── SEMICOLON(;)
+│   ├── <subprogram-declaration>
+│   │   └── <procedure-declaration>
+│   │       ├── <formal-parameter-list>
+│   │       │   └── <parameter-group>
+│   │       │       ├── <identifier-list>
+│   │       │       └── <type>
+│   │       │           └── KEYWORD(char)
+│   │       └── <program>
+│   │           ├── <declaration-part>
+│   │           │   └── <var-declaration>
+│   │           │       ├── KEYWORD(variabel)
+│   │           │       ├── <identifier-list>
+│   │           │       │   └── IDENTIFIER(temp)
+│   │           │       ├── COLON(:)
+│   │           │       ├── <type>
+│   │           │       │   └── KEYWORD(integer)
+│   │           │       └── SEMICOLON(;)
+│   │           └── <compound-statement>
+│   │               ├── KEYWORD(mulai)
+│   │               ├── <statement-list>
+│   │               │   ├── <assignment-statement>
+│   │               │   │   ├── IDENTIFIER(temp)
+│   │               │   │   ├── ASSIGN_OPERATOR(:=)
+│   │               │   │   └── <expression>
+│   │               │   │       └── <simple-expression>
+│   │               │   │           └── <term>
+│   │               │   │               └── <factor>
+│   │               │   │                   └── NUMBER(0)
+│   │               │   ├── SEMICOLON(;)
+│   │               │   └── <procedure/function-call>
+│   │               │       ├── IDENTIFIER(writeln)
+│   │               │       ├── LPARENTHESIS(()
+│   │               │       ├── <parameter-list>
+│   │               │       │   └── <expression>
+│   │               │       │       └── <simple-expression>
+│   │               │       │           └── <term>
+│   │               │       │               └── <factor>
+│   │               │       │                   └── IDENTIFIER(msg)
+│   │               │       └── RPARENTHESIS())
+│   │               └── KEYWORD(selesai)
+│   ├── <subprogram-declaration>
+│   │   └── <procedure-declaration>
+│   │       ├── <formal-parameter-list>
+│   │       │   └── <parameter-group>
+│   │       │       ├── <identifier-list>
+│   │       │       └── <type>
+│   │       │           └── KEYWORD(integer)
+│   │       └── <program>
+│   │           ├── <declaration-part>
+│   │           │   └── <var-declaration>
+│   │           │       ├── KEYWORD(variabel)
+│   │           │       ├── <identifier-list>
+│   │           │       │   └── IDENTIFIER(temp)
+│   │           │       ├── COLON(:)
+│   │           │       ├── <type>
+│   │           │       │   └── KEYWORD(integer)
+│   │           │       └── SEMICOLON(;)
+│   │           └── <compound-statement>
+│   │               ├── KEYWORD(mulai)
+│   │               ├── <statement-list>
+│   │               │   ├── <assignment-statement>
+│   │               │   │   ├── IDENTIFIER(temp)
+│   │               │   │   ├── ASSIGN_OPERATOR(:=)
+│   │               │   │   └── <expression>
+│   │               │   │       └── <simple-expression>
+│   │               │   │           └── <term>
+│   │               │   │               └── <factor>
+│   │               │   │                   └── IDENTIFIER(a)
+│   │               │   ├── SEMICOLON(;)
+│   │               │   ├── <assignment-statement>
+│   │               │   │   ├── IDENTIFIER(a)
+│   │               │   │   ├── ASSIGN_OPERATOR(:=)
+│   │               │   │   └── <expression>
+│   │               │   │       └── <simple-expression>
+│   │               │   │           └── <term>
+│   │               │   │               └── <factor>
+│   │               │   │                   └── IDENTIFIER(b)
+│   │               │   ├── SEMICOLON(;)
+│   │               │   └── <assignment-statement>
+│   │               │       ├── IDENTIFIER(b)
+│   │               │       ├── ASSIGN_OPERATOR(:=)
+│   │               │       └── <expression>
+│   │               │           └── <simple-expression>
+│   │               │               └── <term>
+│   │               │                   └── <factor>
+│   │               │                       └── IDENTIFIER(temp)
+│   │               └── KEYWORD(selesai)
+│   ├── <subprogram-declaration>
+│   │   └── <function-declaration>
+│   │       ├── <formal-parameter-list>
+│   │       │   └── <parameter-group>
+│   │       │       ├── <identifier-list>
+│   │       │       └── <type>
+│   │       │           └── KEYWORD(integer)
+│   │       ├── <type>
+│   │       │   └── KEYWORD(integer)
+│   │       └── <program>
+│   │           ├── <declaration-part>
+│   │           │   └── <var-declaration>
+│   │           │       ├── KEYWORD(variabel)
+│   │           │       ├── <identifier-list>
+│   │           │       │   └── IDENTIFIER(result)
+│   │           │       ├── COLON(:)
+│   │           │       ├── <type>
+│   │           │       │   └── KEYWORD(integer)
+│   │           │       └── SEMICOLON(;)
+│   │           └── <compound-statement>
+│   │               ├── KEYWORD(mulai)
+│   │               ├── <statement-list>
+│   │               │   ├── <assignment-statement>
+│   │               │   │   ├── IDENTIFIER(result)
+│   │               │   │   ├── ASSIGN_OPERATOR(:=)
+│   │               │   │   └── <expression>
+│   │               │   │       └── <simple-expression>
+│   │               │   │           ├── <term>
+│   │               │   │           │   └── <factor>
+│   │               │   │           │       └── IDENTIFIER(a)
+│   │               │   │           └── <additive-operator>
+│   │               │   │           └── <term>
+│   │               │   │               └── <factor>
+│   │               │   │                   └── IDENTIFIER(b)
+│   │               │   ├── SEMICOLON(;)
+│   │               │   └── <assignment-statement>
+│   │               │       ├── IDENTIFIER(Tambah)
+│   │               │       ├── ASSIGN_OPERATOR(:=)
+│   │               │       └── <expression>
+│   │               │           └── <simple-expression>
+│   │               │               └── <term>
+│   │               │                   └── <factor>
+│   │               │                       └── IDENTIFIER(result)
+│   │               └── KEYWORD(selesai)
+│   └── <subprogram-declaration>
+│       └── <function-declaration>
+│           ├── <formal-parameter-list>
+│           │   ├── <parameter-group>
+│           │   │   ├── <identifier-list>
+│           │   │   └── <type>
+│           │   │       └── KEYWORD(integer)
+│           │   └── <parameter-group>
+│           │       ├── <identifier-list>
+│           │       └── <type>
+│           │           └── KEYWORD(integer)
+│           ├── <type>
+│           │   └── KEYWORD(integer)
+│           └── <program>
+│               ├── <declaration-part>
+│               └── <compound-statement>
+│                   ├── KEYWORD(mulai)
+│                   ├── <statement-list>
+│                   │   └── <assignment-statement>
+│                   │       ├── IDENTIFIER(Kali)
+│                   │       ├── ASSIGN_OPERATOR(:=)
+│                   │       └── <expression>
+│                   │           └── <simple-expression>
+│                   │               └── <term>
+│                   │                   ├── <factor>
+│                   │                   │   └── IDENTIFIER(x)
+│                   │                   └── <multiplicative-operator>
+│                   │                   └── <factor>
+│                   │                       └── IDENTIFIER(y)
+│                   └── KEYWORD(selesai)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(20)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(PrintHello)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── CHAR_LITERAL('A')
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure/function-call>
+│   │   │   ├── IDENTIFIER(Swap)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   ├── <expression>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── IDENTIFIER(x)
+│   │   │   │   ├── COMMA(,)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(y)
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(hasil)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── <procedure/function-call>
+│   │   │                       ├── IDENTIFIER(Tambah)
+│   │   │                       ├── LPARENTHESIS(()
+│   │   │                       ├── <parameter-list>
+│   │   │                       │   ├── <expression>
+│   │   │                       │   │   └── <simple-expression>
+│   │   │                       │   │       └── <term>
+│   │   │                       │   │           └── <factor>
+│   │   │                       │   │               └── IDENTIFIER(x)
+│   │   │                       │   ├── COMMA(,)
+│   │   │                       │   └── <expression>
+│   │   │                       │       └── <simple-expression>
+│   │   │                       │           └── <term>
+│   │   │                       │               └── <factor>
+│   │   │                       │                   └── IDENTIFIER(y)
+│   │   │                       └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(hasil)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── <procedure/function-call>
+│   │   │                       ├── IDENTIFIER(Kali)
+│   │   │                       ├── LPARENTHESIS(()
+│   │   │                       ├── <parameter-list>
+│   │   │                       │   ├── <expression>
+│   │   │                       │   │   └── <simple-expression>
+│   │   │                       │   │       └── <term>
+│   │   │                       │   │           └── <factor>
+│   │   │                       │   │               └── NUMBER(5)
+│   │   │                       │   ├── COMMA(,)
+│   │   │                       │   └── <expression>
+│   │   │                       │       └── <simple-expression>
+│   │   │                       │           └── <term>
+│   │   │                       │               └── <factor>
+│   │   │                       │                   └── NUMBER(6)
+│   │   │                       └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(hasil)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── <procedure/function-call>
+│   │   │                       ├── IDENTIFIER(Tambah)
+│   │   │                       ├── LPARENTHESIS(()
+│   │   │                       ├── <parameter-list>
+│   │   │                       │   ├── <expression>
+│   │   │                       │   │   └── <simple-expression>
+│   │   │                       │   │       └── <term>
+│   │   │                       │   │           └── <factor>
+│   │   │                       │   │               └── <procedure/function-call>
+│   │   │                       │   │                   ├── IDENTIFIER(Kali)
+│   │   │                       │   │                   ├── LPARENTHESIS(()
+│   │   │                       │   │                   ├── <parameter-list>
+│   │   │                       │   │                   │   ├── <expression>
+│   │   │                       │   │                   │   │   └── <simple-expression>
+│   │   │                       │   │                   │   │       └── <term>
+│   │   │                       │   │                   │   │           └── <factor>
+│   │   │                       │   │                   │   │               └── NUMBER(2)
+│   │   │                       │   │                   │   ├── COMMA(,)
+│   │   │                       │   │                   │   └── <expression>
+│   │   │                       │   │                   │       └── <simple-expression>
+│   │   │                       │   │                   │           └── <term>
+│   │   │                       │   │                   │               └── <factor>
+│   │   │                       │   │                   │                   └── NUMBER(3)
+│   │   │                       │   │                   └── RPARENTHESIS())
+│   │   │                       │   ├── COMMA(,)
+│   │   │                       │   └── <expression>
+│   │   │                       │       └── <simple-expression>
+│   │   │                       │           └── <term>
+│   │   │                       │               └── <factor>
+│   │   │                       │                   └── NUMBER(10)
+│   │   │                       └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   └── <procedure/function-call>
+│   │       ├── IDENTIFIER(writeln)
+│   │       ├── LPARENTHESIS(()
+│   │       ├── <parameter-list>
+│   │       │   ├── <expression>
+│   │       │   │   └── <simple-expression>
+│   │       │   │       └── <term>
+│   │       │   │           └── <factor>
+│   │       │   │               └── STRING_LITERAL('Hasil = ')
+│   │       │   ├── COMMA(,)
+│   │       │   └── <expression>
+│   │       │       └── <simple-expression>
+│   │       │           └── <term>
+│   │       │               └── <factor>
+│   │       │                   └── IDENTIFIER(hasil)
+│   │       └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)
+
+=== BUILDING AST ===
+=== AST BUILT SUCCESSFULLY ===
+
+=== BUILDING SYMBOL TABLE ===
+[Semantic] Visiting Program: TestProceduresAndFunctions
+[Semantic] Program 'TestProceduresAndFunctions' registered
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: x,  (idx:30)y,  (idx:31)hasil (idx:32) : integer
+[Semantic] Declaring variables: nama (idx:33) : char
+[Semantic] Declaring procedure PrintHello
+  - Procedure 'PrintHello' inserted at index 34, block 1
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: temp (idx:36) : integer
+[Semantic] Declaring procedure Swap
+  - Procedure 'Swap' inserted at index 37, block 3
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: temp (idx:40) : integer
+[Semantic] Declaring function Tambah
+  - Function 'Tambah' returning 1 inserted at index 41, block 5
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: result (idx:44) : integer
+[Semantic] Declaring function Kali
+  - Function 'Kali' returning 1 inserted at index 45, block 7
+[Semantic] Visiting Declaration Part
+[Semantic] Program 'TestProceduresAndFunctions' checked successfully
+=== SYMBOL TABLE BUILT ===
+
+
+=== TAB (Identifier Table) ===
+ idx           name  link         obj     typ   ref   nrm   lev   adr
+---------------------------------------------------------------------
+   0        program     0    constant       0     0     1     0     0
+   1       variabel     0    constant       0     0     1     0     0
+   2          mulai     0    constant       0     0     1     0     0
+   3        selesai     0    constant       0     0     1     0     0
+   4          const     0    constant       0     0     1     0     0
+   5           tipe     0    constant       0     0     1     0     0
+   6       prosedur     0    constant       0     0     1     0     0
+   7         fungsi     0    constant       0     0     1     0     0
+   8           jika     0    constant       0     0     1     0     0
+   9           maka     0    constant       0     0     1     0     0
+  10      selainitu     0    constant       0     0     1     0     0
+  11          untuk     0    constant       0     0     1     0     0
+  12             ke     0    constant       0     0     1     0     0
+  13          turun     0    constant       0     0     1     0     0
+  14        lakukan     0    constant       0     0     1     0     0
+  15         selama     0    constant       0     0     1     0     0
+  16         ulangi     0    constant       0     0     1     0     0
+  17         sampai     0    constant       0     0     1     0     0
+  18          larik     0    constant       0     0     1     0     0
+  19           dari     0    constant       0     0     1     0     0
+  20        integer     0    constant       0     0     1     0     0
+  21           real     0    constant       0     0     1     0     0
+  22        boolean     0    constant       0     0     1     0     0
+  23           char     0    constant       0     0     1     0     0
+  24            and     0    constant       0     0     1     0     0
+  25             or     0    constant       0     0     1     0     0
+  26            not     0    constant       0     0     1     0     0
+  27            div     0    constant       0     0     1     0     0
+  28            mod     0    constant       0     0     1     0     0
+  29TestProceduresAndFunctions     0   procedure       0     0     1     0     0
+  30              x    29    variable       1     0     1     0     0
+  31              y    30    variable       1     0     1     0     1
+  32          hasil    31    variable       1     0     1     0     2
+  33           nama    32    variable       4     0     1     0     3
+  34     PrintHello    33   procedure       0     1     1     0     0
+  35            msg     0    variable       4     0     1     1     0
+  36           temp    35    variable       1     0     1     1     0
+  37           Swap    34   procedure       0     3     1     0     0
+  38              a     0    variable       1     0     1     1     0
+  39              b    38    variable       1     0     1     1     0
+  40           temp    39    variable       1     0     1     1     1
+  41         Tambah    37    function       1     5     1     0     0
+  42              a     0    variable       1     0     1     1     0
+  43              b    42    variable       1     0     1     1     0
+  44         result    43    variable       1     0     1     1     2
+  45           Kali    41    function       1     7     1     0     0
+  46              x     0    variable       1     0     1     1     0
+  47              y    46    variable       1     0     1     1     0
+
+=== BTAB (Block Table) ===
+ idx    last    lpar   psize   vsize
+------------------------------------
+   0      45       0       0       4
+   1       0       0       0       3
+   2      36       0       0       0
+   3       0       0       0       0
+   4      40       0       0       0
+   5       0       0       0       0
+   6      44       0       0       0
+   7       0       0       0       0
+   8      47       0       0       0
+
+=== DECORATED AST ===
+ProgramNode(name: 'TestProceduresAndFunctions')
+|   ├─ Declarations
+|   |   ├─ VarDecl('x') → tab_index:30, type:integer, lev:0
+|   |   ├─ VarDecl('y') → tab_index:31, type:integer, lev:0
+|   |   ├─ VarDecl('hasil') → tab_index:32, type:integer, lev:0
+|   |   └─ VarDecl('nama') → tab_index:33, type:char, lev:0
+|   └─ Block → block_index:0, lev:0
+|   |   ├─ Assign('x' := ...) → type:void
+|   |   |   ├─ target 'x' → tab_index:30, type:integer
+|   |   |   └─ value 10 → type:integer
+|   |   ├─ Assign('y' := ...) → type:void
+|   |   |   ├─ target 'y' → tab_index:31, type:integer
+|   |   |   └─ value 20 → type:integer
+|   |   ├─ PrintHello(...) → predefined, tab_index:34
+|   |   ├─ Swap(...) → predefined, tab_index:37
+|   |   ├─ Assign('hasil' := ...) → type:void
+|   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   └─ value Tambah(...) → tab_index:41, type:integer
+|   |   ├─ Assign('hasil' := ...) → type:void
+|   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   └─ value Kali(...) → tab_index:45, type:integer
+|   |   ├─ Assign('hasil' := ...) → type:void
+|   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   └─ value Tambah(...) → tab_index:41, type:integer
+|   |   └─ writeln(...) → predefined, tab_index:48

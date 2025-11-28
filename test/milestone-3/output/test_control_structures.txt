@@ -1,0 +1,560 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 164
+
+=== PARSING SUCCESSFUL ===
+Program name: TestControlStructures
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(TestControlStructures)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── COMMA(,)
+│   │   │   ├── IDENTIFIER(n)
+│   │   │   ├── COMMA(,)
+│   │   │   └── IDENTIFIER(hasil)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(kondisi)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(boolean)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(n)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(hasil)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <if-statement>
+│   │   │   ├── KEYWORD(jika)
+│   │   │   ├── <expression>
+│   │   │   │   ├── <simple-expression>
+│   │   │   │   │   └── <term>
+│   │   │   │   │       └── <factor>
+│   │   │   │   │           └── IDENTIFIER(n)
+│   │   │   │   ├── <relational-operator>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(5)
+│   │   │   ├── KEYWORD(maka)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(hasil)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   ├── <factor>
+│   │   │                   │   └── IDENTIFIER(n)
+│   │   │                   └── <multiplicative-operator>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(2)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <if-statement>
+│   │   │   ├── KEYWORD(jika)
+│   │   │   ├── <expression>
+│   │   │   │   ├── <simple-expression>
+│   │   │   │   │   └── <term>
+│   │   │   │   │       └── <factor>
+│   │   │   │   │           └── IDENTIFIER(n)
+│   │   │   │   ├── <relational-operator>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(5)
+│   │   │   ├── KEYWORD(maka)
+│   │   │   ├── <assignment-statement>
+│   │   │   │   ├── IDENTIFIER(hasil)
+│   │   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           ├── <term>
+│   │   │   │           │   └── <factor>
+│   │   │   │           │       └── IDENTIFIER(n)
+│   │   │   │           └── <additive-operator>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── NUMBER(10)
+│   │   │   ├── KEYWORD(selain-itu)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(hasil)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               ├── <term>
+│   │   │               │   └── <factor>
+│   │   │               │       └── IDENTIFIER(n)
+│   │   │               └── <additive-operator>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(5)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <if-statement>
+│   │   │   ├── KEYWORD(jika)
+│   │   │   ├── <expression>
+│   │   │   │   ├── <simple-expression>
+│   │   │   │   │   └── <term>
+│   │   │   │   │       └── <factor>
+│   │   │   │   │           └── IDENTIFIER(n)
+│   │   │   │   ├── <relational-operator>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(0)
+│   │   │   ├── KEYWORD(maka)
+│   │   │   ├── <if-statement>
+│   │   │   │   ├── KEYWORD(jika)
+│   │   │   │   ├── <expression>
+│   │   │   │   │   ├── <simple-expression>
+│   │   │   │   │   │   └── <term>
+│   │   │   │   │   │       └── <factor>
+│   │   │   │   │   │           └── IDENTIFIER(n)
+│   │   │   │   │   ├── <relational-operator>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── NUMBER(100)
+│   │   │   │   ├── KEYWORD(maka)
+│   │   │   │   ├── <assignment-statement>
+│   │   │   │   │   ├── IDENTIFIER(hasil)
+│   │   │   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   │   │   └── <expression>
+│   │   │   │   │       └── <simple-expression>
+│   │   │   │   │           └── <term>
+│   │   │   │   │               └── <factor>
+│   │   │   │   │                   └── IDENTIFIER(n)
+│   │   │   │   ├── KEYWORD(selain-itu)
+│   │   │   │   └── <assignment-statement>
+│   │   │   │       ├── IDENTIFIER(hasil)
+│   │   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │   │       └── <expression>
+│   │   │   │           └── <simple-expression>
+│   │   │   │               └── <term>
+│   │   │   │                   └── <factor>
+│   │   │   │                       └── NUMBER(100)
+│   │   │   ├── KEYWORD(selain-itu)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(hasil)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(1)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <while-statement>
+│   │   │   ├── KEYWORD(selama)
+│   │   │   ├── <expression>
+│   │   │   │   ├── <simple-expression>
+│   │   │   │   │   └── <term>
+│   │   │   │   │       └── <factor>
+│   │   │   │   │           └── IDENTIFIER(i)
+│   │   │   │   ├── <relational-operator>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(5)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(hasil)
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           ├── <term>
+│   │   │       │   │           │   └── <factor>
+│   │   │       │   │           │       └── IDENTIFIER(hasil)
+│   │   │       │   │           └── <additive-operator>
+│   │   │       │   │           └── <term>
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── IDENTIFIER(i)
+│   │   │       │   ├── SEMICOLON(;)
+│   │   │       │   └── <assignment-statement>
+│   │   │       │       ├── IDENTIFIER(i)
+│   │   │       │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       │       └── <expression>
+│   │   │       │           └── <simple-expression>
+│   │   │       │               ├── <term>
+│   │   │       │               │   └── <factor>
+│   │   │       │               │       └── IDENTIFIER(i)
+│   │   │       │               └── <additive-operator>
+│   │   │       │               └── <term>
+│   │   │       │                   └── <factor>
+│   │   │       │                       └── NUMBER(1)
+│   │   │       └── KEYWORD(selesai)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(hasil)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               ├── <term>
+│   │   │               │   └── <factor>
+│   │   │               │       └── IDENTIFIER(hasil)
+│   │   │               └── <additive-operator>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── IDENTIFIER(i)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(turun-ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(hasil)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               ├── <term>
+│   │   │               │   └── <factor>
+│   │   │               │       └── IDENTIFIER(hasil)
+│   │   │               └── <additive-operator>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(1)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(3)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(n)
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           └── <term>
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── NUMBER(1)
+│   │   │       │   ├── SEMICOLON(;)
+│   │   │       │   └── <while-statement>
+│   │   │       │       ├── KEYWORD(selama)
+│   │   │       │       ├── <expression>
+│   │   │       │       │   ├── <simple-expression>
+│   │   │       │       │   │   └── <term>
+│   │   │       │       │   │       └── <factor>
+│   │   │       │       │   │           └── IDENTIFIER(n)
+│   │   │       │       │   ├── <relational-operator>
+│   │   │       │       │   └── <simple-expression>
+│   │   │       │       │       └── <term>
+│   │   │       │       │           └── <factor>
+│   │   │       │       │               └── NUMBER(2)
+│   │   │       │       ├── KEYWORD(lakukan)
+│   │   │       │       └── <compound-statement>
+│   │   │       │           ├── KEYWORD(mulai)
+│   │   │       │           ├── <statement-list>
+│   │   │       │           │   ├── <assignment-statement>
+│   │   │       │           │   │   ├── IDENTIFIER(hasil)
+│   │   │       │           │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │           │   │   └── <expression>
+│   │   │       │           │   │       └── <simple-expression>
+│   │   │       │           │   │           ├── <term>
+│   │   │       │           │   │           │   └── <factor>
+│   │   │       │           │   │           │       └── IDENTIFIER(hasil)
+│   │   │       │           │   │           └── <additive-operator>
+│   │   │       │           │   │           └── <term>
+│   │   │       │           │   │               └── <factor>
+│   │   │       │           │   │                   └── NUMBER(1)
+│   │   │       │           │   ├── SEMICOLON(;)
+│   │   │       │           │   └── <assignment-statement>
+│   │   │       │           │       ├── IDENTIFIER(n)
+│   │   │       │           │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       │           │       └── <expression>
+│   │   │       │           │           └── <simple-expression>
+│   │   │       │           │               ├── <term>
+│   │   │       │           │               │   └── <factor>
+│   │   │       │           │               │       └── IDENTIFIER(n)
+│   │   │       │           │               └── <additive-operator>
+│   │   │       │           │               └── <term>
+│   │   │       │           │                   └── <factor>
+│   │   │       │           │                       └── NUMBER(1)
+│   │   │       │           └── KEYWORD(selesai)
+│   │   │       └── KEYWORD(selesai)
+│   │   ├── SEMICOLON(;)
+│   │   └── <procedure/function-call>
+│   │       ├── IDENTIFIER(writeln)
+│   │       ├── LPARENTHESIS(()
+│   │       ├── <parameter-list>
+│   │       │   ├── <expression>
+│   │       │   │   └── <simple-expression>
+│   │       │   │       └── <term>
+│   │       │   │           └── <factor>
+│   │       │   │               └── STRING_LITERAL('Hasil akhir = ')
+│   │       │   ├── COMMA(,)
+│   │       │   └── <expression>
+│   │       │       └── <simple-expression>
+│   │       │           └── <term>
+│   │       │               └── <factor>
+│   │       │                   └── IDENTIFIER(hasil)
+│   │       └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)
+
+=== BUILDING AST ===
+=== AST BUILT SUCCESSFULLY ===
+
+=== BUILDING SYMBOL TABLE ===
+[Semantic] Visiting Program: TestControlStructures
+[Semantic] Program 'TestControlStructures' registered
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring variables: i,  (idx:30)n,  (idx:31)hasil (idx:32) : integer
+[Semantic] Declaring variables: kondisi (idx:33) : boolean
+[Semantic] Program 'TestControlStructures' checked successfully
+=== SYMBOL TABLE BUILT ===
+
+
+=== TAB (Identifier Table) ===
+ idx           name  link         obj     typ   ref   nrm   lev   adr
+---------------------------------------------------------------------
+   0        program     0    constant       0     0     1     0     0
+   1       variabel     0    constant       0     0     1     0     0
+   2          mulai     0    constant       0     0     1     0     0
+   3        selesai     0    constant       0     0     1     0     0
+   4          const     0    constant       0     0     1     0     0
+   5           tipe     0    constant       0     0     1     0     0
+   6       prosedur     0    constant       0     0     1     0     0
+   7         fungsi     0    constant       0     0     1     0     0
+   8           jika     0    constant       0     0     1     0     0
+   9           maka     0    constant       0     0     1     0     0
+  10      selainitu     0    constant       0     0     1     0     0
+  11          untuk     0    constant       0     0     1     0     0
+  12             ke     0    constant       0     0     1     0     0
+  13          turun     0    constant       0     0     1     0     0
+  14        lakukan     0    constant       0     0     1     0     0
+  15         selama     0    constant       0     0     1     0     0
+  16         ulangi     0    constant       0     0     1     0     0
+  17         sampai     0    constant       0     0     1     0     0
+  18          larik     0    constant       0     0     1     0     0
+  19           dari     0    constant       0     0     1     0     0
+  20        integer     0    constant       0     0     1     0     0
+  21           real     0    constant       0     0     1     0     0
+  22        boolean     0    constant       0     0     1     0     0
+  23           char     0    constant       0     0     1     0     0
+  24            and     0    constant       0     0     1     0     0
+  25             or     0    constant       0     0     1     0     0
+  26            not     0    constant       0     0     1     0     0
+  27            div     0    constant       0     0     1     0     0
+  28            mod     0    constant       0     0     1     0     0
+  29TestControlStructures     0   procedure       0     0     1     0     0
+  30              i    29    variable       1     0     1     0     0
+  31              n    30    variable       1     0     1     0     1
+  32          hasil    31    variable       1     0     1     0     2
+  33        kondisi    32    variable       3     0     1     0     3
+
+=== BTAB (Block Table) ===
+ idx    last    lpar   psize   vsize
+------------------------------------
+   0      33       0       0       4
+
+=== DECORATED AST ===
+ProgramNode(name: 'TestControlStructures')
+|   ├─ Declarations
+|   |   ├─ VarDecl('i') → tab_index:30, type:integer, lev:0
+|   |   ├─ VarDecl('n') → tab_index:31, type:integer, lev:0
+|   |   ├─ VarDecl('hasil') → tab_index:32, type:integer, lev:0
+|   |   └─ VarDecl('kondisi') → tab_index:33, type:boolean, lev:0
+|   └─ Block → block_index:0, lev:0
+|   |   ├─ Assign('n' := ...) → type:void
+|   |   |   ├─ target 'n' → tab_index:31, type:integer
+|   |   |   └─ value 10 → type:integer
+|   |   ├─ Assign('hasil' := ...) → type:void
+|   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   └─ value 0 → type:integer
+|   |   ├─ If
+|   |   |   ├─ condition
+|   |   |   |   └─ BinOp '>' → type:integer
+|   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   └─ 5 → type:integer
+|   |   |   └─ then
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value BinOp '*' → type:integer
+|   |   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   └─ 2 → type:integer
+|   |   ├─ If
+|   |   |   ├─ condition
+|   |   |   |   └─ BinOp '<' → type:integer
+|   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   └─ 5 → type:integer
+|   |   |   ├─ then
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   └─ 10 → type:integer
+|   |   |   └─ else
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value BinOp '-' → type:integer
+|   |   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   └─ 5 → type:integer
+|   |   ├─ If
+|   |   |   ├─ condition
+|   |   |   |   └─ BinOp '>' → type:integer
+|   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   └─ 0 → type:integer
+|   |   |   ├─ then
+If
+|   |   |   |   |   ├─ condition
+|   |   |   |   |   |   └─ BinOp '<' → type:integer
+|   |   |   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   |   └─ 100 → type:integer
+|   |   |   |   |   ├─ then
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   |   └─ value 'n' → tab_index:31, type:integer
+|   |   |   |   |   └─ else
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   |   └─ value 100 → type:integer
+|   |   |   └─ else
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value 0 → type:integer
+|   |   ├─ Assign('i' := ...) → type:void
+|   |   |   ├─ target 'i' → tab_index:30, type:integer
+|   |   |   └─ value 1 → type:integer
+|   |   ├─ While
+|   |   |   ├─ condition
+|   |   |   |   └─ BinOp '<=' → type:integer
+|   |   |   |   |   ├─ 'i' → tab_index:30, type:integer
+|   |   |   |   |   └─ 5 → type:integer
+|   |   |   └─ body
+|   |   |   |   ├─ Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   ├─ 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   └─ 'i' → tab_index:30, type:integer
+|   |   |   |   └─ Assign('i' := ...) → type:void
+|   |   |   |   |   ├─ target 'i' → tab_index:30, type:integer
+|   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   ├─ 'i' → tab_index:30, type:integer
+|   |   |   |   |   |   └─ 1 → type:integer
+|   |   ├─ For('i')
+|   |   |   ├─ start
+|   |   |   |   └─ 1 → type:integer
+|   |   |   ├─ end
+|   |   |   |   └─ 10 → type:integer
+|   |   |   └─ body
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   ├─ 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   └─ 'i' → tab_index:30, type:integer
+|   |   ├─ For('i')
+|   |   |   ├─ start
+|   |   |   |   └─ 10 → type:integer
+|   |   |   ├─ end
+|   |   |   |   └─ 1 → type:integer
+|   |   |   └─ body
+Assign('hasil' := ...) → type:void
+|   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   └─ value BinOp '-' → type:integer
+|   |   |   |   |   |   ├─ 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   └─ 1 → type:integer
+|   |   ├─ For('i')
+|   |   |   ├─ start
+|   |   |   |   └─ 1 → type:integer
+|   |   |   ├─ end
+|   |   |   |   └─ 3 → type:integer
+|   |   |   └─ body
+|   |   |   |   ├─ Assign('n' := ...) → type:void
+|   |   |   |   |   ├─ target 'n' → tab_index:31, type:integer
+|   |   |   |   |   └─ value 1 → type:integer
+|   |   |   |   └─ While
+|   |   |   |   |   ├─ condition
+|   |   |   |   |   |   └─ BinOp '<=' → type:integer
+|   |   |   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   |   └─ 2 → type:integer
+|   |   |   |   |   └─ body
+|   |   |   |   |   |   ├─ Assign('hasil' := ...) → type:void
+|   |   |   |   |   |   |   ├─ target 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   |   |   ├─ 'hasil' → tab_index:32, type:integer
+|   |   |   |   |   |   |   |   └─ 1 → type:integer
+|   |   |   |   |   |   └─ Assign('n' := ...) → type:void
+|   |   |   |   |   |   |   ├─ target 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   |   |   |   |   ├─ 'n' → tab_index:31, type:integer
+|   |   |   |   |   |   |   |   └─ 1 → type:integer
+|   |   └─ writeln(...) → predefined, tab_index:34

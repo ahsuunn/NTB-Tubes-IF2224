@@ -1,0 +1,258 @@
+=== LEXICAL ANALYSIS SUCCESSFUL ===
+Total tokens: 86
+
+=== PARSING SUCCESSFUL ===
+Program name: TestDeclarations
+
+=== PARSE TREE ===
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(TestDeclarations)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <const-declaration>
+│   ├── <const-declaration>
+│   ├── <const-declaration>
+│   ├── <type-declaration>
+│   │   └── <range>
+│   │       ├── <simple-expression>
+│   │       │   └── <term>
+│   │       │       └── <factor>
+│   │       │           └── NUMBER(1)
+│   │       ├── RANGE_OPERATOR(..)
+│   │       └── <simple-expression>
+│   │           └── <term>
+│   │               └── <factor>
+│   │                   └── NUMBER(10)
+│   ├── <type-declaration>
+│   │   └── <array-type>
+│   │       ├── KEYWORD(larik)
+│   │       ├── LBRACKET([)
+│   │       ├── <range>
+│   │       │   ├── <simple-expression>
+│   │       │   │   └── <term>
+│   │       │   │       └── <factor>
+│   │       │   │           └── NUMBER(1)
+│   │       │   ├── RANGE_OPERATOR(..)
+│   │       │   └── <simple-expression>
+│   │       │       └── <term>
+│   │       │           └── <factor>
+│   │       │               └── NUMBER(5)
+│   │       ├── RBRACKET(])
+│   │       ├── KEYWORD(dari)
+│   │       └── <type>
+│   │           └── KEYWORD(integer)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── COMMA(,)
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── COMMA(,)
+│   │   │   └── IDENTIFIER(z)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(nilai)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(real)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(huruf)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(char)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(valid)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(boolean)
+│   │   └── SEMICOLON(;)
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(angka)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── IDENTIFIER(Range)
+│   │   └── SEMICOLON(;)
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(data)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── IDENTIFIER(Matrix)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(20)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(z)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           ├── <term>
+│   │   │           │   └── <factor>
+│   │   │           │       └── IDENTIFIER(x)
+│   │   │           └── <additive-operator>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── IDENTIFIER(y)
+│   │   ├── SEMICOLON(;)
+│   │   └── <procedure/function-call>
+│   │       ├── IDENTIFIER(writeln)
+│   │       ├── LPARENTHESIS(()
+│   │       ├── <parameter-list>
+│   │       │   ├── <expression>
+│   │       │   │   └── <simple-expression>
+│   │       │   │       └── <term>
+│   │       │   │           └── <factor>
+│   │       │   │               └── STRING_LITERAL('Hasil = ')
+│   │       │   ├── COMMA(,)
+│   │       │   └── <expression>
+│   │       │       └── <simple-expression>
+│   │       │           └── <term>
+│   │       │               └── <factor>
+│   │       │                   └── IDENTIFIER(z)
+│   │       └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)
+
+=== BUILDING AST ===
+=== AST BUILT SUCCESSFULLY ===
+
+=== BUILDING SYMBOL TABLE ===
+[Semantic] Visiting Program: TestDeclarations
+[Semantic] Program 'TestDeclarations' registered
+[Semantic] Visiting Declaration Part
+[Semantic] Declaring constant MAX = 100
+  - Constant 'MAX' inserted at index 30
+[Semantic] Declaring constant MIN = 0
+  - Constant 'MIN' inserted at index 31
+[Semantic] Declaring constant PI = 3.14
+  - Constant 'PI' inserted at index 32
+[Semantic] Declaring type Range
+  - Type 'Range' inserted at index 33
+[Semantic] Declaring type Matrix
+  - Type 'Matrix' inserted at index 34
+[Semantic] Declaring variables: x,  (idx:35)y,  (idx:36)z (idx:37) : integer
+[Semantic] Declaring variables: nilai (idx:38) : real
+[Semantic] Declaring variables: huruf (idx:39) : char
+[Semantic] Declaring variables: valid (idx:40) : boolean
+[Semantic] Declaring variables: angka (idx:41) : Range
+[Semantic] Declaring variables: data (idx:42) : Matrix
+[Semantic] Program 'TestDeclarations' checked successfully
+=== SYMBOL TABLE BUILT ===
+
+
+=== TAB (Identifier Table) ===
+ idx           name  link         obj     typ   ref   nrm   lev   adr
+---------------------------------------------------------------------
+   0        program     0    constant       0     0     1     0     0
+   1       variabel     0    constant       0     0     1     0     0
+   2          mulai     0    constant       0     0     1     0     0
+   3        selesai     0    constant       0     0     1     0     0
+   4          const     0    constant       0     0     1     0     0
+   5           tipe     0    constant       0     0     1     0     0
+   6       prosedur     0    constant       0     0     1     0     0
+   7         fungsi     0    constant       0     0     1     0     0
+   8           jika     0    constant       0     0     1     0     0
+   9           maka     0    constant       0     0     1     0     0
+  10      selainitu     0    constant       0     0     1     0     0
+  11          untuk     0    constant       0     0     1     0     0
+  12             ke     0    constant       0     0     1     0     0
+  13          turun     0    constant       0     0     1     0     0
+  14        lakukan     0    constant       0     0     1     0     0
+  15         selama     0    constant       0     0     1     0     0
+  16         ulangi     0    constant       0     0     1     0     0
+  17         sampai     0    constant       0     0     1     0     0
+  18          larik     0    constant       0     0     1     0     0
+  19           dari     0    constant       0     0     1     0     0
+  20        integer     0    constant       0     0     1     0     0
+  21           real     0    constant       0     0     1     0     0
+  22        boolean     0    constant       0     0     1     0     0
+  23           char     0    constant       0     0     1     0     0
+  24            and     0    constant       0     0     1     0     0
+  25             or     0    constant       0     0     1     0     0
+  26            not     0    constant       0     0     1     0     0
+  27            div     0    constant       0     0     1     0     0
+  28            mod     0    constant       0     0     1     0     0
+  29TestDeclarations     0   procedure       0     0     1     0     0
+  30            MAX    29    constant       1     0     1     0   100
+  31            MIN    30    constant       1     0     1     0     0
+  32             PI    31    constant       1     0     1     0     3
+  33          Range    32        type       1     0     1     0     0
+  34         Matrix    33        type       5     0     1     0     0
+  35              x    34    variable       1     0     1     0     0
+  36              y    35    variable       1     0     1     0     1
+  37              z    36    variable       1     0     1     0     2
+  38          nilai    37    variable       2     0     1     0     3
+  39          huruf    38    variable       4     0     1     0     4
+  40          valid    39    variable       3     0     1     0     5
+  41          angka    40    variable       1     0     1     0     6
+  42           data    41    variable       5     0     1     0     7
+
+=== BTAB (Block Table) ===
+ idx    last    lpar   psize   vsize
+------------------------------------
+   0      42       0       0       8
+
+=== ATAB (Array Table) ===
+ idx    xtyp    etyp    eref     low    high    elsz    size
+------------------------------------------------------------
+   0       1       1       0       0      10       1      11
+
+=== DECORATED AST ===
+ProgramNode(name: 'TestDeclarations')
+|   ├─ Declarations
+|   |   ├─ VarDecl('x') → tab_index:35, type:integer, lev:0
+|   |   ├─ VarDecl('y') → tab_index:36, type:integer, lev:0
+|   |   ├─ VarDecl('z') → tab_index:37, type:integer, lev:0
+|   |   ├─ VarDecl('nilai') → tab_index:38, type:real, lev:0
+|   |   ├─ VarDecl('huruf') → tab_index:39, type:char, lev:0
+|   |   ├─ VarDecl('valid') → tab_index:40, type:boolean, lev:0
+|   |   ├─ VarDecl('angka') → tab_index:41, type:integer, lev:0
+|   |   └─ VarDecl('data') → tab_index:42, type:array, lev:0
+|   └─ Block → block_index:0, lev:0
+|   |   ├─ Assign('x' := ...) → type:void
+|   |   |   ├─ target 'x' → tab_index:35, type:integer
+|   |   |   └─ value 10 → type:integer
+|   |   ├─ Assign('y' := ...) → type:void
+|   |   |   ├─ target 'y' → tab_index:36, type:integer
+|   |   |   └─ value 20 → type:integer
+|   |   ├─ Assign('z' := ...) → type:void
+|   |   |   ├─ target 'z' → tab_index:37, type:integer
+|   |   |   └─ value BinOp '+' → type:integer
+|   |   |   |   ├─ 'x' → tab_index:35, type:integer
+|   |   |   |   └─ 'y' → tab_index:36, type:integer
+|   |   └─ writeln(...) → predefined, tab_index:43
