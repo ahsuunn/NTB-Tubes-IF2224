@@ -10,7 +10,7 @@ EXAMPLES_DIR = examples
 INCLUDE_DIR = include
 
 # Binary
-PASLEX = ./paslex
+COMPILER = ./compiler
 
 # Find all .cpp files recursively in src/
 SRCS := $(shell find $(SRC_DIR) -name '*.cpp' ! -name 'test_*.cpp')
@@ -20,11 +20,11 @@ HEADERS := $(shell find $(INCLUDE_DIR) -name '*.hpp')
 .PHONY: build run clean
 
 build: 
-	$(CXX) $(CXXFLAGS) $(SRCS) -o $(PASLEX)
+	$(CXX) $(CXXFLAGS) $(SRCS) -o $(COMPILER)
 
 run:
-	$(PASLEX) $(TEST_DIR)/milestone-3/input/simple_hello.pas --decorated
+	$(COMPILER) $(TEST_DIR)/milestone-3/input/simple_hello.pas --decorated
 
 all:clean build run
 clean:
-	rm -f $(PASLEX)
+	rm -f $(COMPILER)

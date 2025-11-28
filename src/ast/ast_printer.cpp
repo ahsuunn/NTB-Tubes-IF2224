@@ -1,4 +1,4 @@
-#include "ast_printer.hpp"
+#include "ast/ast_printer.hpp"
 
 void ASTPrinter::printIndent() {
     for (int i = 0; i < indent_level_; i++) {

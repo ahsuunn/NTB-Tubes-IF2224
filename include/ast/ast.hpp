@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "token.hpp"
+#include "../lexer/token.hpp"
 
 class ASTNode {
 public:

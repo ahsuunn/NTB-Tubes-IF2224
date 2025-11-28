@@ -1,4 +1,4 @@
-#include "scope_type_checker.hpp"
+#include "semantic/scope_type_checker.hpp"
 #include <iostream>
 #include <algorithm>
 #include <cctype>

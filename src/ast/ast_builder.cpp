@@ -1,4 +1,4 @@
-#include "ast_builder.hpp"
+#include "ast/ast_builder.hpp"
 #include <stdexcept>
 
 std::unique_ptr<ASTProgramNode> ASTBuilder::buildAST(const ProgramNode* parse_tree) {

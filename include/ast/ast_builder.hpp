@@ -2,7 +2,7 @@
 #define AST_BUILDER_HPP
 
 #include "ast.hpp"
-#include "parse_tree_nodes.hpp"
+#include "../parser/parse_tree_nodes.hpp"
 #include <memory>
 
 // ast builder - mengkonversi parse tree menjadi abstract syntax tree

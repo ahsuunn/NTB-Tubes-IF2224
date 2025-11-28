@@ -7,7 +7,7 @@
 #include <memory>
 #include <stdexcept>
 #include "symbol_table.hpp"
-#include "parse_tree_nodes.hpp"
+#include "../parser/parse_tree_nodes.hpp"
 
 // Exception untuk semantic error
 class SemanticError : public std::runtime_error {

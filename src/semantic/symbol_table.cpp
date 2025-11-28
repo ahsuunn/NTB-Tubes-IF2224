@@ -1,4 +1,4 @@
-#include "symbol_table.hpp"
+#include "semantic/symbol_table.hpp"
 #include <iostream>
 #include <iomanip>
 

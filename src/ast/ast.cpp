@@ -1,5 +1,5 @@
-#include "ast.hpp"
-#include "ast_visitor.hpp"
+#include "ast/ast.hpp"
+#include "ast/ast_visitor.hpp"
 
 void ASTProgramNode::accept(ASTVisitor* visitor) {
     visitor->visitProgram(this);
