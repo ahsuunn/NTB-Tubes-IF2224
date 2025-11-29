@@ -390,16 +390,16 @@ Program name: TestControlStructures
    1       variabel     0    constant       0     0     1     0     0
    2          mulai     0    constant       0     0     1     0     0
    3        selesai     0    constant       0     0     1     0     0
-   4          const     0    constant       0     0     1     0     0
+   4      konstanta     0    constant       0     0     1     0     0
    5           tipe     0    constant       0     0     1     0     0
    6       prosedur     0    constant       0     0     1     0     0
    7         fungsi     0    constant       0     0     1     0     0
    8           jika     0    constant       0     0     1     0     0
    9           maka     0    constant       0     0     1     0     0
-  10      selainitu     0    constant       0     0     1     0     0
+  10     selain-itu     0    constant       0     0     1     0     0
   11          untuk     0    constant       0     0     1     0     0
   12             ke     0    constant       0     0     1     0     0
-  13          turun     0    constant       0     0     1     0     0
+  13       turun-ke     0    constant       0     0     1     0     0
   14        lakukan     0    constant       0     0     1     0     0
   15         selama     0    constant       0     0     1     0     0
   16         ulangi     0    constant       0     0     1     0     0
@@ -410,10 +410,10 @@ Program name: TestControlStructures
   21           real     0    constant       0     0     1     0     0
   22        boolean     0    constant       0     0     1     0     0
   23           char     0    constant       0     0     1     0     0
-  24            and     0    constant       0     0     1     0     0
-  25             or     0    constant       0     0     1     0     0
-  26            not     0    constant       0     0     1     0     0
-  27            div     0    constant       0     0     1     0     0
+  24            dan     0    constant       0     0     1     0     0
+  25           atau     0    constant       0     0     1     0     0
+  26          tidak     0    constant       0     0     1     0     0
+  27           bagi     0    constant       0     0     1     0     0
   28            mod     0    constant       0     0     1     0     0
   29TestControlStructures     0   procedure       0     0     1     0     0
   30              i    29    variable       1     0     1     0     0
