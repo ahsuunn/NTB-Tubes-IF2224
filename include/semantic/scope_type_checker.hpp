@@ -47,6 +47,14 @@ public:
     void visitTypeDecl(TypeDeclarationNode* node);
     void visitProcedureDecl(ProcedureDeclarationNode* node);
     void visitFunctionDecl(FunctionDeclarationNode* node);
+
+    void visitCompoundStatement(CompoundStatementNode* node);
+    void visitAssignmentStatement(AssignmentStatementNode* node);
+    BaseType visitExpression(ParseTreeNode* node);
+    BaseType visitSimpleExpression(ParseTreeNode* node);
+    BaseType visitTerm(ParseTreeNode* node);
+    BaseType visitFactor(ParseTreeNode* node);
+    std::string typeToString(BaseType type);
     
     // Getters
     SymbolTable* getSymbolTable() const { return symbolTable; }

@@ -102,6 +102,31 @@ int main(int argc, char** argv) {
         std::cout << "=== PARSE TREE ===\n";
         Utils::print_parse_tree(parsetree.get());
         
+        // Semantic Analysis (Scope and Type Checking)
+        std::cout << "\n=== SEMANTIC ANALYSIS ===\n";
+        SymbolTable symTab;
+        try {
+            ScopeTypeChecker checker(&symTab);
+            checker.visitProgram(parsetree.get());
+            
+            std::cout << "\n=== SEMANTIC ANALYSIS SUCCESSFUL ===\n";
+            std::cout << "\n=== SYMBOL TABLE ===\n";
+            symTab.print_tab();
+            std::cout << "\n=== BLOCK TABLE ===\n";
+            symTab.print_btab();
+            if (symTab.get_atab_size() > 0) {
+                std::cout << "\n=== ARRAY TABLE ===\n";
+                symTab.print_atab();
+            }
+            
+        } catch (const SemanticError& e) {
+            std::cerr << "\nSEMANTIC ERROR: " << e.what() << "\n";
+            return 1;
+        } catch (const std::exception& e) {
+            std::cerr << "\nSEMANTIC ANALYSIS ERROR: " << e.what() << "\n";
+            return 1;
+        }
+        
         // build AST dari parse tree
         if (build_ast) {
             std::cout << "\n=== BUILDING AST ===\n";
@@ -112,23 +137,8 @@ int main(int argc, char** argv) {
                 std::cout << "=== AST BUILT SUCCESSFULLY ===\n\n";
                 
                 if (decorated) {
-                    // Build symbol table
-                    std::cout << "=== BUILDING SYMBOL TABLE ===\n";
-                    SymbolTable symTab;
-                    ScopeTypeChecker checker(&symTab);
-                    checker.visitProgram(parsetree.get());
-                    
-                    std::cout << "=== SYMBOL TABLE BUILT ===\n\n";
-                    
-                    // Print tables
-                    symTab.print_tab();
-                    symTab.print_btab();
-                    if (symTab.get_atab_size() > 0) {
-                        symTab.print_atab();
-                    }
-                    
                     // Print decorated AST
-                    std::cout << "\n=== DECORATED AST ===\n";
+                    std::cout << "=== DECORATED AST ===\n";
                     ASTDecoratedPrinter decoratedPrinter(&symTab);
                     ast->accept(&decoratedPrinter);
                 } else {

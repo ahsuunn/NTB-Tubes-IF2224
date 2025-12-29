@@ -36,6 +36,12 @@ void ScopeTypeChecker::visitProgram(ProgramNode* node) {
         visitDeclarationPart(node->pars_declaration_part.get());
     }
     
+    // Visit compound statement (main program body)
+    if (node->pars_compound_statement) {
+        std::cout << "[Semantic] Checking program body statements" << std::endl;
+        visitCompoundStatement(node->pars_compound_statement.get());
+    }
+    
     std::cout << "[Semantic] Program '" << node->pars_program_name 
               << "' checked successfully" << std::endl;
 }
@@ -439,4 +445,128 @@ int ScopeTypeChecker::processArrayType(const ArrayTypeNode* arrayDef) {
                                            low, high, elSize);
     
     return arrayIdx;
+}
+
+void ScopeTypeChecker::visitCompoundStatement(CompoundStatementNode* node) {
+    for (const auto& stmt : node->pars_statement_list) {
+        if (auto* assign = dynamic_cast<AssignmentStatementNode*>(stmt.get())) {
+            visitAssignmentStatement(assign);
+        }
+    }
+}
+
+void ScopeTypeChecker::visitAssignmentStatement(AssignmentStatementNode* node) {
+    // Get type of target variable
+    int idx = lookupIdentifier(node->identifier.value);
+    if (idx == -1) {
+        throw SemanticError("Undeclared variable: " + node->identifier.value);
+    }
+    
+    BaseType targetType = symbolTable->get_tab(idx).typ;
+    
+    // Get type of expression
+    BaseType exprType = visitExpression(node->pars_expression.get());
+    
+    // Check compatibility
+    if (targetType != exprType && targetType != BaseType::NOTYPE && exprType != BaseType::NOTYPE) {
+        throw SemanticError("Type mismatch in assignment to '" + node->identifier.value + 
+                          "': expected " + typeToString(targetType) + 
+                          " but got " + typeToString(exprType));
+    }
+}
+
+BaseType ScopeTypeChecker::visitExpression(ParseTreeNode* node) {
+    if (auto* expr = dynamic_cast<ExpressionNode*>(node)) {
+        return visitSimpleExpression(expr->pars_left.get());
+    }
+    return BaseType::NOTYPE;
+}
+
+BaseType ScopeTypeChecker::visitSimpleExpression(ParseTreeNode* node) {
+    if (auto* simpleExpr = dynamic_cast<SimpleExpressionNode*>(node)) {
+        if (simpleExpr->pars_terms.empty()) {
+            return BaseType::NOTYPE;
+        }
+        
+        // Get type of first term
+        BaseType resultType = visitTerm(simpleExpr->pars_terms[0].get());
+        
+        // Check compatibility with other terms
+        for (size_t i = 1; i < simpleExpr->pars_terms.size(); i++) {
+            BaseType termType = visitTerm(simpleExpr->pars_terms[i].get());
+            
+            if (resultType != termType && resultType != BaseType::NOTYPE && termType != BaseType::NOTYPE) {
+                throw SemanticError("Type mismatch in expression: cannot combine " + 
+                                  typeToString(resultType) + " and " + typeToString(termType));
+            }
+        }
+        
+        return resultType;
+    }
+    return BaseType::NOTYPE;
+}
+
+BaseType ScopeTypeChecker::visitTerm(ParseTreeNode* node) {
+    if (auto* term = dynamic_cast<TermNode*>(node)) {
+        if (term->pars_factors.empty()) {
+            return BaseType::NOTYPE;
+        }
+        
+        // Get type of first factor
+        BaseType resultType = visitFactor(term->pars_factors[0].get());
+        
+        // Check compatibility with other factors
+        for (size_t i = 1; i < term->pars_factors.size(); i++) {
+            BaseType factorType = visitFactor(term->pars_factors[i].get());
+            
+            if (resultType != factorType && resultType != BaseType::NOTYPE && factorType != BaseType::NOTYPE) {
+                throw SemanticError("Type mismatch in term: cannot combine " + 
+                                  typeToString(resultType) + " and " + typeToString(factorType));
+            }
+        }
+        
+        return resultType;
+    }
+    return BaseType::NOTYPE;
+}
+
+BaseType ScopeTypeChecker::visitFactor(ParseTreeNode* node) {
+    if (auto* factor = dynamic_cast<FactorNode*>(node)) {
+        // Handle literals
+        if (factor->token.type == "NUMBER") {
+            return BaseType::INTS;
+        }
+        if (factor->token.type == "CHAR_LITERAL") {
+            return BaseType::CHARS;
+        }
+        if (factor->token.type == "STRING_LITERAL") {
+            return BaseType::CHARS;  // Simplified
+        }
+        
+        // Handle identifiers
+        if (factor->token.type == "IDENTIFIER") {
+            int idx = lookupIdentifier(factor->token.value);
+            if (idx == -1) {
+                throw SemanticError("Undeclared identifier: " + factor->token.value);
+            }
+            return symbolTable->get_tab(idx).typ;
+        }
+        
+        // Handle nested expressions
+        if (factor->pars_expression) {
+            return visitExpression(factor->pars_expression.get());
+        }
+    }
+    return BaseType::NOTYPE;
+}
+
+std::string ScopeTypeChecker::typeToString(BaseType type) {
+    switch (type) {
+        case BaseType::INTS: return "integer";
+        case BaseType::REALS: return "real";
+        case BaseType::BOOLS: return "boolean";
+        case BaseType::CHARS: return "char";
+        case BaseType::ARRAYS: return "array";
+        default: return "unknown";
+    }
 }
